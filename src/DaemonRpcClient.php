@@ -35,7 +35,7 @@ namespace BrianHenryIE\MoneroDaemonRpc;
 
 use Exception;
 
-class daemonRPC
+class DaemonRpcClient
 {
     private jsonRPCClient $client;
 
