@@ -24,11 +24,15 @@ class DaemonRpcContractTest extends TestCase
         sleep(1);
     }
 
+	protected function getDaemonRpcClient(): DaemonRpcClient {
+		return new DaemonRpcClient('127.0.0.1', 18081, false);
+	}
+
     public function testCollectTestData(): void
     {
         $this->markTestSkipped('only for saving test data');
 
-        $daemonRpc = new DaemonRpcClient('127.0.0.1', 18081, false);
+        $daemonRpc = $this->getDaemonRpcClient();
 
         // Have data:
 //      $daemonRpc->getBans();
@@ -63,7 +67,7 @@ class DaemonRpcContractTest extends TestCase
 
     public function testOne(): void
     {
-        $daemonRpc = new DaemonRpcClient('127.0.0.1', 18081, false);
+        $daemonRpc = $this->getDaemonRpcClient();
 
         $result = $daemonRpc->getBlockCount();
 
@@ -75,7 +79,7 @@ class DaemonRpcContractTest extends TestCase
 
         $this->markTestSkipped('Returns -1');
 
-        $daemonRpc = new DaemonRpcClient('127.0.0.1', 18081, false);
+        $daemonRpc = $this->getDaemonRpcClient();
 
         $result = $daemonRpc->getLimit();
 
@@ -85,7 +89,7 @@ class DaemonRpcContractTest extends TestCase
     public function testGetBans(): void
     {
 
-        $daemonRpc = new DaemonRpcClient('127.0.0.1', 18081, false);
+        $daemonRpc = $this->getDaemonRpcClient();
 
         $result = $daemonRpc->getBans();
 
@@ -96,7 +100,7 @@ class DaemonRpcContractTest extends TestCase
     public function testGetInfo(): void
     {
 
-        $daemonRpc = new DaemonRpcClient('127.0.0.1', 18081, false);
+        $daemonRpc = $this->getDaemonRpcClient();
 
         $result = $daemonRpc->getInfo();
 
@@ -107,7 +111,7 @@ class DaemonRpcContractTest extends TestCase
     public function testGetBlock(): void
     {
 
-        $daemonRpc = new DaemonRpcClient('127.0.0.1', 18081, false);
+        $daemonRpc = $this->getDaemonRpcClient();
 
         $result = $daemonRpc->getBlockByHash('5b544791d319a5ae2551c26dc592ebad0b9afe4fcaf4dc087508f902f1f43670');
 
@@ -119,7 +123,7 @@ class DaemonRpcContractTest extends TestCase
     public function testGetBlockHeaderByHash(): void
     {
 
-        $daemonRpc = new DaemonRpcClient('127.0.0.1', 18081, false);
+        $daemonRpc = $this->getDaemonRpcClient();
 
         $result = $daemonRpc->getBlockHeaderByHash('5b544791d319a5ae2551c26dc592ebad0b9afe4fcaf4dc087508f902f1f43670');
 
@@ -132,7 +136,7 @@ class DaemonRpcContractTest extends TestCase
     {
         $this->markTestSkipped('Returns int');
 
-        $daemonRpc = new DaemonRpcClient('127.0.0.1', 18081, false);
+        $daemonRpc = $this->getDaemonRpcClient();
 
         $result = $daemonRpc->miningStatus();
 
@@ -145,7 +149,7 @@ class DaemonRpcContractTest extends TestCase
     {
         $this->markTestSkipped('Returns int');
 
-        $daemonRpc = new DaemonRpcClient('127.0.0.1', 18081, false);
+        $daemonRpc = $this->getDaemonRpcClient();
 
         $result = $daemonRpc->stopMining();
 
