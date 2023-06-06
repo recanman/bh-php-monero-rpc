@@ -39,9 +39,14 @@
             "BrianHenryIE\\MoneroDaemonRpc\\": "src/"
         }
     },
+    "require": {
+        "simpod/json-rpc": "^0.2.0",
+        "psr/http-client-implementation": "*"
+    },
     "require-dev": {
         "cweagans/composer-patches": "*",
         "dealerdirect/phpcodesniffer-composer-installer": "*",
+        "guzzlehttp/guzzle": "^7.4",
         "jaschilz/php-coverage-badger": "^2.0",
         "mockery/mockery": "^1.5",
         "phpstan/extension-installer": "*",
