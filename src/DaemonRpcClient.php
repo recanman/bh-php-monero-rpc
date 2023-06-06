@@ -128,7 +128,9 @@ class DaemonRpcClient
 
         $mapper->push(new CaseConversion(TextNotation::UNDERSCORE(), TextNotation::CAMEL_CASE()));
 
-        return $mapper->mapToClass(json_decode(json_encode($extracted->getResult())), $type ?? stdClass::class);
+        $data = $path === 'json_rpc' ? json_encode($extracted->getResult()) : (string) $response->getBody() ;
+
+        return $mapper->mapToClassFromString($data, $type ?? stdClass::class);
     }
 
   /**

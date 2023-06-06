@@ -24,7 +24,7 @@ class DaemonRpcContractTest extends TestCase
     public function setUp(): void
     {
         parent::setUp();
-        sleep(1);
+//        sleep(1);
     }
 
     protected function getDaemonRpcClient(): DaemonRpcClient
@@ -80,13 +80,11 @@ class DaemonRpcContractTest extends TestCase
 
     public function testLimit(): void
     {
-        $this->markTestSkipped('Returns -1');
-
         $daemonRpc = $this->getDaemonRpcClient();
 
         $result = $daemonRpc->getLimit();
 
-        self::assertEquals(8192, $result['limit_down']);
+        self::assertEquals(8192, $result->getLimitDown());
     }
 
     public function testGetBans(): void
@@ -137,7 +135,6 @@ class DaemonRpcContractTest extends TestCase
 
     public function testGetMiningStatus(): void
     {
-        $this->markTestSkipped('Returns int');
 
         $daemonRpc = $this->getDaemonRpcClient();
 
@@ -150,7 +147,6 @@ class DaemonRpcContractTest extends TestCase
 
     public function testStopMining(): void
     {
-        $this->markTestSkipped('Returns int');
 
         $daemonRpc = $this->getDaemonRpcClient();
 
