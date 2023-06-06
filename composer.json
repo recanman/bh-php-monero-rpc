@@ -2,7 +2,7 @@
     "name": "monero-integrations/monerophp",
     "description": "A Monero library written in PHP by the Monero-Integrations team.",
     "keywords": ["Monero", "XMR", "monerod", "monero-wallet-rpc", "cryptonote", "JSONRPC", "JSON-RPC", "cryptocurrency"],
-    "homepage": "https://github.com/monero-integrations/monerophp",
+    "homepage": "https://github.com/brianhenryie/bh-php-monero-daemon-rpc",
     "type": "library",
     "version" : "1.0.1",
     "license": "MIT",
