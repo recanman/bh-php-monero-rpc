@@ -3,6 +3,7 @@
 namespace BrianHenryIE\MoneroDaemonRpc\Model\JsonMapper;
 
 use BrianHenryIE\MoneroDaemonRpc\Model\PeerList;
+use BrianHenryIE\MoneroDaemonRpc\Model\PeerListEntry;
 
 class PeerListMapper implements PeerList
 {
@@ -10,11 +11,12 @@ class PeerListMapper implements PeerList
 
     /** @var PeerListEntryMapper[] */
     protected array $grayList;
+
     /** @var PeerListEntryMapper[] */
     protected array $whiteList;
 
     /**
-     * @return PeerListEntryMapper[]
+     * @return PeerListEntry[]
      */
     public function getGrayList(): array
     {
@@ -22,7 +24,7 @@ class PeerListMapper implements PeerList
     }
 
     /**
-     * @return PeerListEntryMapper[]
+     * @return PeerListEntry[]
      */
     public function getWhiteList(): array
     {

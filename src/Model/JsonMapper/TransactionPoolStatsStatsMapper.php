@@ -4,7 +4,7 @@ namespace BrianHenryIE\MoneroDaemonRpc\Model\JsonMapper;
 
 use BrianHenryIE\MoneroDaemonRpc\Model\TransactionPoolStatsStats;
 
-class TransactionPoolStatsStatsStatsMapper implements TransactionPoolStatsStats
+class TransactionPoolStatsStatsMapper implements TransactionPoolStatsStats
 {
     protected int $bytesMax;
     protected int $bytesMed;

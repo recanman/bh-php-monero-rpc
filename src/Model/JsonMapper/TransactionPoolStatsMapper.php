@@ -10,7 +10,7 @@ class TransactionPoolStatsMapper implements TransactionPoolStats
     use StatusTrait;
 
     protected int $credits;
-    protected TransactionPoolStatsStats $poolStats;
+    protected TransactionPoolStatsStatsMapper $poolStats;
     protected string $topHash;
 
     public function getCredits(): int
@@ -33,7 +33,7 @@ class TransactionPoolStatsMapper implements TransactionPoolStats
         $this->credits = $credits;
     }
 
-    public function setPoolStats(TransactionPoolStatsStats $poolStats): void
+    public function setPoolStats(TransactionPoolStatsStatsMapper $poolStats): void
     {
         $this->poolStats = $poolStats;
     }
