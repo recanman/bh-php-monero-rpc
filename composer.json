@@ -2,7 +2,7 @@
     "name": "brianhenryie/bh-php-monero-daemon-rpc",
     "description": "Monero Daemon JSON RPC client.",
     "keywords": ["Monero", "XMR", "monerod", "monero-wallet-rpc", "cryptonote", "JSONRPC", "JSON-RPC", "cryptocurrency"],
-    "homepage": "https://github.com/brianhenryie/bh-php-monero-daemon-rpc\n",
+    "homepage": "https://github.com/brianhenryie/bh-php-monero-daemon-rpc",
     "type": "library",
     "license": "MIT",
     "authors": [
