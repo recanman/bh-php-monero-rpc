@@ -34,10 +34,14 @@
 namespace BrianHenryIE\MoneroDaemonRpc;
 
 use Exception;
+use GuzzleHttp\Client;
+use GuzzleHttp\Psr7\HttpFactory;
+use SimPod\JsonRpc\Extractor\ResponseExtractor;
+use SimPod\JsonRpc\HttpJsonRpcRequestFactory;
 
 class DaemonRpcClient
 {
-    private jsonRPCClient $client;
+    protected string $url;
 
   /**
    *
@@ -57,30 +61,43 @@ class DaemonRpcClient
         ?string $username = null,
         ?string $password = null
     ) {
-        $url = sprintf(
+        $this->url = sprintf(
             'http%s://%s:%d/',
             $ssl ? 's' : '',
             $host,
             $port
         );
-
-        $this->client = new jsonRPCClient($url, $username, $password, $ssl);
     }
 
   /**
-   *
-   * Execute command via jsonRPCClient
+   * Execute RPC command.
    *
    * @param  string  $method  RPC method to call
    * @param  string  $params  Parameters to pass
    * @param  string  $path    Path of API (by default json_rpc)
    *
-   * @return string  Call result
+   * @return array
    *
    */
     protected function run(?string $method, $params = null, $path = 'json_rpc')
     {
-        return $this->client->_run($method, $params, $path);
+        $httpRequestFactory = new HttpFactory();
+        $rpcRequestFactory = new HttpJsonRpcRequestFactory($httpRequestFactory);
+
+        $id = null;
+        $request = $rpcRequestFactory->request($id, $method ?? '', $params);
+
+        $uri = $httpRequestFactory->createUri($this->url . $path);
+        $request = $request->withUri($uri);
+
+        // TODO: Credentials.
+
+        $client = new Client();
+
+        $response = $client->sendRequest($request);
+        $result = new ResponseExtractor($response);
+
+        return $result->getResult();
     }
 
   /**

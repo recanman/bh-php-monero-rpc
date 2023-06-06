@@ -40,7 +40,9 @@
         "php": ">=7.2.0",
         "ext-bcmath": "*",
         "ext-curl": "*",
-        "ext-json": "*"
+        "ext-json": "*",
+        "simpod/json-rpc": "^0.2.0",
+        "psr/http-client-implementation": "*"
     },
     "suggest": {
         "ext-gmp": "Used to have a multiple math precision for generating address"
@@ -48,6 +50,7 @@
     "require-dev": {
         "cweagans/composer-patches": "*",
         "dealerdirect/phpcodesniffer-composer-installer": "*",
+        "guzzlehttp/guzzle": "^7.4",
         "jaschilz/php-coverage-badger": "^2.0",
         "mockery/mockery": "^1.5",
         "phpstan/extension-installer": "*",
