@@ -24,9 +24,10 @@ class DaemonRpcContractTest extends TestCase
         sleep(1);
     }
 
-	protected function getDaemonRpcClient(): DaemonRpcClient {
-		return new DaemonRpcClient('127.0.0.1', 18081, false);
-	}
+    protected function getDaemonRpcClient(): DaemonRpcClient
+    {
+        return new DaemonRpcClient('127.0.0.1', 18081, false);
+    }
 
     public function testCollectTestData(): void
     {
