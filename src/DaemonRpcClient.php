@@ -36,6 +36,9 @@ namespace BrianHenryIE\MoneroDaemonRpc;
 use Exception;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\HttpFactory;
+use JsonMapper\Enums\TextNotation;
+use JsonMapper\JsonMapperFactory;
+use JsonMapper\Middleware\CaseConversion;
 use SimPod\JsonRpc\Extractor\ResponseExtractor;
 use SimPod\JsonRpc\HttpJsonRpcRequestFactory;
 
@@ -79,7 +82,7 @@ class DaemonRpcClient
    * @return array
    *
    */
-    protected function run(?string $method, $params = null, $path = 'json_rpc')
+    protected function run(?string $method, $params = null, $path = 'json_rpc', string $type = null)
     {
         $httpRequestFactory = new HttpFactory();
         $rpcRequestFactory = new HttpJsonRpcRequestFactory($httpRequestFactory);
@@ -95,9 +98,13 @@ class DaemonRpcClient
         $client = new Client();
 
         $response = $client->sendRequest($request);
-        $result = new ResponseExtractor($response);
+        $extracted = new ResponseExtractor($response);
 
-        return $result->getResult();
+        $mapper = (new JsonMapperFactory())->bestFit();
+
+        $mapper->push(new CaseConversion(TextNotation::UNDERSCORE(), TextNotation::CAMEL_CASE()));
+
+        return (array) $mapper->mapToClass(json_decode(json_encode($extracted->getResult())), $type ?? \stdClass::class);
     }
 
   /**
@@ -329,8 +336,6 @@ class DaemonRpcClient
    *
    * Look up incoming and outgoing connections to your node
    *
-   * @param  none
-   *
    * @return object  Example: {
    *   "connections": [{
    *     "avg_download": 0,
@@ -394,7 +399,6 @@ class DaemonRpcClient
    *
    * Look up information regarding hard fork voting and readiness
    *
-   * @param  none
    *
    * @return object  Example: {
    *   "alt_blocks_count": 0,
@@ -455,8 +459,6 @@ class DaemonRpcClient
    *
    * Get list of banned IPs
    *
-   * @param  none
-   *
    * @return object  Example: {
    *   "bans": [{
    *     "ip": 838969536,
@@ -472,13 +474,12 @@ class DaemonRpcClient
     }
 
   /**
-   *
-   *Flush Transaction Pool
+   * Flush Transaction Pool
    *
    * @param $txids - array
    * Optional, list of transactions IDs to flush from pool (all tx ids flushed if empty).
    *
-   * @return status - string; General RPC error code. "OK" means everything looks good.
+   * @return array status - string; General RPC error code. "OK" means everything looks good.
    */
     public function flushTxPool($txids)
     {
@@ -486,10 +487,9 @@ class DaemonRpcClient
     }
 
     /**
-   *
-   * Get height
-   *
-   */
+     * Get height
+     *
+     */
     public function getHeight()
     {
         return $this->run(null, null, 'getheight');

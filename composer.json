@@ -40,8 +40,10 @@
         }
     },
     "require": {
-        "simpod/json-rpc": "^0.2.0",
-        "psr/http-client-implementation": "*"
+        "ext-json": "*",
+        "json-mapper/json-mapper": "*",
+        "psr/http-client-implementation": "*",
+        "simpod/json-rpc": "^0.2.0"
     },
     "require-dev": {
         "cweagans/composer-patches": "*",
