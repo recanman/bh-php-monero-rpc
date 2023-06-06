@@ -2,9 +2,7 @@
 
 namespace BrianHenryIE\MoneroDaemonRpc\Model;
 
-use BrianHenryIE\MoneroDaemonRpc\Model\Status;
-
-interface BlockCount
+interface BlockCount extends Status
 {
     public function getCount(): int;
 }
