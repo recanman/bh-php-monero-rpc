@@ -1,4 +1,5 @@
 <?php
+
 /**
  * jsonRPCClient.php
  *
@@ -8,6 +9,7 @@
  * @author Kacper Rowinski <krowinski@implix.com>
  * http://implix.com
  */
+
 namespace MoneroIntegrations\MoneroPhp;
 
 use InvalidArgumentException;
@@ -56,12 +58,9 @@ class jsonRPCClient
 
     public function setCurlOptions($pOptionsArray)
     {
-        if (is_array($pOptionsArray))
-        {
+        if (is_array($pOptionsArray)) {
             $this->curl_options = $pOptionsArray + $this->curl_options;
-        }
-        else
-        {
+        } else {
             throw new InvalidArgumentException('Invalid options type.');
         }
         return $this;
@@ -84,16 +83,14 @@ class jsonRPCClient
         $responseDecoded = json_decode($responseMessage, true);
         // check if decoding json generated any errors
         $jsonErrorMsg = json_last_error_msg();
-        $this->validate( !is_null($jsonErrorMsg) && $jsonErrorMsg !== 'No error' , $jsonErrorMsg . ': ' . $responseMessage);
-        if (isset($responseDecoded['error']))
-        {
+        $this->validate(!is_null($jsonErrorMsg) && $jsonErrorMsg !== 'No error', $jsonErrorMsg . ': ' . $responseMessage);
+        if (isset($responseDecoded['error'])) {
             $errorMessage = 'Request have return error: ' . $responseDecoded['error']['message'] . '; ' . "\n" .
                 'Request: ' . $request . '; ';
-            if (isset($responseDecoded['error']['data']))
-            {
+            if (isset($responseDecoded['error']['data'])) {
                 $errorMessage .= "\n" . 'Error data: ' . $responseDecoded['error']['data'];
             }
-            $this->validate( !is_null($responseDecoded['error']), $errorMessage);
+            $this->validate(!is_null($responseDecoded['error']), $errorMessage);
         }
         return $responseDecoded['result'] ?? -1;
     }
@@ -102,11 +99,10 @@ class jsonRPCClient
     {
         // do the actual connection
         $ch = curl_init();
-        if (!$ch)
-        {
+        if (!$ch) {
             throw new RuntimeException('Could\'t initialize a cURL session');
         }
-        curl_setopt($ch, CURLOPT_URL, $this->url.$path);
+        curl_setopt($ch, CURLOPT_URL, $this->url . $path);
         curl_setopt($ch, CURLOPT_HTTPAUTH, CURLAUTH_DIGEST);
         curl_setopt($ch, CURLOPT_USERPWD, $this->username . ":" . $this->password);
         curl_setopt($ch, CURLOPT_POST, 1);
@@ -115,29 +111,25 @@ class jsonRPCClient
         curl_setopt($ch, CURLOPT_ENCODING, 'gzip,deflate');
         curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
 
-        if ($this->SSL)
-        {
+        if ($this->SSL) {
             curl_setopt($ch, CURLOPT_SSL_VERIFYHOST, '2');
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, true);
-        }else{
+        } else {
             curl_setopt($ch, CURLOPT_SSL_VERIFYPEER, false);
         }
-        if (!curl_setopt_array($ch, $this->curl_options))
-        {
+        if (!curl_setopt_array($ch, $this->curl_options)) {
             throw new RuntimeException('Error while setting curl options');
         }
         // send the request
         $response = curl_exec($ch);
         // check http status code
         $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
-        if (isset($this->httpErrors[$httpCode]))
-        {
+        if (isset($this->httpErrors[$httpCode])) {
             throw new RuntimeException('Response Http Error - ' . $this->httpErrors[$httpCode]);
         }
         // check for curl error
-        if (0 < curl_errno($ch))
-        {
-            throw new RuntimeException('Unable to connect to '.$this->url . ' Error: ' . curl_error($ch));
+        if (0 < curl_errno($ch)) {
+            throw new RuntimeException('Unable to connect to ' . $this->url . ' Error: ' . curl_error($ch));
         }
         // close the connection
         curl_close($ch);
@@ -146,8 +138,7 @@ class jsonRPCClient
 
     public function validate($pFailed, $pErrMsg)
     {
-        if ($pFailed)
-        {
+        if ($pFailed) {
             throw new RuntimeException($pErrMsg);
         }
     }
@@ -156,16 +147,14 @@ class jsonRPCClient
     {
         static $debug, $startTime;
         // is_debug off return
-        if (false === $this->is_debug)
-        {
+        if (false === $this->is_debug) {
             return;
         }
         // add
         $debug .= $pAdd;
         // get starttime
         $startTime = empty($startTime) ? array_sum(explode(' ', microtime())) : $startTime;
-        if (true === $pShow and !empty($debug))
-        {
+        if (true === $pShow and !empty($debug)) {
             // get endtime
             $endTime = array_sum(explode(' ', microtime()));
             // performance summary

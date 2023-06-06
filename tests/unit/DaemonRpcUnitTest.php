@@ -10,5 +10,4 @@ use PHPUnit\Framework\TestCase;
  */
 class MoneroDaemonRpcUnitTest extends TestCase
 {
-
 }
