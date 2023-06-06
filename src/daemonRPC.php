@@ -31,7 +31,7 @@
  *
  */
 
-namespace MoneroIntegrations\MoneroPhp;
+namespace BrianHenryIE\MoneroDaemonRpc;
 
 use Exception;
 

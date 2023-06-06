@@ -10,7 +10,7 @@
  * http://implix.com
  */
 
-namespace MoneroIntegrations\MoneroPhp;
+namespace BrianHenryIE\MoneroDaemonRpc;
 
 use InvalidArgumentException;
 use RuntimeException;
