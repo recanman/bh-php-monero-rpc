@@ -1,12 +1,15 @@
 {
-    "name": "monero-integrations/monerophp",
-    "description": "A Monero library written in PHP by the Monero-Integrations team.",
+    "name": "brianhenryie/bh-php-monero-daemon-rpc",
+    "description": "Monero Daemon JSON RPC client.",
     "keywords": ["Monero", "XMR", "monerod", "monero-wallet-rpc", "cryptonote", "JSONRPC", "JSON-RPC", "cryptocurrency"],
-    "homepage": "https://github.com/monero-integrations/monerophp",
+    "homepage": "https://github.com/brianhenryie/bh-php-monero-daemon-rpc\n",
     "type": "library",
-    "version" : "1.0.1",
     "license": "MIT",
     "authors": [
+        {
+            "name": "BrianHenryIE",
+            "email": "brianhenryie@gmail.com"
+        },
         {
             "name": "SerHack",
             "email": "support@monerointegrations.com"
@@ -20,18 +23,9 @@
             "email": "sneurlax@gmail.com"
         }
     ],
-    "require": {
-        "php": ">=7.2.0",
-        "ext-bcmath": "*",
-        "ext-curl": "*",
-        "ext-json": "*"
-    },
-    "suggest": {
-        "ext-gmp": "Used to have a multiple math precision for generating address"
-    },
     "autoload": {
         "psr-4": {
-            "MoneroIntegrations\\MoneroPhp\\": "src/"
+            "BrianHenryIE\\MoneroDaemonRpc\\": "src/"
         }
     }
 }
