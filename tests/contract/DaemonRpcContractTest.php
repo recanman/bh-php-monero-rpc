@@ -21,10 +21,19 @@ use SimPod\JsonRpc\HttpJsonRpcRequestFactory;
  */
 class DaemonRpcContractTest extends TestCase
 {
+    public static function setUpBeforeClass(): void
+    {
+        $rpc = new DaemonRpcClient('127.0.0.1', 18081, false);
+        try {
+            $rpc->miningStatus();
+        } catch (\Exception $exception) {
+            self::markTestSkipped('Daemon not running.');
+        }
+    }
+
     public function setUp(): void
     {
         parent::setUp();
-//        sleep(1);
     }
 
     protected function getDaemonRpcClient(): DaemonRpcClient
