@@ -59,6 +59,7 @@ use GuzzleHttp\Psr7\HttpFactory;
 use JsonMapper\Enums\TextNotation;
 use JsonMapper\JsonMapperFactory;
 use JsonMapper\Middleware\CaseConversion;
+use Psr\Http\Client\ClientExceptionInterface;
 use SimPod\JsonRpc\Extractor\ResponseExtractor;
 use SimPod\JsonRpc\HttpJsonRpcRequestFactory;
 use stdClass;
@@ -93,17 +94,19 @@ class DaemonRpcClient
         );
     }
 
-  /**
-   * Execute RPC command.
-   *
-   * @template T of object
-   * @param  string  $method  RPC method to call.
-   * @param  ?array  $params  Parameters to pass.
-   * @param  string  $path    Path of API (by default "json_rpc").
-   * @param class-string<T> $type The object type to cast/deserialize the response to.
-   *
-   * @return T
-   */
+    /**
+     * Execute RPC command.
+     *
+     * @template T of object
+     *
+     * @param ?string $method RPC method to call.
+     * @param ?array<string,mixed> $params Parameters to pass.
+     * @param string $path Path of API (by default "json_rpc").
+     * @param class-string<T> $type The object type to cast/deserialize the response to.
+     *
+     * @return T
+     * @throws ClientExceptionInterface
+     */
     protected function run(?string $method, ?array $params = null, $path = 'json_rpc', string $type = stdClass::class)
     {
         $path = !empty($path) ? $path : 'json_rpc';
@@ -128,9 +131,9 @@ class DaemonRpcClient
 
         $mapper->push(new CaseConversion(TextNotation::UNDERSCORE(), TextNotation::CAMEL_CASE()));
 
-        $data = $path === 'json_rpc' ? json_encode($extracted->getResult()) : (string) $response->getBody() ;
+        $data = $path === 'json_rpc' ? json_encode($extracted->getResult()) : (string) $response->getBody();
 
-        return $mapper->mapToClassFromString($data, $type ?? stdClass::class);
+        return $mapper->mapToClassFromString($data, $type);
     }
 
   /**
@@ -186,7 +189,7 @@ class DaemonRpcClient
     {
         $params = array( 'wallet_address' => $walletAddress, 'reserve_size' => $reserveSize);
 
-        return $this->client->_run('getblocktemplate', $params, null);
+        return $this->run('getblocktemplate', $params, null);
     }
 
   /**
@@ -227,7 +230,7 @@ class DaemonRpcClient
    */
     public function getLastBlockHeader(): BlockHeaderBy
     {
-        return $this->run('getlastblockheader', null, null, \BlockHeaderByMapper::class);
+        return $this->run('getlastblockheader', null, null, BlockHeaderByMapper::class);
     }
 
   /**
@@ -394,8 +397,6 @@ class DaemonRpcClient
    *
    * Look up general information about the state of your node and the network
    *
-   * @param  none
-   *
    * Example: {
    *   "alt_blocks_count": 5,
    *   "difficulty": 972165250,
@@ -520,7 +521,6 @@ class DaemonRpcClient
     }
 
    /**
-    *
     * Get transactions
     *
     */
@@ -584,7 +584,7 @@ class DaemonRpcClient
         return $this->run(null, null, 'save_bc', StatusMapper::class);
     }
 
-    public function getPeerList($publicOnly = true): PeerList
+    public function getPeerList(bool $publicOnly = true): PeerList
     {
         $params = array('public_only' => $publicOnly);
         return $this->run(null, $params, 'get_peer_list', PeerListMapper::class);
@@ -596,7 +596,7 @@ class DaemonRpcClient
         return $this->run(null, $params, 'set_log_hash_rate');
     }
 
-    public function setLogLevel($logLevel = 0)
+    public function setLogLevel(int $logLevel = 0)
     {
         if (!is_int($logLevel)) {
             throw new Exception('Error: log_level must be an integer');
