@@ -2,6 +2,12 @@
 
 /**
  *
+ * @see https://www.getmonero.org/resources/developer-guides/daemon-rpc.html
+ * @see https://github.com/monero-project/monero/wiki/Daemon-RPC-documentation
+ *
+ * Note: "atomic units" refer to the smallest fraction of 1 XMR according to the monerod implementation.
+ * 1 XMR = 1e12 atomic units.
+ *
  * monerophp/daemonRPC
  *
  * A class for making calls to a Monero daemon's RPC API using PHP
@@ -94,6 +100,16 @@ class DaemonRpcClient
         );
     }
 
+    protected function runRpc(string $path, ?array $params = null, string $type = stdClass::class)
+    {
+        return $this->run($path, null, $params, $type);
+    }
+
+    protected function runJsonRpc(?string $method, ?array $params = null, string $type = stdClass::class)
+    {
+         return $this->run('json_rpc', $method, $params, $type);
+    }
+
     /**
      * Execute RPC command.
      *
@@ -101,16 +117,13 @@ class DaemonRpcClient
      *
      * @param ?string $method RPC method to call.
      * @param ?array<string,mixed> $params Parameters to pass.
-     * @param string $path Path of API (by default "json_rpc").
      * @param class-string<T> $type The object type to cast/deserialize the response to.
      *
      * @return T
      * @throws ClientExceptionInterface
      */
-    protected function run(?string $method, ?array $params = null, $path = 'json_rpc', string $type = stdClass::class)
+    protected function run(string $path, ?string $method, ?array $params = null, string $type = stdClass::class)
     {
-        $path = !empty($path) ? $path : 'json_rpc';
-
         $httpRequestFactory = new HttpFactory();
         $rpcRequestFactory = new HttpJsonRpcRequestFactory($httpRequestFactory);
 
@@ -149,7 +162,7 @@ class DaemonRpcClient
    */
     public function getBlockCount(): BlockCount
     {
-        return $this->run('getblockcount', null, null, BlockCountMapper::class);
+        return $this->runJsonRpc('get_block_count', null, BlockCountMapper::class);
     }
 
   /**
@@ -165,7 +178,7 @@ class DaemonRpcClient
     {
         $params = array($height);
 
-        return $this->run('on_getblockhash', $params);
+        return $this->runJsonRpc('on_getblockhash', $params);
     }
 
   /**
@@ -189,7 +202,7 @@ class DaemonRpcClient
     {
         $params = array( 'wallet_address' => $walletAddress, 'reserve_size' => $reserveSize);
 
-        return $this->run('getblocktemplate', $params, null);
+        return $this->runJsonRpc('getblocktemplate', $params);
     }
 
   /**
@@ -203,7 +216,7 @@ class DaemonRpcClient
    */
     public function submitBlock($block)
     {
-        return $this->run('submitblock', $block);
+        return $this->runJsonRpc('submitblock', $block);
     }
 
   /**
@@ -230,7 +243,7 @@ class DaemonRpcClient
    */
     public function getLastBlockHeader(): BlockHeaderBy
     {
-        return $this->run('getlastblockheader', null, null, BlockHeaderByMapper::class);
+        return $this->runJsonRpc('getlastblockheader', null, BlockHeaderByMapper::class);
     }
 
   /**
@@ -261,7 +274,7 @@ class DaemonRpcClient
     {
         $params = array('hash' => $hash);
 
-        return $this->run('getblockheaderbyhash', $params, null, BlockHeaderByMapper::class);
+        return $this->runJsonRpc('getblockheaderbyhash', $params, BlockHeaderByMapper::class);
     }
 
   /**
@@ -290,7 +303,7 @@ class DaemonRpcClient
    */
     public function getBlockHeaderByHeight($height): BlockHeaderBy
     {
-        return $this->run('getblockheaderbyheight', $height, null, BlockHeaderByMapper::class);
+        return $this->runJsonRpc('getblockheaderbyheight', $height, BlockHeaderByMapper::class);
     }
 
   /**
@@ -323,7 +336,7 @@ class DaemonRpcClient
     {
         $params = array('hash' => $hash);
 
-        return $this->run('getblock', $params);
+        return $this->runJsonRpc('getblock', $params);
     }
 
   /**
@@ -356,7 +369,7 @@ class DaemonRpcClient
     {
         $params = array('height' => $height);
 
-        return $this->run('getblock', $params);
+        return $this->runJsonRpc('getblock', $params);
     }
 
   /**
@@ -390,7 +403,7 @@ class DaemonRpcClient
    */
     public function getConnections()
     {
-        return $this->run('get_connections');
+        return $this->runJsonRpc('get_connections');
     }
 
   /**
@@ -417,7 +430,7 @@ class DaemonRpcClient
    */
     public function getInfo(): Info
     {
-        return $this->run('get_info', null, null, InfoMapper::class);
+        return $this->runJsonRpc('get_info', null, InfoMapper::class);
     }
 
   /**
@@ -456,7 +469,7 @@ class DaemonRpcClient
    */
     public function getHardForkInfo()
     {
-        return $this->run('hard_fork_info');
+        return $this->runJsonRpc('hard_fork_info');
     }
 
   /**
@@ -477,7 +490,7 @@ class DaemonRpcClient
         }
         $params = array('bans' => $bans);
 
-        return $this->run('set_bans', $params);
+        return $this->runJsonRpc('set_bans', $params);
     }
 
   /**
@@ -495,7 +508,7 @@ class DaemonRpcClient
    */
     public function getBans(): Status
     {
-        return $this->run('get_bans', null, null, StatusMapper::class);
+        return $this->runJsonRpc('get_bans', null, StatusMapper::class);
     }
 
   /**
@@ -508,7 +521,7 @@ class DaemonRpcClient
    */
     public function flushTxPool($txids)
     {
-        return $this->run('flush_txpool', $txids);
+        return $this->runJsonRpc('flush_txpool', $txids);
     }
 
     /**
@@ -517,7 +530,7 @@ class DaemonRpcClient
      */
     public function getHeight()
     {
-        return $this->run(null, null, 'getheight');
+        return $this->runRpc('getheight');
     }
 
    /**
@@ -527,13 +540,13 @@ class DaemonRpcClient
     public function getTransactions($txsHashes = null)
     {
         $params = array( 'txs_hashes' => $txsHashes, 'decode_as_json' => true);
-        return $this->run(null, null, 'gettransactions');
+        return $this->runRpc('gettransactions');
     }
 
 
     public function getAltBlocksHashes(): AltBlocksHashes
     {
-        return $this->run(null, null, 'get_alt_blocks_hashes', AltBlocksHashesMapper::class);
+        return $this->runRpc('get_alt_blocks_hashes', null, AltBlocksHashesMapper::class);
     }
 
     public function isKeyImageSpent($keyImages)
@@ -545,13 +558,13 @@ class DaemonRpcClient
             throw new Exception('Error: key images must be an array or a string');
         }
         $params = array('key_images' => $keyImages);
-        return $this->run(null, $params, 'is_key_image_spent');
+        return $this->runRpc('is_key_image_spent', $params);
     }
 
     public function sendRawTransaction($txAsHex, $doNotRelay = false, $doSanityChecks = true)
     {
         $params = array( 'tx_as_hex' => $txAsHex, 'do_not_relay' => $doNotRelay, 'do_sanity_checks' => $doSanityChecks);
-        return $this->run(null, $params, 'send_raw_transaction');
+        return $this->runRpc('send_raw_transaction', $params);
     }
 
     public function startMining($backgroundMining, bool $ignoreBattery, $minerAddress, int $threadsCount = 1)
@@ -566,34 +579,34 @@ class DaemonRpcClient
             'miner_address' => $minerAddress,
             'threads_count' => $threadsCount
         );
-        return $this->run(null, $params, 'start_mining');
+        return $this->runRpc('start_mining', $params);
     }
 
     public function stopMining(): Status
     {
-        return $this->run(null, null, 'stop_mining', StatusMapper::class);
+        return $this->runRpc('stop_mining', null, StatusMapper::class);
     }
 
     public function miningStatus(): MiningStatus
     {
-        return $this->run(null, null, 'mining_status', MiningStatusMapper::class);
+        return $this->runRpc('mining_status', null, MiningStatusMapper::class);
     }
 
     public function saveBc(): Status
     {
-        return $this->run(null, null, 'save_bc', StatusMapper::class);
+        return $this->runRpc('save_bc', null, StatusMapper::class);
     }
 
     public function getPeerList(bool $publicOnly = true): PeerList
     {
         $params = array('public_only' => $publicOnly);
-        return $this->run(null, $params, 'get_peer_list', PeerListMapper::class);
+        return $this->runRpc('get_peer_list', $params, PeerListMapper::class);
     }
 
     public function setLogHashRate($visible = true)
     {
         $params = array('visible' => $visible);
-        return $this->run(null, $params, 'set_log_hash_rate');
+        return $this->runRpc('set_log_hash_rate', $params);
     }
 
     public function setLogLevel(int $logLevel = 0)
@@ -602,64 +615,64 @@ class DaemonRpcClient
             throw new Exception('Error: log_level must be an integer');
         }
         $params = array('level' => $logLevel);
-        return $this->run(null, $params, 'set_log_level');
+        return $this->runRpc('set_log_level', $params);
     }
 
     public function setLogCategories($category)
     {
         $params = array('categories' => $category);
-        return $this->run(null, $params, 'set_log_categories');
+        return $this->runRpc('set_log_categories', $params);
     }
 
     public function getTransactionPool()
     {
-        return $this->run(null, null, 'get_transaction_pool');
+        return $this->runRpc('get_transaction_pool');
     }
 
     public function getTransactionPoolStats(): TransactionPoolStats
     {
-        return $this->run(null, null, 'get_transaction_pool_stats', TransactionPoolStatsMapper::class);
+        return $this->runRpc('get_transaction_pool_stats', null, TransactionPoolStatsMapper::class);
     }
 
     public function stopDaemon(): Status
     {
-        return $this->run(null, null, 'stop_daemon', StatusMapper::class);
+        return $this->runRpc('stop_daemon', null, StatusMapper::class);
     }
 
     public function getLimit(): Limit
     {
-        return $this->run(null, null, 'get_limit', LimitMapper::class);
+        return $this->runRpc('get_limit', null, LimitMapper::class);
     }
 
     public function setLimit($limitDown, $limitUp): Limit
     {
         $params = array( 'limit_down' => $limitDown, 'limit_up' => $limitUp);
-        return $this->run(null, $params, 'set_limit', LimitMapper::class);
+        return $this->runRpc('set_limit', $params, LimitMapper::class);
     }
 
     public function outPeers()
     {
-        return $this->run(null, null, 'out_peers');
+        return $this->runRpc('out_peers');
     }
 
     public function inPeers(): InPeers
     {
-        return $this->run(null, null, 'in_peers', InPeersMapper::class);
+        return $this->runRpc('in_peers', null, InPeersMapper::class);
     }
 
     public function startSaveGraph()
     {
-        return $this->run(null, null, 'start_save_graph');
+        return $this->runRpc('start_save_graph');
     }
 
     public function stopSaveGraph()
     {
-        return $this->run(null, null, 'stop_save_graph');
+        return $this->runRpc('stop_save_graph');
     }
 
     public function getOuts($outputs)
     {
         $params = array('outputs' => $outputs);
-        return $this->run(null, null, 'get_outs');
+        return $this->runRpc('get_outs');
     }
 }
