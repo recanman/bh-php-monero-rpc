@@ -1,6 +1,6 @@
 {
-    "name": "brianhenryie/bh-php-monero-daemon-rpc",
-    "description": "Monero Daemon JSON RPC client.",
+    "name": "brianhenryie/bh-php-monero-rpc",
+    "description": "Monero Daemon RPC client.",
     "keywords": ["Monero", "XMR", "monerod", "monero-daemon-rpc", "JSONRPC", "JSON-RPC", "cryptocurrency"],
     "homepage": "https://github.com/brianhenryie/bh-php-monero-daemon-rpc",
     "type": "library",
@@ -40,6 +40,7 @@
         }
     },
     "require": {
+        "php": "^8",
         "ext-json": "*",
         "json-mapper/json-mapper": "*",
         "psr/http-client-implementation": "*",
