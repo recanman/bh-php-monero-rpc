@@ -3,6 +3,7 @@
 /**
  *
  * @see https://www.getmonero.org/resources/developer-guides/daemon-rpc.html
+ * @see https://monerodocs.org/interacting/monerod-reference/
  * @see https://github.com/monero-project/monero/wiki/Daemon-RPC-documentation
  *
  * Note: "atomic units" refer to the smallest fraction of 1 XMR according to the monerod implementation.
@@ -115,6 +116,7 @@ class DaemonRpcClient
      *
      * @template T of object
      *
+     * @param string $path Path of API (by default "json_rpc").
      * @param ?string $method RPC method to call.
      * @param ?array<string,mixed> $params Parameters to pass.
      * @param class-string<T> $type The object type to cast/deserialize the response to.
@@ -150,15 +152,9 @@ class DaemonRpcClient
     }
 
   /**
+   * Look up how many blocks are in the longest chain known to the node.
    *
-   * Look up how many blocks are in the longest chain known to the node
-   *
-   *
-   * Example: {
-   *   "count": 993163,
-   *   "status": "OK"
-   * }
-   *
+   * @see https://www.getmonero.org/resources/developer-guides/daemon-rpc.html#get_block_count
    */
     public function getBlockCount(): BlockCount
     {
@@ -166,10 +162,9 @@ class DaemonRpcClient
     }
 
   /**
-   *
    * Look up a block's hash by its height
    *
-   * @param  number  $height   Height of block to look up
+   * @param int $height Height of block to look up.
    *
    * @return string  Example: 'e22cf75f39ae720e8b71b3d120a5ac03f0db50bba6379e2850975b4859190bc6'
    *
