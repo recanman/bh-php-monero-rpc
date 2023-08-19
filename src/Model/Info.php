@@ -2,7 +2,7 @@
 
 namespace BrianHenryIE\MoneroDaemonRpc\Model;
 
-interface Info extends Status
+interface Info extends ResponseBase
 {
     public function getAdjustedTime(): int;
 

@@ -2,7 +2,7 @@
 
 namespace BrianHenryIE\MoneroDaemonRpc\Model;
 
-interface InPeers extends Status
+interface InPeers extends ResponseBase
 {
     public function getInPeers(): int;
 }

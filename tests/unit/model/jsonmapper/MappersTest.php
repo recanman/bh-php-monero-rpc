@@ -11,7 +11,7 @@ use BrianHenryIE\MoneroDaemonRpc\Model\JsonMapper\InPeersMapper;
 use BrianHenryIE\MoneroDaemonRpc\Model\JsonMapper\LimitMapper;
 use BrianHenryIE\MoneroDaemonRpc\Model\JsonMapper\MiningStatusMapper;
 use BrianHenryIE\MoneroDaemonRpc\Model\JsonMapper\PeerListMapper;
-use BrianHenryIE\MoneroDaemonRpc\Model\JsonMapper\StatusMapper;
+use BrianHenryIE\MoneroDaemonRpc\Model\JsonMapper\ResponseBaseMapper;
 use BrianHenryIE\MoneroDaemonRpc\Model\JsonMapper\TransactionPoolStatsMapper;
 use JsonMapper\JsonMapperFactory;
 
@@ -27,11 +27,11 @@ class MappersTest extends \PHPUnit\Framework\TestCase
             'get_alt_blocks_hashes.json' => [ 'get_alt_blocks_hashes.json', AltBlocksHashesMapper::class ],
 //          'json_rpc-get_bans.json', => ['json_rpc-get_bans.json', BansMapper::class ],
             'json_rpc-getblockheaderbyheight.json' => ['json_rpc-getblockheaderbyheight.json', BlockHeaderByMapper::class],
-            'stop_daemon.json' => ['stop_daemon.json', StatusMapper::class],
+            'stop_daemon.json' => ['stop_daemon.json', ResponseBaseMapper::class],
             'get_limit.json' => ['get_limit.json', LimitMapper::class],
             'json_rpc-get_info.json' => ['json_rpc-get_info.json', InfoMapper::class],
             'json_rpc-getlastblockheader.json' => ['json_rpc-getlastblockheader.json', BlockHeaderByMapper::class],
-            'stop_mining.json' => ['stop_mining.json', StatusMapper::class],
+            'stop_mining.json' => ['stop_mining.json', ResponseBaseMapper::class],
             'get_peer_list.json' => ['get_peer_list.json', PeerListMapper::class ],
             'json_rpc-getblock.json' => ['json_rpc-getblock.json', BlockMapper::class],
             'mining_status.json' => ['mining_status.json',MiningStatusMapper::class],

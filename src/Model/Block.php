@@ -2,7 +2,7 @@
 
 namespace BrianHenryIE\MoneroDaemonRpc\Model;
 
-interface Block extends Status
+interface Block extends ResponseBase
 {
     public function getBlob(): string;
 

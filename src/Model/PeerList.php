@@ -2,7 +2,7 @@
 
 namespace BrianHenryIE\MoneroDaemonRpc\Model;
 
-interface PeerList extends Status
+interface PeerList extends ResponseBase
 {
     /**
      * 5000

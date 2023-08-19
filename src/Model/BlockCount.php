@@ -5,7 +5,7 @@
 
 namespace BrianHenryIE\MoneroDaemonRpc\Model;
 
-interface BlockCount extends Status
+interface BlockCount extends ResponseBase
 {
 	/**
 	 * Number of blocks in the longest chain seen by the node.

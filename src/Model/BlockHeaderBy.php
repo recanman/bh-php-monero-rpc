@@ -2,7 +2,7 @@
 
 namespace BrianHenryIE\MoneroDaemonRpc\Model;
 
-interface BlockHeaderBy extends Status
+interface BlockHeaderBy extends ResponseBase
 {
     public function getBlockHeader(): BlockHeader;
 

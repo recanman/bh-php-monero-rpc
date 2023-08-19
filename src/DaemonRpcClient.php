@@ -53,12 +53,12 @@ use BrianHenryIE\MoneroDaemonRpc\Model\JsonMapper\InPeersMapper;
 use BrianHenryIE\MoneroDaemonRpc\Model\JsonMapper\LimitMapper;
 use BrianHenryIE\MoneroDaemonRpc\Model\JsonMapper\MiningStatusMapper;
 use BrianHenryIE\MoneroDaemonRpc\Model\JsonMapper\PeerListMapper;
-use BrianHenryIE\MoneroDaemonRpc\Model\JsonMapper\StatusMapper;
+use BrianHenryIE\MoneroDaemonRpc\Model\JsonMapper\ResponseBaseMapper;
 use BrianHenryIE\MoneroDaemonRpc\Model\JsonMapper\TransactionPoolStatsMapper;
 use BrianHenryIE\MoneroDaemonRpc\Model\Limit;
 use BrianHenryIE\MoneroDaemonRpc\Model\MiningStatus;
 use BrianHenryIE\MoneroDaemonRpc\Model\PeerList;
-use BrianHenryIE\MoneroDaemonRpc\Model\Status;
+use BrianHenryIE\MoneroDaemonRpc\Model\ResponseBase;
 use BrianHenryIE\MoneroDaemonRpc\Model\TransactionPoolStats;
 use Exception;
 use GuzzleHttp\Client;
@@ -501,9 +501,9 @@ class DaemonRpcClient
    * }
    *
    */
-    public function getBans(): Status
+    public function getBans(): ResponseBase
     {
-        return $this->runJsonRpc('get_bans', null, StatusMapper::class);
+        return $this->runJsonRpc('get_bans', null, ResponseBaseMapper::class);
     }
 
   /**
@@ -577,9 +577,9 @@ class DaemonRpcClient
         return $this->runRpc('start_mining', $params);
     }
 
-    public function stopMining(): Status
+    public function stopMining(): ResponseBase
     {
-        return $this->runRpc('stop_mining', null, StatusMapper::class);
+        return $this->runRpc('stop_mining', null, ResponseBaseMapper::class);
     }
 
     public function miningStatus(): MiningStatus
@@ -587,9 +587,9 @@ class DaemonRpcClient
         return $this->runRpc('mining_status', null, MiningStatusMapper::class);
     }
 
-    public function saveBc(): Status
+    public function saveBc(): ResponseBase
     {
-        return $this->runRpc('save_bc', null, StatusMapper::class);
+        return $this->runRpc('save_bc', null, ResponseBaseMapper::class);
     }
 
     public function getPeerList(bool $publicOnly = true): PeerList
@@ -629,9 +629,9 @@ class DaemonRpcClient
         return $this->runRpc('get_transaction_pool_stats', null, TransactionPoolStatsMapper::class);
     }
 
-    public function stopDaemon(): Status
+    public function stopDaemon(): ResponseBase
     {
-        return $this->runRpc('stop_daemon', null, StatusMapper::class);
+        return $this->runRpc('stop_daemon', null, ResponseBaseMapper::class);
     }
 
     public function getLimit(): Limit

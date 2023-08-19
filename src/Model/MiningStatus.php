@@ -2,7 +2,7 @@
 
 namespace BrianHenryIE\MoneroDaemonRpc\Model;
 
-interface MiningStatus extends Status
+interface MiningStatus extends ResponseBase
 {
     public function getActive(): bool;
     public function getAddress(): string;

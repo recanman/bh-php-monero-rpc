@@ -2,7 +2,7 @@
 
 namespace BrianHenryIE\MoneroDaemonRpc\Model;
 
-interface TransactionPoolStats extends Status
+interface TransactionPoolStats extends ResponseBase
 {
     public function getCredits(): int;
 
