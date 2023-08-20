@@ -4,4 +4,4 @@ vendor
 /scratch
 .phpunit.result.cache
 .DS_Store
-tests/reports
+tests/_reports
