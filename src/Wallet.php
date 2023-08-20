@@ -92,20 +92,10 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function get_balance($account_index = 0)
+    public function getBalance($account_index = 0)
     {
         $params = array('account_index' => $account_index);
         return $this->_run('get_balance', $params);
-    }
-
-  /**
-   *
-   * Alias of get_balance()
-   *
-   */
-    public function getbalance($account_index = 0)
-    {
-        return $this->get_balance($account_index);
     }
 
   /**
@@ -152,23 +142,6 @@ class Wallet extends RpcClient
     {
         $params = array('address' => $address);
         return $this->_run('get_address_index', $params);
-    }
-
-  /**
-   *
-   * Alias of get_address()
-   *
-   * @param  number  $account_index  Index of account to look up     (optional)
-   * @param  number  $address_index  Index of subaddress to look up  (optional)
-   *
-   * @return object  Example: {
-   *   "address": "427ZuEhNJQRXoyJAeEoBaNW56ScQaLXyyQWgxeRL9KgAUhVzkvfiELZV7fCPBuuB2CGuJiWFQjhnhhwiH1FsHYGQGaDsaBA"
-   * }
-   *
-   */
-    public function getaddress($account_index = 0, $address_index = 0)
-    {
-        return $this->get_address($account_index = 0, $address_index = 0);
     }
 
   /**
@@ -383,16 +356,6 @@ class Wallet extends RpcClient
     public function get_height()
     {
         return $this->_run('get_height');
-    }
-
-  /**
-   *
-   * Alias of get_height()
-   *
-   */
-    public function getheight()
-    {
-        return $this->get_height();
     }
 
   /**
