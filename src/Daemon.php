@@ -6,6 +6,9 @@
  * @see https://monerodocs.org/interacting/monerod-reference/
  * @see https://github.com/monero-project/monero/wiki/Daemon-RPC-documentation
  *
+ * @see https://github.com/monerodocs/md/blob/master/docs/interacting/monerod-reference.md
+ * @see https://github.com/monero-project/monero/blob/master/src/daemon/command_server.cpp
+ *
  * Note: "atomic units" refer to the smallest fraction of 1 XMR according to the monerod implementation.
  * 1 XMR = 1e12 atomic units.
  *
