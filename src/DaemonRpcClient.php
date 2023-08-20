@@ -61,44 +61,73 @@ use BrianHenryIE\MoneroDaemonRpc\Model\PeerList;
 use BrianHenryIE\MoneroDaemonRpc\Model\ResponseBase;
 use BrianHenryIE\MoneroDaemonRpc\Model\TransactionPoolStats;
 use Exception;
-use GuzzleHttp\Client;
-use GuzzleHttp\Psr7\HttpFactory;
 use JsonMapper\Enums\TextNotation;
 use JsonMapper\JsonMapperFactory;
 use JsonMapper\Middleware\CaseConversion;
 use Psr\Http\Client\ClientExceptionInterface;
+use Psr\Http\Client\ClientInterface;
+use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Http\Message\UriFactoryInterface;
 use SimPod\JsonRpc\Extractor\ResponseExtractor;
 use SimPod\JsonRpc\HttpJsonRpcRequestFactory;
 use stdClass;
 
 class DaemonRpcClient
 {
-    protected string $url;
+    protected string $urlBase;
+
+    /**
+     * PSR HTTP implementation.
+     */
+    protected RequestFactoryInterface $requestFactory;
+
+    /**
+     * PSR HTTP client for making requests.
+     */
+    protected ClientInterface $client;
+
+    protected UriFactoryInterface $uriFactory;
+
+    const PORT = 18081;
+    const TESTNET_PORT = 28081;
+    const STAGENET_PORT = 38081;
 
   /**
    *
    * Start a connection with the Monero daemon (monerod)
    *
+   * @param RequestFactoryInterface $requestFactory
+   * @param ClientInterface $client A PSR HTTP client.
    * @param  string  $host      Monero daemon IP hostname
    * @param  int     $port      Monero daemon port
-   * @param  bool  $ssl  Monero daemon protocol (eg. 'http')
-   * @param  ?string  $username      Monero daemon RPC username
-   * @param  ?string  $password  Monero daemon RPC passphrase
-   *
+   * @param  bool  $ssl  Monero daemon protocol (i.e. use 'https' or just 'http')
    */
     public function __construct(
+        RequestFactoryInterface $requestFactory,
+        ClientInterface $client,
+        UriFactoryInterface $uriFactory,
         string $host = '127.0.0.1',
-        int $port = 18081,
+        int $port = self::PORT,
         bool $ssl = true,
-        ?string $username = null,
-        ?string $password = null
     ) {
-        $this->url = sprintf(
+        $this->client = $client;
+        $this->requestFactory = $requestFactory;
+        $this->uriFactory = $uriFactory;
+        $this->urlBase = sprintf(
             'http%s://%s:%d/',
             $ssl ? 's' : '',
             $host,
             $port
         );
+    }
+
+    /**
+     * @param  ?string $username Monero daemon RPC username
+     * @param  ?string $password Monero daemon RPC passphrase
+     */
+    public function setAuthorizationCredentials(string $username, string $password): void
+    {
+        // TODO
     }
 
     protected function runRpc(string $path, ?array $params = null, string $type = stdClass::class)
@@ -126,27 +155,24 @@ class DaemonRpcClient
      */
     protected function run(string $path, ?string $method, ?array $params = null, ?string $type = stdClass::class)
     {
-        $httpRequestFactory = new HttpFactory();
-        $rpcRequestFactory = new HttpJsonRpcRequestFactory($httpRequestFactory);
+        $rpcRequestFactory = new HttpJsonRpcRequestFactory($this->requestFactory);
 
         $id = null;
         $request = $rpcRequestFactory->request($id, $method ?? '', $params);
 
-        $uri = $httpRequestFactory->createUri($this->url . $path);
+        $uri = $this->uriFactory->createUri($this->urlBase . $path);
         $request = $request->withUri($uri);
 
         // TODO: Credentials.
 
-        $client = new Client();
-
-        $response = $client->sendRequest($request);
+        $response = $this->client->sendRequest($request);
         $extracted = new ResponseExtractor($response);
 
         $data = $path === 'json_rpc' ? json_encode($extracted->getResult()) : (string) $response->getBody();
 
-		if( is_null( $type ) ) {
-			return trim($data, '"');
-		}
+        if (is_null($type)) {
+            return trim($data, '"');
+        }
 
         $mapper = (new JsonMapperFactory())->bestFit();
 

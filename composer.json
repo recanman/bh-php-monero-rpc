@@ -54,6 +54,7 @@
         "mockery/mockery": "^1.5",
         "phpstan/extension-installer": "*",
         "phpunit/phpcov": "*",
+        "psr-mock/http": "^1.0",
         "squizlabs/php_codesniffer": "*"
     },
     "extra": {
