@@ -91,7 +91,6 @@ class Daemon extends RpcClient
     }
 
   /**
-   *
    * Construct a block template that can be mined upon
    *
    * @param  string  $walletAddress  Address of wallet to receive coinbase transactions if block is successfully mined
@@ -115,7 +114,6 @@ class Daemon extends RpcClient
     }
 
   /**
-   *
    * Submit a mined block to the network
    *
    * @param  string  $block  Block blob
@@ -129,7 +127,6 @@ class Daemon extends RpcClient
     }
 
   /**
-   *
    * Look up the block header of the latest block in the longest chain known to the node
    *
    * Example: {
@@ -156,7 +153,6 @@ class Daemon extends RpcClient
     }
 
   /**
-   *
    * Look up a block header from a block hash
    *
    * @param  string  $hash  The block's SHA256 hash
@@ -187,7 +183,6 @@ class Daemon extends RpcClient
     }
 
   /**
-   *
    * Look up a block header by height
    *
    * @param  int     $height  Height of block
@@ -216,7 +211,6 @@ class Daemon extends RpcClient
     }
 
   /**
-   *
    * Look up block information by SHA256 hash
    *
    * @param  string  $hash  SHA256 hash of block
@@ -249,7 +243,6 @@ class Daemon extends RpcClient
     }
 
   /**
-   *
    * Look up block information by height
    *
    * @param  int     $height  Height of block
@@ -282,7 +275,6 @@ class Daemon extends RpcClient
     }
 
   /**
-   *
    * Look up incoming and outgoing connections to your node
    *
    * Example: {
@@ -316,7 +308,6 @@ class Daemon extends RpcClient
     }
 
   /**
-   *
    * Look up general information about the state of your node and the network
    *
    * Example: {
@@ -343,7 +334,6 @@ class Daemon extends RpcClient
     }
 
   /**
-   *
    * Look up information regarding hard fork voting and readiness
    *
    *
@@ -382,7 +372,6 @@ class Daemon extends RpcClient
     }
 
   /**
-   *
    * Ban another node by IP
    *
    * @param  array  $bans  Array of IP addresses to ban
@@ -403,7 +392,6 @@ class Daemon extends RpcClient
     }
 
   /**
-   *
    * Get list of banned IPs
    *
    * Example: {

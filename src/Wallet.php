@@ -39,7 +39,6 @@ use Exception;
 class Wallet extends RpcClient
 {
   /**
-   *
    * Print JSON object (for API)
    *
    * @param  object  $json  JSON object to print
@@ -62,7 +61,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Look up an account's balance
    *
    * @param  int  $account_index  Index of account to look up  (optional)
@@ -80,7 +78,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Look up wallet address(es)
    *
    * @param  int  $account_index  Index of account to look up     (optional)
@@ -126,7 +123,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Create a new subaddress
    *
    * @param  int  $account_index  The subaddress account index
@@ -149,7 +145,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Label a subaddress
    *
    * @param  int  The index of the subaddress to label
@@ -162,7 +157,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Look up wallet accounts
    *
    * @param  string $tag Optional filtering by tag
@@ -198,7 +192,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Create a new account
    *
    * @param  string  $label  Label to apply to new account
@@ -214,7 +207,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Label an account
    *
    * @param  int $account_index  Index of account to label
@@ -231,7 +223,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Look up account tags
    *
    * @return object  Example: {
@@ -254,7 +245,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Tag accounts
    *
    * @param  array   $accounts  The indices of the accounts to tag
@@ -271,7 +261,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Untag accounts
    *
    * @param  array   $accounts  The indices of the accounts to untag
@@ -287,7 +276,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Describe a tag
    *
    * @param  string  $tag          Tag to describe
@@ -309,7 +297,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Look up how many blocks are in the longest chain known to the wallet
    *
    * @return object  Example: {
@@ -323,7 +310,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Send monero
    * Parameters can be passed in individually (as listed below) or as an object/dictionary (as listed at bottom)
    * To send to multiple recipients, use the object/dictionary (bottom) format and pass an array of recipient addresses and amount arrays in the destinations field (as in "destinations = [['amount' => 1, 'address' => ...], ['amount' => 2, 'address' => ...]]")
@@ -429,7 +415,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Same as transfer, but splits transfer into more than one transaction if necessary
    *
    */
@@ -502,7 +487,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Send all dust outputs back to the wallet
    *
    * @return object  Example: {
@@ -516,7 +500,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Send all unmixable outputs back to the wallet
    *
    * @return object  Example: {
@@ -530,7 +513,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Send all unlocked outputs from an account to an address
    *
    * @param  string   $address          Address to receive funds
@@ -609,7 +591,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Sweep a single key image to an address
    *
    * @param  string   $key_image     Key image to sweep
@@ -699,7 +680,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Relay a transaction
    *
    * @param  string  $hex  Blob of transaction to relay
@@ -718,7 +698,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Save wallet
    *
    * @return object  Example:
@@ -730,7 +709,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Look up incoming payments by payment ID
    *
    * @param  string  $payment_id  Payment ID to look up
@@ -755,7 +733,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Look up incoming payments by payment ID (or a list of payments IDs) from a given height
    *
    * @param  array   $payment_ids       Array of payment IDs to look up
@@ -790,7 +767,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Look up incoming transfers
    *
    * @param  string  $type             Type of transfer to look up; must be 'all', 'available', or 'unavailable' (incoming transfers which have already been spent)
@@ -826,7 +802,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Look up a wallet key
    *
    * @param  string  $key_type  Type of key to look up; must be 'view_key', 'spend_key', or 'mnemonic'
@@ -843,7 +818,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Look up wallet view key
    *
    * @return object  Example: {
@@ -858,7 +832,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Look up wallet spend key
    *
    * @return object  Example: {
@@ -873,7 +846,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Look up wallet mnemonic seed
    *
    * @return object  Example: {
@@ -888,7 +860,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Create an integrated address from a given payment ID
    *
    * @param  ?string  $payment_id  Payment ID  (optional)
@@ -905,7 +876,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Look up the wallet address and payment ID corresponding to an integrated address
    *
    * @param  string  $integrated_address  Integrated address to split
@@ -923,7 +893,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Stop the wallet, saving the state
    */
     public function stopWallet()
@@ -932,7 +901,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Rescan the blockchain from scratch
    */
     public function rescanBlockchain()
@@ -941,7 +909,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Add notes to transactions
    *
    * @param  array  $txids  Array of transaction IDs to note
@@ -954,7 +921,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Look up transaction note
    *
    * @param  array  $txids  Array of transaction IDs (strings) to look up
@@ -971,7 +937,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Set a wallet option
    *
    * @param  string  $key    Option to set
@@ -984,7 +949,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Look up a wallet option
    *
    * @param  string  $key  Wallet option to query
@@ -1001,7 +965,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Look up a transaction key
    *
    * @param   string  $txid  Transaction ID to look up
@@ -1018,7 +981,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Check a transaction key
    *
    * @param   string  $address  Address that sent transaction
@@ -1039,7 +1001,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Create proof (signature) of transaction
    *
    * @param  string  $address  Address that spent funds
@@ -1057,7 +1018,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Verify transaction proof
    *
    * @param  string  $address    Address that spent funds
@@ -1079,7 +1039,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Create proof of a spend
    *
    * @param  string  $txid  Transaction ID
@@ -1099,7 +1058,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Verify spend proof
    *
    * @param  string  $txid       Transaction ID
@@ -1120,7 +1078,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Create proof of reserves
    *
    * @param  string  $account_index  Comma-separated list of account indices of which to prove reserves (proves reserve of all accounts if empty)  (optional)
@@ -1142,7 +1099,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Verify a reserve proof
    *
    * @param  string  $address    Wallet address
@@ -1162,7 +1118,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Look up transfers
    *
    * @param  array   $input_types      Array of transfer type strings; possible values include 'all', 'in', 'out', 'pending', 'failed', and 'pool'  (optional)
@@ -1246,7 +1201,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Look up transaction by transaction ID
    *
    * @param  string  $txid           Transaction ID to look up
@@ -1273,7 +1227,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Sign a string
    *
    * @param  string  $data  Data to sign
@@ -1290,7 +1243,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Verify a signature
    *
    * @param  string   $data       Signed data
@@ -1309,7 +1261,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Export an array of signed key images
    *
    * @return array  Example: {
@@ -1323,7 +1274,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Import a signed set of key images
    *
    * @param  array   $signed_key_images  Array of signed key images
@@ -1343,7 +1293,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Create a payment URI using the official URI specification
    *
    * @param  string  $address         Address to receive funds
@@ -1364,7 +1313,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Parse a payment URI
    *
    * @param  string  $uri  Payment URI
@@ -1387,7 +1335,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Look up address book entries
    *
    * @param  array   $entries  Array of address book entry indices to look up
@@ -1404,7 +1351,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Add entry to the address book
    *
    * @param  string  $address      Address to add to address book
@@ -1423,7 +1369,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Delete an entry from the address book
    *
    * @param  array   $index  Index of the address book entry to remove
@@ -1435,7 +1380,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Refresh the wallet after opening
    *
    * @param  ?int  $start_height  Block height from which to start    (optional)
@@ -1452,7 +1396,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Rescan the blockchain for spent outputs
    *
    */
@@ -1462,7 +1405,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Start mining
    *
    * @param  int   $threads_count         Number of threads with which to mine
@@ -1476,7 +1418,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Stop mining
    */
     public function stopMining()
@@ -1485,7 +1426,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Look up a list of available languages for your wallet's seed
    *
    * @return object  Example: {
@@ -1499,7 +1439,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Create a new wallet
    *
    * @param  string  $filename  Filename of new wallet to create
@@ -1513,7 +1452,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Open a wallet
    *
    * @param  string  $filename  Filename of wallet to open
@@ -1526,7 +1464,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Check if wallet is multisig
    *
    * @return object  Example: (non-multisignature wallet) {
@@ -1543,7 +1480,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Create information needed to create a multisignature wallet
    *
    * @return object  Example: {
@@ -1557,7 +1493,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Create a multisignature wallet
    *
    * @param  string  $multisig_info  Multisignature information (from eg. prepare_multisig)
@@ -1576,7 +1511,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Export multisignature information
    *
    * @return object  Example: {
@@ -1590,7 +1524,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Import mutlisignature information
    *
    * @param  string  $info  Multisignature info (from eg. prepare_multisig)
@@ -1607,7 +1540,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Finalize a multisignature wallet
    *
    * @param  string  $multisig_info  Multisignature info (from eg. prepare_multisig)
@@ -1625,7 +1557,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Sign a multisignature transaction
    *
    * @param  string  $tx_data_hex  Blob of transaction to sign
@@ -1642,7 +1573,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Submit (relay) a multisignature transaction
    *
    * @param  string  $tx_data_hex  Blob of transaction to submit
@@ -1667,7 +1597,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Validate a wallet address
    *
    * @param  string $address The address to validate.
@@ -1692,7 +1621,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Create a wallet on the RPC server from an address, view key, and (optionally) spend key.
    *
    * @param string $filename is the name of the wallet to create on the RPC server
@@ -1729,7 +1657,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Exchange mutlisignature information
    *
    * @param string $password wallet password
@@ -1746,7 +1673,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Obtain information (destination, amount) about a transfer
    *
    * @param  txinfo txinfo
@@ -1769,7 +1695,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Import outputs in hex format
    *
    * @param outputs_data_hex wallet outputs in hex format
