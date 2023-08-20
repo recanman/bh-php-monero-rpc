@@ -1,4 +1,4 @@
-[![PHP 8.0](https://img.shields.io/badge/PHP-8.0-8892BF.svg)]() [![PHPCS PSR-12](https://img.shields.io/badge/PHPCS-PSR–12❌-lightgrey.svg)](https://www.php-fig.org/psr/psr-12/) [![PHPUnit ](.github/coverage.svg)](https://brianhenryie.github.io/bh-php-monero-explorer/) [![PHPStan ](.github/phpstan.svg)](https://phpstan.org/)
+[![PHP 8.0](https://img.shields.io/badge/PHP-8.0-8892BF.svg)]() [![PHPCS PSR-12](https://img.shields.io/badge/PHPCS-PSR–12❌-lightgrey.svg)](https://www.php-fig.org/psr/psr-12/) [![PHPUnit ](.github/coverage.svg)](https://brianhenryie.github.io/bh-php-monero-rpc/) [![PHPStan ](.github/phpstan.svg)](https://phpstan.org/)
 
 # Monero Daemon JSON RPC PHP Client
 
