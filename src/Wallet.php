@@ -66,15 +66,13 @@ class Wallet extends RpcClient
     }
 
   /**
-   *
    * Convert from moneroj to tacoshi (piconero)
    *
-   * @param  number  $method  Amount (in monero) to transform to tacoshi (piconero)  (optional)
+   * @used-by Wallet::sweepSingle()
    *
-   * @return number
-   *
+   * @param  int  $amount  Amount (in monero) to transform to tacoshi (piconero)  (optional)
    */
-    public function _transform($amount = 0)
+    public function _transform(int $amount = 0): int
     {
         return intval(bcmul($amount, 1000000000000));
     }
@@ -83,7 +81,7 @@ class Wallet extends RpcClient
    *
    * Look up an account's balance
    *
-   * @param  number  $account_index  Index of account to look up  (optional)
+   * @param  int  $account_index  Index of account to look up  (optional)
    *
    * @return object  Example: {
    *   "balance": 140000000000,
@@ -91,7 +89,7 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function getBalance($account_index = 0)
+    public function getBalance(int $account_index = 0)
     {
         $params = array('account_index' => $account_index);
         return $this->_run('get_balance', $params);
@@ -101,8 +99,8 @@ class Wallet extends RpcClient
    *
    * Look up wallet address(es)
    *
-   * @param  number  $account_index  Index of account to look up     (optional)
-   * @param  number  $address_index  Index of subaddress to look up  (optional)
+   * @param  int  $account_index  Index of account to look up     (optional)
+   * @param  int  $address_index  Index of subaddress to look up  (optional)
    *
    * @return object  Example: {
    *   "address": "A2XE6ArhRkVZqepY2DQ5QpW8p8P2dhDQLhPJ9scSkW6q9aYUHhrhXVvE8sjg7vHRx2HnRv53zLQH4ATSiHHrDzcSFqHpARF",
@@ -122,7 +120,7 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function getAddress($account_index = 0, $address_index = 0)
+    public function getAddress(int $account_index = 0, int $address_index = 0)
     {
         $params = array('account_index' => $account_index, 'address_index' => $address_index);
         return $this->_run('get_address', $params);
@@ -137,7 +135,7 @@ class Wallet extends RpcClient
     * }
     * }
      */
-    public function getAddressIndex($address)
+    public function getAddressIndex(string $address)
     {
         $params = array('address' => $address);
         return $this->_run('get_address_index', $params);
@@ -147,7 +145,7 @@ class Wallet extends RpcClient
    *
    * Create a new subaddress
    *
-   * @param  number  $account_index  The subaddress account index
+   * @param  int  $account_index  The subaddress account index
    * @param  string  $label          A label to apply to the new subaddress
    *
    * @return object  Example: {
@@ -156,7 +154,7 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function createAddress($account_index = 0, $label = '')
+    public function createAddress(int $account_index = 0, string $label = '')
     {
         $params = array('account_index' => $account_index, 'label' => $label);
         $create_address_method = $this->_run('create_address', $params);
@@ -170,10 +168,10 @@ class Wallet extends RpcClient
    *
    * Label a subaddress
    *
-   * @param  number  The index of the subaddress to label
+   * @param  int  The index of the subaddress to label
    * @param  string  The label to apply
    */
-    public function labelAddress($index, $label)
+    public function labelAddress(int $index, string $label)
     {
         $params = array('index' => $index ,'label' => $label);
         return $this->_run('label_address', $params);
@@ -208,9 +206,11 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function getAccounts($tag = null)
+    public function getAccounts(?string $tag = null)
     {
-        return (is_null($tag)) ? $this->_run('get_accounts') : $this->_run('get_accounts', array('tag' => $tag));
+        return $tag
+            ? $this->_run('get_accounts', array('tag' => $tag))
+            : $this->_run('get_accounts');
     }
 
   /**
@@ -219,7 +219,7 @@ class Wallet extends RpcClient
    *
    * @param  string  $label  Label to apply to new account
    */
-    public function createAccount($label = '')
+    public function createAccount(string $label = '')
     {
         $params = array('label' => $label);
         $create_account_method = $this->_run('create_account', $params);
@@ -233,10 +233,10 @@ class Wallet extends RpcClient
    *
    * Label an account
    *
-   * @param  number $account_index  Index of account to label
+   * @param  int $account_index  Index of account to label
    * @param  string $label          Label to apply
    */
-    public function labelAccount($account_index, $label)
+    public function labelAccount(int $account_index, string $label)
     {
         $params = array('account_index' => $account_index, 'label' => $label);
         $label_account_method = $this->_run('label_account', $params);
@@ -276,7 +276,7 @@ class Wallet extends RpcClient
    * @param  array   $accounts  The indices of the accounts to tag
    * @param  string  $tag       Tag to apply
    */
-    public function tagAccounts($accounts, $tag)
+    public function tagAccounts($accounts, string $tag)
     {
         $params = array('accounts' => $accounts, 'tag' => $tag);
         $tag_accounts_method = $this->_run('tag_accounts', $params);
@@ -314,7 +314,7 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function setAccountTagDescription($tag, $description)
+    public function setAccountTagDescription(string $tag, string $description)
     {
         $params = array('tag' => $tag, 'description' => $description);
         $set_account_tag_description_method = $this->_run('set_account_tag_description', $params);
@@ -347,11 +347,11 @@ class Wallet extends RpcClient
    * @param  string   $amount           Amount of monero to send
    * @param  string   $address          Address to receive funds
    * @param  string   $payment_id       Payment ID                                                (optional)
-   * @param  number   $mixin            Mixin number (ringsize - 1)                               (optional)
-   * @param  number   $account_index    Account to send from                                      (optional)
+   * @param  int   $mixin            Mixin number (ringsize - 1)                               (optional)
+   * @param  int   $account_index    Account to send from                                      (optional)
    * @param  string   $subaddr_indices  Comma-separated list of subaddress indices to spend from  (optional)
-   * @param  number   $priority         Transaction priority                                      (optional)
-   * @param  number   $unlock_time      UNIX time or block height to unlock output                (optional)
+   * @param  int   $priority         Transaction priority                                      (optional)
+   * @param  int   $unlock_time      UNIX time or block height to unlock output                (optional)
    * @param  boolean  $do_not_relay     Do not relay transaction                                  (optional)
    *
    *   OR
@@ -366,8 +366,18 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function transfer($amount, $address = '', $payment_id = '', $mixin = 15, $account_index = 0, $subaddr_indices = '', $priority = 2, $unlock_time = 0, $do_not_relay = false, $ringsize = 11)
-    {
+    public function transfer(
+        string $amount,
+        string $address = '',
+        string $payment_id = '',
+        int $mixin = 15,
+        int $account_index = 0,
+        string $subaddr_indices = '',
+        int $priority = 2,
+        int $unlock_time = 0,
+        bool $do_not_relay = false,
+        int $ringsize = 11
+    ) {
         if (is_array($amount)) { // Parameters passed in as object/dictionary
             $params = $amount;
 
@@ -541,12 +551,12 @@ class Wallet extends RpcClient
    *
    * @param  string   $address          Address to receive funds
    * @param  string   $subaddr_indices  Comma-separated list of subaddress indices to sweep  (optional)
-   * @param  number   $account_index    Index of the account to sweep                        (optional)
+   * @param  int   $account_index    Index of the account to sweep                        (optional)
    * @param  string   $payment_id       Payment ID                                           (optional)
-   * @param  number   $mixin            Mixin number (ringsize - 1)                          (optional)
-   * @param  number   $priority         Payment ID                                           (optional)
+   * @param  int   $mixin            Mixin number (ringsize - 1)                          (optional)
+   * @param  int   $priority         Payment ID                                           (optional)
    * @param  number   $below_amount     Only send outputs below this amount                  (optional)
-   * @param  number   $unlock_time      UNIX time or block height to unlock output           (optional)
+   * @param  int   $unlock_time      UNIX time or block height to unlock output           (optional)
    * @param  boolean  $do_not_relay     Do not relay transaction                             (optional)
    *
    *   OR
@@ -561,8 +571,17 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function sweepAll($address, $subaddr_indices = '', $account_index = 0, $payment_id = '', $mixin = 15, $priority = 2, $below_amount = 0, $unlock_time = 0, $do_not_relay = false)
-    {
+    public function sweepAll(
+        string $address,
+        $subaddr_indices = '',
+        int $account_index = 0,
+        string $payment_id = '',
+        int $mixin = 15,
+        int $priority = 2,
+        $below_amount = 0,
+        int $unlock_time = 0,
+        bool $do_not_relay = false
+    ) {
         if (is_array($address)) { // Parameters passed in as object/dictionary
             $params = $address;
 
@@ -613,9 +632,9 @@ class Wallet extends RpcClient
    * @param  string   $address       Address to receive funds
    * @param  string   $payment_id    Payment ID                                  (optional)
    * @param  number   $below_amount  Only send outputs below this amount         (optional)
-   * @param  number   $mixin         Mixin number (ringsize - 1)                 (optional)
-   * @param  number   $priority      Payment ID                                  (optional)
-   * @param  number   $unlock_time   UNIX time or block height to unlock output  (optional)
+   * @param  int   $mixin         Mixin number (ringsize - 1)                 (optional)
+   * @param  int   $priority      Payment ID                                  (optional)
+   * @param  int   $unlock_time   UNIX time or block height to unlock output  (optional)
    * @param  boolean  $do_not_relay  Do not relay transaction                    (optional)
    *
    *   OR
@@ -630,8 +649,16 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function sweepSingle($key_image, $address, $payment_id = '', $mixin = 15, $priority = 2, $below_amount = 0, $unlock_time = 0, $do_not_relay = 0)
-    {
+    public function sweepSingle(
+        $key_image,
+        string $address,
+        string $payment_id = '',
+        int $mixin = 15,
+        int $priority = 2,
+        $below_amount = 0,
+        int $unlock_time = 0,
+        bool $do_not_relay = false
+    ) {
         if (is_array($key_image)) { // Parameters passed in as object/dictionary
             $params = $key_image;
 
@@ -669,7 +696,17 @@ class Wallet extends RpcClient
             }
         }
 
-        $params = array('address' => $address, 'mixin' => $mixin, 'get_tx_key' => true, 'account_index' => $account_index, 'payment_id' => $payment_id, 'priority' => $priority, 'below_amount' => $this->_transform($below_amount), 'unlock_time' => $unlock_time, 'do_not_relay' => $do_not_relay);
+        $params = array(
+            'address' => $address,
+            'mixin' => $mixin,
+            'get_tx_key' => true,
+            'account_index' => $account_index,
+            'payment_id' => $payment_id,
+            'priority' => $priority,
+            'below_amount' => $this->_transform($below_amount),
+            'unlock_time' => $unlock_time,
+            'do_not_relay' => $do_not_relay ? 1 : 0
+        );
         $sweep_single_method = $this->_run('sweep_single', $params);
 
         $save = $this->store(); // Save wallet state after transfer
@@ -686,7 +723,7 @@ class Wallet extends RpcClient
    * @return object  // TODO example
    *
    */
-    public function relayTx($hex)
+    public function relayTx(string $hex)
     {
         $params = array('hex' => $hex);
         $relay_tx_method = $this->_run('relay_tx_method', $params);
@@ -725,7 +762,7 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function getPayments($payment_id)
+    public function getPayments(string $payment_id)
     {
       // $params = array('payment_id' => $payment_id); // does not work
         $params = [];
@@ -773,7 +810,7 @@ class Wallet extends RpcClient
    * Look up incoming transfers
    *
    * @param  string  $type             Type of transfer to look up; must be 'all', 'available', or 'unavailable' (incoming transfers which have already been spent)
-   * @param  number  $account_index    Index of account to look up                                                                                                   (optional)
+   * @param  int  $account_index    Index of account to look up                                                                                                   (optional)
    * @param  string  $subaddr_indices  Comma-separated list of subaddress indices to look up                                                                         (optional)
    *
    * @return object  Example: {
@@ -798,7 +835,7 @@ class Wallet extends RpcClient
    *   }]
    * }
    */
-    public function incomingTransfers($type = 'all', $account_index = 0, $subaddr_indices = '')
+    public function incomingTransfers(string $type = 'all', int $account_index = 0, string $subaddr_indices = '')
     {
         $params = array('transfer_type' => $type, 'account_index' => $account_index, 'subaddr_indices' => $subaddr_indices);
         return $this->_run('incoming_transfers', $params);
@@ -815,7 +852,7 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function queryKey($key_type)
+    public function queryKey(string $key_type)
     {
         $params = array('key_type' => $key_type);
         return $this->_run('query_key', $params);
@@ -870,14 +907,14 @@ class Wallet extends RpcClient
    *
    * Create an integrated address from a given payment ID
    *
-   * @param  string  $payment_id  Payment ID  (optional)
+   * @param  ?string  $payment_id  Payment ID  (optional)
    *
    * @return object  Example: {
    *   "integrated_address": "4BpEv3WrufwXoyJAeEoBaNW56ScQaLXyyQWgxeRL9KgAUhVzkvfiELZV7fCPBuuB2CGuJiWFQjhnhhwiH1FsHYGQQ8H2RRJveAtUeiFs6J"
    * }
    *
    */
-    public function makeIntegratedAddress($payment_id = null)
+    public function makeIntegratedAddress(?string $payment_id = null)
     {
         $params = array('payment_id' => $payment_id);
         return $this->_run('make_integrated_address', $params);
@@ -895,7 +932,7 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function splitIintegratedAddress($integrated_address)
+    public function splitIintegratedAddress(string $integrated_address)
     {
         $params = array('integrated_address' => $integrated_address);
         return $this->_run('split_integrated_address', $params);
@@ -910,11 +947,10 @@ class Wallet extends RpcClient
         return $this->_run('stop_wallet');
     }
 
-  /*
+  /**
    *
    * Rescan the blockchain from scratch
-  */
-
+   */
     public function rescanBlockchain()
     {
         return $this->_run('rescan_blockchain');
@@ -957,7 +993,7 @@ class Wallet extends RpcClient
    * @param  string  $key    Option to set
    * @param  string  $value  Value to set
    */
-    public function setAttribute($key, $value)
+    public function setAttribute(string $key, string $value)
     {
         $params = array('key' => $key, 'value' => $value);
         return $this->_run('set_attribute', $params);
@@ -974,7 +1010,7 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function getAttribute($key)
+    public function getAttribute(string $key)
     {
         $params = array('key' => $key);
         return $this->_run('get_attribute', $params);
@@ -991,7 +1027,7 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function getTxKey($txid)
+    public function getTxKey(string $txid)
     {
         $params = array('txid' => $txid);
         return $this->_run('get_tx_key', $params);
@@ -1012,7 +1048,7 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function checkTxKey($address, $txid, $tx_key)
+    public function checkTxKey(string $address, string $txid, string $tx_key)
     {
         $params = array('address' => $address, 'txid' => $txid, 'tx_key' => $tx_key);
         return $this->_run('check_tx_key', $params);
@@ -1030,7 +1066,7 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function getTxProof($address, $txid)
+    public function getTxProof(string $address, string $txid)
     {
         $params = array('address' => $address, 'txid' => $txid);
         return $this->_run('get_tx_proof', $params);
@@ -1052,7 +1088,7 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function checkTxProof($address, $txid, $signature)
+    public function checkTxProof(string $address, string $txid, string $signature)
     {
         $params = array('address' => $address, 'txid' => $txid, 'signature' => $signature);
         return $this->_run('check_tx_proof', $params);
@@ -1069,7 +1105,7 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function getSpendProof($txid, $message = null)
+    public function getSpendProof(string $txid, ?string $message = null)
     {
         $params = array('txid' => $txid);
         if ($message !== null) {
@@ -1090,7 +1126,7 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function checkSpendProof($txid, $signature, $message = null)
+    public function checkSpendProof(string $txid, string $signature, ?string $message = null)
     {
         $params = array('txid' => $txid, 'signature' => $signature);
         if ($message !== null) {
@@ -1135,7 +1171,7 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function checkReserveProof($address, $signature)
+    public function checkReserveProof(string $address, string $signature)
     {
         $params = array('address' => $address, 'signature' => $signature);
         return $this->_run('check_reserve_proof', $params);
@@ -1146,10 +1182,10 @@ class Wallet extends RpcClient
    * Look up transfers
    *
    * @param  array   $input_types      Array of transfer type strings; possible values include 'all', 'in', 'out', 'pending', 'failed', and 'pool'  (optional)
-   * @param  number  $account_index    Index of account to look up                                                                                  (optional)
+   * @param  int  $account_index    Index of account to look up                                                                                  (optional)
    * @param  string  $subaddr_indices  Comma-separated list of subaddress indices to look up                                                        (optional)
-   * @param  number  $min_height       Minimum block height to use when looking up transfers                                                        (optional)
-   * @param  number  $max_height       Maximum block height to use when looking up transfers                                                        (optional)
+   * @param  int  $min_height       Minimum block height to use when looking up transfers                                                        (optional)
+   * @param  int  $max_height       Maximum block height to use when looking up transfers                                                        (optional)
    *
    *   OR
    *
@@ -1167,9 +1203,9 @@ class Wallet extends RpcClient
    *     "type": "pool"
    *   }]
    * }
-   *
+   * 4206931337 seems to be "420","69","3","1337". Maybe it could just be null.
    */
-    public function getTransfers($input_types = ['all'], $account_index = 0, $subaddr_indices = '', $min_height = 0, $max_height = 4206931337)
+    public function getTransfers($input_types = ['all'], int $account_index = 0, string $subaddr_indices = '', int $min_height = 0, int $max_height = 4206931337)
     {
         if (is_string($input_types)) { // If user is using old method
             $params = array('subaddr_indices' => $subaddr_indices, 'min_height' => $min_height, 'max_height' => $max_height);
@@ -1246,7 +1282,7 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function getTransferByTxid($txid, $account_index = 0)
+    public function getTransferByTxid(string $txid, int $account_index = 0)
     {
         $params = array('txid' => $txid, 'account_index' => $account_index);
         return $this->_run('get_transfer_by_txid', $params);
@@ -1282,7 +1318,7 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function verify($data, $address, $signature)
+    public function verify(string $data, string $address, string $signature)
     {
         $params = array('data' => $data, 'address' => $address, 'signature' => $signature);
         return $this->_run('verify', $params);
@@ -1328,16 +1364,16 @@ class Wallet extends RpcClient
    *
    * @param  string  $address         Address to receive funds
    * @param  string  $amount          Amount of monero to request
-   * @param  string  $payment_id      Payment ID                   (optional)
-   * @param  string  $recipient_name  Name of recipient            (optional)
-   * @param  string  $tx_description  Payment description          (optional)
+   * @param  ?string  $payment_id      Payment ID                   (optional)
+   * @param  ?string  $recipient_name  Name of recipient            (optional)
+   * @param  ?string  $tx_description  Payment description          (optional)
    *
    * @return object  Example: {
    *   // TODO example
    * }
    *
    */
-    public function makeUri($address, $amount, $payment_id = null, $recipient_name = null, $tx_description = null)
+    public function makeUri(string $address, string $amount, ?string $payment_id = null, ?string $recipient_name = null, ?string $tx_description = null)
     {
         $params = array('address' => $address, 'amount' => $this->_transform($amount), 'payment_id' => $payment_id, 'recipient_name' => $recipient_name, 'tx_description' => $tx_description);
         return $this->_run('make_uri', $params);
@@ -1360,7 +1396,7 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function parseUri($uri)
+    public function parseUri(string $uri)
     {
         $params = array('uri' => $uri);
         return $this->_run('parse_uri', $params);
@@ -1396,7 +1432,7 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function addAddressBook($address, $payment_id, $description)
+    public function addAddressBook(string $address, string $payment_id, string $description)
     {
         $params = array('address' => $address, 'payment_id' => $payment_id, 'description' => $description);
         return $this->_run('add_address_book', $params);
@@ -1418,14 +1454,14 @@ class Wallet extends RpcClient
    *
    * Refresh the wallet after opening
    *
-   * @param  int  $start_height  Block height from which to start    (optional)
+   * @param  ?int  $start_height  Block height from which to start    (optional)
    *
    * @return object  Example: {
    *   // TODO example
    * }
    *
    */
-    public function refresh($start_height = null)
+    public function refresh(?int $start_height = null)
     {
         $params = array('start_height' => $start_height);
         return $this->_run('refresh', $params);
@@ -1445,11 +1481,11 @@ class Wallet extends RpcClient
    *
    * Start mining
    *
-   * @param  number   $threads_count         Number of threads with which to mine
+   * @param  int   $threads_count         Number of threads with which to mine
    * @param  boolean  $do_background_mining  Mine in background?
    * @param  boolean  $ignore_battery        Ignore battery?
    */
-    public function startMining($threads_count, $do_background_mining, $ignore_battery)
+    public function startMining(int $threads_count, bool $do_background_mining, bool $ignore_battery)
     {
         $params = array('threads_count' => $threads_count, 'do_background_mining' => $do_background_mining, 'ignore_battery' => $ignore_battery);
         return $this->_run('start_mining', $params);
@@ -1486,7 +1522,7 @@ class Wallet extends RpcClient
    * @param  string  $password  Password of new wallet to create
    * @param  string  $language  Language of new wallet to create
    */
-    public function createWallet($filename = 'monero_wallet', $password = null, $language = 'English')
+    public function createWallet(string $filename = 'monero_wallet', string $password = null, string $language = 'English')
     {
         $params = array('filename' => $filename, 'password' => $password, 'language' => $language);
         return $this->_run('create_wallet', $params);
@@ -1499,7 +1535,7 @@ class Wallet extends RpcClient
    * @param  string  $filename  Filename of wallet to open
    * @param  string  $password  Password of wallet to open
    */
-    public function openWallet($filename = 'monero_wallet', $password = null)
+    public function openWallet(string $filename = 'monero_wallet', string $password = null)
     {
         $params = array('filename' => $filename, 'password' => $password);
         return $this->_run('open_wallet', $params);
@@ -1549,7 +1585,7 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function makeMultisig($multisig_info, $threshold, $password = '')
+    public function makeMultisig(string $multisig_info, string $threshold, string $password = '')
     {
         $params = array('multisig_info' => $multisig_info, 'threshold' => $threshold, 'password' => $password);
         return $this->_run('make_multisig', $params);
@@ -1580,7 +1616,7 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function importMultisigInfo($info)
+    public function importMultisigInfo(string $info)
     {
         $params = array('info' => $info);
         return $this->_run('import_multisig_info', $params);
@@ -1598,7 +1634,7 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function finalizeMultisig($multisig_info, $password = '')
+    public function finalizeMultisig(string $multisig_info, string $password = '')
     {
         $params = array('multisig_info' => $multisig_info, 'password' => $password);
         return $this->_run('finalize_multisig', $params);
@@ -1615,7 +1651,7 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function signMultisig($tx_data_hex)
+    public function signMultisig(string $tx_data_hex)
     {
         $params = array('tx_data_hex' => $tx_data_hex);
         return $this->_run('sign_multisig', $params);
@@ -1632,7 +1668,7 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function submitMultisig($tx_data_hex)
+    public function submitMultisig(string $tx_data_hex)
     {
         $params = array('tx_data_hex' => $tx_data_hex);
         return $this->_run('submit_multisig', $params);
@@ -1650,7 +1686,7 @@ class Wallet extends RpcClient
    *
    * Validate a wallet address
    *
-   * @param  address - string; The address to validate.
+   * @param  string $address The address to validate.
    *         any_net_type - boolean (Optional); If true, consider addresses belonging to any of the three Monero networks (mainnet, stagenet, and testnet) valid. Otherwise, only consider an address valid if it belongs to the network on which the rpc-wallet's current daemon is running (Defaults to false).
    *         allow_openalias - boolean (Optional); If true, consider OpenAlias-formatted addresses valid (Defaults to false).
    *
@@ -1661,7 +1697,7 @@ class Wallet extends RpcClient
    *         openalias_address - boolean; True if the address is OpenAlias-formatted.
    *
    */
-    public function validateAddress($address, $strict_nettype = false, $allow_openalias = false)
+    public function validateAddress(string $address, bool $strict_nettype = false, bool $allow_openalias = false)
     {
         $params = array(
         'address' => $address,
@@ -1675,29 +1711,35 @@ class Wallet extends RpcClient
    *
    * Create a wallet on the RPC server from an address, view key, and (optionally) spend key.
    *
-   * @param filename is the name of the wallet to create on the RPC server
-   * @param password is the password encrypt the wallet
-   * @param address is the address of the wallet to construct
-   * @param viewKey is the view key of the wallet to construct
-   * @param spendKey is the spend key of the wallet to construct or null to create a view-only wallet
-   * @param language is the wallet and mnemonic's language (default = "English")
-   * @param restoreHeight is the block height to restore (i.e. scan the chain) from (default = 0)
-   * @param saveCurrent specifies if the current RPC wallet should be saved before being closed (default = true)
-   *
-   * @return TODO
+   * @param string $filename is the name of the wallet to create on the RPC server
+   * @param string $password is the password encrypt the wallet
+   * @param string $address is the address of the wallet to construct
+   * @param string $viewKey is the view key of the wallet to construct
+   * @param string $spendKey is the spend key of the wallet to construct or null to create a view-only wallet
+   * @param string $language is the wallet and mnemonic's language (default = "English")
+   * @param int restoreHeight is the block height to restore (i.e. scan the chain) from (default = 0)
+   * @param bool saveCurrent specifies if the current RPC wallet should be saved before being closed (default = true)
    *
    */
-    public function generateFromKeys($filename, $password, $address, $viewKey, $spendKey = '', $language = 'English', $restoreHeight = 0, $saveCurrent = true)
-    {
+    public function generateFromKeys(
+        string $filename,
+        string $password,
+        string $address,
+        string $viewKey,
+        string $spendKey = '',
+        string $language = 'English',
+        int $restoreHeight = 0,
+        bool $saveCurrent = true
+    ) {
         $params = array(
-        'filename'          => $filename,
-        'password'          => $password,
-        'address'           => $address,
-        'viewkey'           => $viewKey,
-        'spendkey'          => $spendKey,
-        'language'          => $language,
-        'restore_height'    => $restoreHeight,
-        'autosave_current'  => $saveCurrent
+            'filename'          => $filename,
+            'password'          => $password,
+            'address'           => $address,
+            'viewkey'           => $viewKey,
+            'spendkey'          => $spendKey,
+            'language'          => $language,
+            'restore_height'    => $restoreHeight,
+            'autosave_current'  => $saveCurrent
         );
         return $this->_run('generate_from_keys', $params);
     }
@@ -1706,15 +1748,15 @@ class Wallet extends RpcClient
    *
    * Exchange mutlisignature information
    *
-   * @param  password wallet password
+   * @param string $password wallet password
    * @param  multisig_info info (from eg. prepare_multisig)
    *
    */
-    public function exchangeMultisigKeys($password, $multisig_info)
+    public function exchangeMultisigKeys(string $password, $multisig_info)
     {
         $params = array(
-        'password' => $password,
-        'multisig_info' => $multisig_info
+            'password' => $password,
+            'multisig_info' => $multisig_info
         );
         return $this->_run('exchange_multisig_keys', $params);
     }
@@ -1729,7 +1771,7 @@ class Wallet extends RpcClient
     public function describeTransfer($txinfo)
     {
         $params = array(
-        'multisig_txset' => $txinfo,
+            'multisig_txset' => $txinfo,
         );
         return $this->_run('describe_transfer', $params);
     }
@@ -1753,7 +1795,7 @@ class Wallet extends RpcClient
     public function importOutputs($outputs_data_hex)
     {
         $params = array(
-        'outputs_data_hex' => $outputs_data_hex,
+            'outputs_data_hex' => $outputs_data_hex,
         );
         return $this->_run('import_outputs', $params);
     }
@@ -1761,11 +1803,11 @@ class Wallet extends RpcClient
   /**
    * Set whether and how often to automatically refresh the current wallet
    *
-   * @param enable Enable or disable automatic refreshing (default = true)
-   * @param period The period of the wallet refresh cycle (i.e. time between refreshes) in seconds
+   * @param bool $enable Enable or disable automatic refreshing (default = true)
+   * @param int $period The period of the wallet refresh cycle (i.e. time between refreshes) in seconds
    *
    */
-    public function autoRefresh($enable = true, $period = 10)
+    public function autoRefresh(bool $enable = true, int $period = 10)
     {
         $params = array(
         'enable' => $enable,
@@ -1777,14 +1819,14 @@ class Wallet extends RpcClient
   /**
    * Change a wallet password
    *
-   * @param old_password old password or blank
-   * @param new_password new password or blank
+   * @param string $old_password old password or blank
+   * @param string $new_password new password or blank
    */
-    public function changeWalletPassword($old_password = '', $new_password = '')
+    public function changeWalletPassword(string $old_password = '', string $new_password = '')
     {
         $params = array(
-        'old_password' => $old_password,
-        'new_password' => $new_password
+            'old_password' => $old_password,
+            'new_password' => $new_password
         );
         return $this->_run('change_wallet_password', $params);
     }
