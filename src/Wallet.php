@@ -63,7 +63,7 @@ class Wallet extends RpcClient
   /**
    * Look up an account's balance
    *
-   * @param  int  $account_index  Index of account to look up  (optional)
+   * @param  int  $accountIndex  Index of account to look up  (optional)
    *
    * @return object  Example: {
    *   "balance": 140000000000,
@@ -71,17 +71,17 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function getBalance(int $account_index = 0)
+    public function getBalance(int $accountIndex = 0)
     {
-        $params = array('account_index' => $account_index);
+        $params = array('account_index' => $accountIndex);
         return $this->runJsonRpc('get_balance', $params);
     }
 
   /**
    * Look up wallet address(es)
    *
-   * @param  int  $account_index  Index of account to look up     (optional)
-   * @param  int  $address_index  Index of subaddress to look up  (optional)
+   * @param  int  $accountIndex  Index of account to look up     (optional)
+   * @param  int  $addressIndex  Index of subaddress to look up  (optional)
    *
    * @return object  Example: {
    *   "address": "A2XE6ArhRkVZqepY2DQ5QpW8p8P2dhDQLhPJ9scSkW6q9aYUHhrhXVvE8sjg7vHRx2HnRv53zLQH4ATSiHHrDzcSFqHpARF",
@@ -101,9 +101,9 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function getAddress(int $account_index = 0, int $address_index = 0)
+    public function getAddress(int $accountIndex = 0, int $addressIndex = 0)
     {
-        $params = array('account_index' => $account_index, 'address_index' => $address_index);
+        $params = array( 'account_index' => $accountIndex, 'address_index' => $addressIndex);
         return $this->runJsonRpc('get_address', $params);
     }
 
@@ -125,7 +125,7 @@ class Wallet extends RpcClient
   /**
    * Create a new subaddress
    *
-   * @param  int  $account_index  The subaddress account index
+   * @param  int  $accountIndex  The subaddress account index
    * @param  string  $label          A label to apply to the new subaddress
    *
    * @return object  Example: {
@@ -134,14 +134,14 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function createAddress(int $account_index = 0, string $label = '')
+    public function createAddress(int $accountIndex = 0, string $label = '')
     {
-        $params = array('account_index' => $account_index, 'label' => $label);
-        $create_address_method = $this->runJsonRpc('create_address', $params);
+        $params = array( 'account_index' => $accountIndex, 'label' => $label);
+        $createAddressMethod = $this->runJsonRpc('create_address', $params);
 
         $save = $this->store(); // Save wallet state after subaddress creation
 
-        return $create_address_method;
+        return $createAddressMethod;
     }
 
   /**
@@ -199,27 +199,27 @@ class Wallet extends RpcClient
     public function createAccount(string $label = '')
     {
         $params = array('label' => $label);
-        $create_account_method = $this->runJsonRpc('create_account', $params);
+        $createAccountMethod = $this->runJsonRpc('create_account', $params);
 
         $save = $this->store(); // Save wallet state after account creation
 
-        return $create_account_method;
+        return $createAccountMethod;
     }
 
   /**
    * Label an account
    *
-   * @param  int $account_index  Index of account to label
+   * @param  int $accountIndex  Index of account to label
    * @param  string $label          Label to apply
    */
-    public function labelAccount(int $account_index, string $label)
+    public function labelAccount(int $accountIndex, string $label)
     {
-        $params = array('account_index' => $account_index, 'label' => $label);
-        $label_account_method = $this->runJsonRpc('label_account', $params);
+        $params = array( 'account_index' => $accountIndex, 'label' => $label);
+        $labelAccountMethod = $this->runJsonRpc('label_account', $params);
 
         $save = $this->store(); // Save wallet state after account label
 
-        return $label_account_method;
+        return $labelAccountMethod;
     }
 
   /**
@@ -253,11 +253,11 @@ class Wallet extends RpcClient
     public function tagAccounts($accounts, string $tag)
     {
         $params = array('accounts' => $accounts, 'tag' => $tag);
-        $tag_accounts_method = $this->runJsonRpc('tag_accounts', $params);
+        $tagAccountsMethod = $this->runJsonRpc('tag_accounts', $params);
 
         $save = $this->store(); // Save wallet state after account tagging
 
-        return $tag_accounts_method;
+        return $tagAccountsMethod;
     }
 
   /**
@@ -268,11 +268,11 @@ class Wallet extends RpcClient
     public function untagAccounts($accounts)
     {
         $params = array('accounts' => $accounts);
-        $untag_accounts_method = $this->runJsonRpc('untag_accounts', $params);
+        $untagAccountsMethod = $this->runJsonRpc('untag_accounts', $params);
 
         $save = $this->store(); // Save wallet state after untagging accounts
 
-        return $untag_accounts_method;
+        return $untagAccountsMethod;
     }
 
   /**
@@ -289,11 +289,11 @@ class Wallet extends RpcClient
     public function setAccountTagDescription(string $tag, string $description)
     {
         $params = array('tag' => $tag, 'description' => $description);
-        $set_account_tag_description_method = $this->runJsonRpc('set_account_tag_description', $params);
+        $setAccountTagDescriptionMethod = $this->runJsonRpc('set_account_tag_description', $params);
 
         $save = $this->store(); // Save wallet state after describing tag
 
-        return $set_account_tag_description_method;
+        return $setAccountTagDescriptionMethod;
     }
 
   /**
@@ -316,13 +316,13 @@ class Wallet extends RpcClient
    *
    * @param  string   $amount           Amount of monero to send
    * @param  string   $address          Address to receive funds
-   * @param  string   $payment_id       Payment ID                                                (optional)
+   * @param  string   $paymentId       Payment ID                                                (optional)
    * @param  int   $mixin            Mixin number (ringsize - 1)                               (optional)
-   * @param  int   $account_index    Account to send from                                      (optional)
-   * @param  string   $subaddr_indices  Comma-separated list of subaddress indices to spend from  (optional)
+   * @param  int   $accountIndex    Account to send from                                      (optional)
+   * @param  string   $subaddrIndices  Comma-separated list of subaddress indices to spend from  (optional)
    * @param  int   $priority         Transaction priority                                      (optional)
-   * @param  int   $unlock_time      UNIX time or block height to unlock output                (optional)
-   * @param  boolean  $do_not_relay     Do not relay transaction                                  (optional)
+   * @param  int   $unlockTime      UNIX time or block height to unlock output                (optional)
+   * @param  boolean  $doNotRelay     Do not relay transaction                                  (optional)
    *
    *   OR
    *
@@ -339,13 +339,13 @@ class Wallet extends RpcClient
     public function transfer(
         string $amount,
         string $address = '',
-        string $payment_id = '',
+        string $paymentId = '',
         int $mixin = 15,
-        int $account_index = 0,
-        string $subaddr_indices = '',
+        int $accountIndex = 0,
+        string $subaddrIndices = '',
         int $priority = 2,
-        int $unlock_time = 0,
-        bool $do_not_relay = false,
+        int $unlockTime = 0,
+        bool $doNotRelay = false,
         int $ringsize = 11
     ) {
         if (is_array($amount)) { // Parameters passed in as object/dictionary
@@ -358,9 +358,9 @@ class Wallet extends RpcClient
                     throw new Exception('Error: destinations must be an array');
                 }
 
-                foreach ($destinations as $destination_index => $destination) {
+                foreach ($destinations as $destinationIndex => $destination) {
                     if (array_key_exists('amount', $destination)) {
-                        $destinations[$destination_index]['amount'] = $this->_transform($destination['amount']);
+                        $destinations[$destinationIndex]['amount'] = $this->_transform($destination['amount']);
                     } else {
                         throw new Exception('Error: Amount required');
                     }
@@ -388,37 +388,37 @@ class Wallet extends RpcClient
                 $mixin = $params['mixin'];
             }
             if (array_key_exists('account_index', $params)) {
-                $account_index = $params['account_index'];
+                $accountIndex = $params['account_index'];
             }
             if (array_key_exists('subaddr_indices', $params)) {
-                $subaddr_indices = $params['subaddr_indices'];
+                $subaddrIndices = $params['subaddr_indices'];
             }
             if (array_key_exists('priority', $params)) {
                 $priority = $params['priority'];
             }
             if (array_key_exists('unlock_time', $params)) {
-                $unlock_time = $params['unlock_time'];
+                $unlockTime = $params['unlock_time'];
             }
             if (array_key_exists('do_not_relay', $params)) {
-                $do_not_relay = $params['do_not_relay'];
+                $doNotRelay = $params['do_not_relay'];
             }
         } else { // Legacy parameters used
             $destinations = array(array('amount' => $this->_transform($amount), 'address' => $address));
         }
 
-        $params = array('destinations' => $destinations, 'mixin' => $mixin, 'get_tx_key' => true, 'account_index' => $account_index, 'subaddr_indices' => $subaddr_indices, 'priority' => $priority, 'do_not_relay' => $do_not_relay, 'ringsize' => $ringsize);
-        $transfer_method = $this->runJsonRpc('transfer', $params);
+        $params = array( 'destinations' => $destinations, 'mixin' => $mixin, 'get_tx_key' => true, 'account_index' => $accountIndex, 'subaddr_indices' => $subaddrIndices, 'priority' => $priority, 'do_not_relay' => $doNotRelay, 'ringsize' => $ringsize);
+        $transferMethod = $this->runJsonRpc('transfer', $params);
 
         $save = $this->store(); // Save wallet state after transfer
 
-        return $transfer_method;
+        return $transferMethod;
     }
 
   /**
    * Same as transfer, but splits transfer into more than one transaction if necessary
    *
    */
-    public function transferSplit($amount, $address = '', $payment_id = '', $mixin = 15, $account_index = 0, $subaddr_indices = '', $priority = 2, $unlock_time = 0, $do_not_relay = false)
+    public function transferSplit($amount, $address = '', $paymentId = '', $mixin = 15, $accountIndex = 0, $subaddrIndices = '', $priority = 2, $unlockTime = 0, $doNotRelay = false)
     {
         if (is_array($amount)) { // Parameters passed in as object/dictionary
             $params = $amount;
@@ -457,33 +457,33 @@ class Wallet extends RpcClient
                 $mixin = $params['mixin'];
             }
             if (array_key_exists('payment_id', $params)) {
-                $payment_id = $params['payment_id'];
+                $paymentId = $params['payment_id'];
             }
             if (array_key_exists('account_index', $params)) {
-                $account_index = $params['account_index'];
+                $accountIndex = $params['account_index'];
             }
             if (array_key_exists('subaddr_indices', $params)) {
-                $subaddr_indices = $params['subaddr_indices'];
+                $subaddrIndices = $params['subaddr_indices'];
             }
             if (array_key_exists('priority', $params)) {
                 $priority = $params['priority'];
             }
             if (array_key_exists('unlock_time', $params)) {
-                $unlock_time = $params['unlock_time'];
+                $unlockTime = $params['unlock_time'];
             }
             if (array_key_exists('do_not_relay', $params)) {
-                $do_not_relay = $params['do_not_relay'];
+                $doNotRelay = $params['do_not_relay'];
             }
         } else { // Legacy parameters used
             $destinations = array(array('amount' => $this->_transform($amount), 'address' => $address));
         }
 
-        $params = array('destinations' => $destinations, 'mixin' => $mixin, 'get_tx_key' => true, 'account_index' => $account_index, 'subaddr_indices' => $subaddr_indices, 'payment_id' => $payment_id, 'priority' => $priority, 'unlock_time' => $unlock_time, 'do_not_relay' => $do_not_relay);
-        $transfer_method = $this->runJsonRpc('transfer_split', $params);
+        $params = array( 'destinations' => $destinations, 'mixin' => $mixin, 'get_tx_key' => true, 'account_index' => $accountIndex, 'subaddr_indices' => $subaddrIndices, 'payment_id' => $paymentId, 'priority' => $priority, 'unlock_time' => $unlockTime, 'do_not_relay' => $doNotRelay);
+        $transferMethod = $this->runJsonRpc('transfer_split', $params);
 
         $save = $this->store(); // Save wallet state after transfer
 
-        return $transfer_method;
+        return $transferMethod;
     }
 
   /**
@@ -516,14 +516,14 @@ class Wallet extends RpcClient
    * Send all unlocked outputs from an account to an address
    *
    * @param  string   $address          Address to receive funds
-   * @param  string   $subaddr_indices  Comma-separated list of subaddress indices to sweep  (optional)
-   * @param  int   $account_index    Index of the account to sweep                        (optional)
-   * @param  string   $payment_id       Payment ID                                           (optional)
+   * @param  string   $subaddrIndices  Comma-separated list of subaddress indices to sweep  (optional)
+   * @param  int   $accountIndex    Index of the account to sweep                        (optional)
+   * @param  string   $paymentId       Payment ID                                           (optional)
    * @param  int   $mixin            Mixin number (ringsize - 1)                          (optional)
    * @param  int   $priority         Payment ID                                           (optional)
-   * @param  number   $below_amount     Only send outputs below this amount                  (optional)
-   * @param  int   $unlock_time      UNIX time or block height to unlock output           (optional)
-   * @param  boolean  $do_not_relay     Do not relay transaction                             (optional)
+   * @param  number   $belowAmount     Only send outputs below this amount                  (optional)
+   * @param  int   $unlockTime      UNIX time or block height to unlock output           (optional)
+   * @param  boolean  $doNotRelay     Do not relay transaction                             (optional)
    *
    *   OR
    *
@@ -539,14 +539,14 @@ class Wallet extends RpcClient
    */
     public function sweepAll(
         string $address,
-        $subaddr_indices = '',
-        int $account_index = 0,
-        string $payment_id = '',
+        $subaddrIndices = '',
+        int $accountIndex = 0,
+        string $paymentId = '',
         int $mixin = 15,
         int $priority = 2,
-        $below_amount = 0,
-        int $unlock_time = 0,
-        bool $do_not_relay = false
+        $belowAmount = 0,
+        int $unlockTime = 0,
+        bool $doNotRelay = false
     ) {
         if (is_array($address)) { // Parameters passed in as object/dictionary
             $params = $address;
@@ -557,13 +557,13 @@ class Wallet extends RpcClient
                 throw new Exception('Error: Address required');
             }
             if (array_key_exists('subaddr_indices', $params)) {
-                $subaddr_indices = $params['subaddr_indices'];
+                $subaddrIndices = $params['subaddr_indices'];
             }
             if (array_key_exists('account_index', $params)) {
-                $account_index = $params['account_index'];
+                $accountIndex = $params['account_index'];
             }
             if (array_key_exists('payment_id', $params)) {
-                $payment_id = $params['payment_id'];
+                $paymentId = $params['payment_id'];
             }
             if (array_key_exists('mixin', $params)) {
                 $mixin = $params['mixin'];
@@ -572,35 +572,35 @@ class Wallet extends RpcClient
                 $priority = $params['priority'];
             }
             if (array_key_exists('below_amount', $params)) {
-                $below_amount = $params['below_amount'];
+                $belowAmount = $params['below_amount'];
             }
             if (array_key_exists('unlock_time', $params)) {
-                $unlock_time = $params['unlock_time'];
+                $unlockTime = $params['unlock_time'];
             }
             if (array_key_exists('do_not_relay', $params)) {
-                $do_not_relay = $params['do_not_relay'];
+                $doNotRelay = $params['do_not_relay'];
             }
         }
 
-        $params = array('address' => $address, 'mixin' => $mixin, 'get_tx_key' => true, 'subaddr_indices' => $subaddr_indices, 'account_index' => $account_index, 'payment_id' => $payment_id, 'priority' => $priority, 'below_amount' => $this->_transform($below_amount), 'unlock_time' => $unlock_time, 'do_not_relay' => $do_not_relay);
-        $sweep_all_method = $this->runJsonRpc('sweep_all', $params);
+        $params = array( 'address' => $address, 'mixin' => $mixin, 'get_tx_key' => true, 'subaddr_indices' => $subaddrIndices, 'account_index' => $accountIndex, 'payment_id' => $paymentId, 'priority' => $priority, 'below_amount' => $this->_transform($belowAmount), 'unlock_time' => $unlockTime, 'do_not_relay' => $doNotRelay);
+        $sweepAllMethod = $this->runJsonRpc('sweep_all', $params);
 
         $save = $this->store(); // Save wallet state after transfer
 
-        return $sweep_all_method;
+        return $sweepAllMethod;
     }
 
   /**
    * Sweep a single key image to an address
    *
-   * @param  string   $key_image     Key image to sweep
+   * @param  string   $keyImage     Key image to sweep
    * @param  string   $address       Address to receive funds
-   * @param  string   $payment_id    Payment ID                                  (optional)
-   * @param  number   $below_amount  Only send outputs below this amount         (optional)
+   * @param  string   $paymentId    Payment ID                                  (optional)
+   * @param  number   $belowAmount  Only send outputs below this amount         (optional)
    * @param  int   $mixin         Mixin number (ringsize - 1)                 (optional)
    * @param  int   $priority      Payment ID                                  (optional)
-   * @param  int   $unlock_time   UNIX time or block height to unlock output  (optional)
-   * @param  boolean  $do_not_relay  Do not relay transaction                    (optional)
+   * @param  int   $unlockTime   UNIX time or block height to unlock output  (optional)
+   * @param  boolean  $doNotRelay  Do not relay transaction                    (optional)
    *
    *   OR
    *
@@ -615,20 +615,20 @@ class Wallet extends RpcClient
    *
    */
     public function sweepSingle(
-        $key_image,
+        $keyImage,
         string $address,
-        string $payment_id = '',
+        string $paymentId = '',
         int $mixin = 15,
         int $priority = 2,
-        $below_amount = 0,
-        int $unlock_time = 0,
-        bool $do_not_relay = false
+        $belowAmount = 0,
+        int $unlockTime = 0,
+        bool $doNotRelay = false
     ) {
-        if (is_array($key_image)) { // Parameters passed in as object/dictionary
-            $params = $key_image;
+        if (is_array($keyImage)) { // Parameters passed in as object/dictionary
+            $params = $keyImage;
 
             if (array_key_exists('key_image', $params)) {
-                $key_image = $params['key_image'];
+                $keyImage = $params['key_image'];
             } else {
                 throw new Exception('Error: Key image required');
             }
@@ -639,25 +639,25 @@ class Wallet extends RpcClient
             }
 
             if (array_key_exists('payment_id', $params)) {
-                $payment_id = $params['payment_id'];
+                $paymentId = $params['payment_id'];
             }
             if (array_key_exists('mixin', $params)) {
                 $mixin = $params['mixin'];
             }
             if (array_key_exists('account_index', $params)) {
-                $account_index = $params['account_index'];
+                $accountIndex = $params['account_index'];
             }
             if (array_key_exists('priority', $params)) {
                 $priority = $params['priority'];
             }
             if (array_key_exists('unlock_time', $params)) {
-                $unlock_time = $params['unlock_time'];
+                $unlockTime = $params['unlock_time'];
             }
             if (array_key_exists('below_amount', $params)) {
-                $below_amount = $params['below_amount'];
+                $belowAmount = $params['below_amount'];
             }
             if (array_key_exists('do_not_relay', $params)) {
-                $do_not_relay = $params['do_not_relay'];
+                $doNotRelay = $params['do_not_relay'];
             }
         }
 
@@ -665,18 +665,18 @@ class Wallet extends RpcClient
             'address' => $address,
             'mixin' => $mixin,
             'get_tx_key' => true,
-            'account_index' => $account_index,
-            'payment_id' => $payment_id,
+            'account_index' => $accountIndex,
+            'payment_id' => $paymentId,
             'priority' => $priority,
-            'below_amount' => $this->_transform($below_amount),
-            'unlock_time' => $unlock_time,
-            'do_not_relay' => $do_not_relay ? 1 : 0
+            'below_amount' => $this->_transform($belowAmount),
+            'unlock_time' => $unlockTime,
+            'do_not_relay' => $doNotRelay ? 1 : 0
         );
-        $sweep_single_method = $this->runJsonRpc('sweep_single', $params);
+        $sweepSingleMethod = $this->runJsonRpc('sweep_single', $params);
 
         $save = $this->store(); // Save wallet state after transfer
 
-        return $sweep_single_method;
+        return $sweepSingleMethod;
     }
 
   /**
@@ -690,7 +690,7 @@ class Wallet extends RpcClient
     public function relayTx(string $hex)
     {
         $params = array('hex' => $hex);
-        $relay_tx_method = $this->runJsonRpc('relay_tx_method', $params);
+        $relayTxMethod = $this->runJsonRpc('relay_tx_method', $params);
 
         $save = $this->store(); // Save wallet state after transaction relay
 
@@ -711,7 +711,7 @@ class Wallet extends RpcClient
   /**
    * Look up incoming payments by payment ID
    *
-   * @param  string  $payment_id  Payment ID to look up
+   * @param  string  $paymentId  Payment ID to look up
    *
    * @return object  Example: {
    *   "payments": [{
@@ -724,19 +724,19 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function getPayments(string $payment_id)
+    public function getPayments(string $paymentId)
     {
-      // $params = array('payment_id' => $payment_id); // does not work
+      // $params = array('payment_id' => $paymentId); // does not work
         $params = [];
-        $params['payment_id'] = $payment_id;
+        $params['payment_id'] = $paymentId;
         return $this->runJsonRpc('get_payments', $params);
     }
 
   /**
    * Look up incoming payments by payment ID (or a list of payments IDs) from a given height
    *
-   * @param  array   $payment_ids       Array of payment IDs to look up
-   * @param  string  $min_block_height  Height to begin search
+   * @param  array   $paymentIds       Array of payment IDs to look up
+   * @param  string  $minBlockHeight  Height to begin search
    *
    * @return object  Example: {
    *   "payments": [{
@@ -749,18 +749,18 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function getBulkPayments($payment_ids, $min_block_height)
+    public function getBulkPayments($paymentIds, $minBlockHeight)
     {
-      // $params = array('payment_ids' => $payment_ids, 'min_block_height' => $min_block_height); // does not work
-      //$params = array('min_block_height' => $min_block_height); // does not work
+      // $params = array('payment_ids' => $paymentIds, 'min_block_height' => $minBlockHeight); // does not work
+      //$params = array('min_block_height' => $minBlockHeight); // does not work
         $params = [];
-        if (!is_array($payment_ids)) {
+        if (!is_array($paymentIds)) {
             throw new Exception('Error: Payment IDs must be array.');
         }
-        if ($payment_ids) {
+        if ($paymentIds) {
             $params['payment_ids'] = [];
-            foreach ($payment_ids as $payment_id) {
-                $params['payment_ids'][] = $payment_id;
+            foreach ($paymentIds as $paymentId) {
+                $params['payment_ids'][] = $paymentId;
             }
         }
         return $this->runJsonRpc('get_bulk_payments', $params);
@@ -770,8 +770,8 @@ class Wallet extends RpcClient
    * Look up incoming transfers
    *
    * @param  string  $type             Type of transfer to look up; must be 'all', 'available', or 'unavailable' (incoming transfers which have already been spent)
-   * @param  int  $account_index    Index of account to look up                                                                                                   (optional)
-   * @param  string  $subaddr_indices  Comma-separated list of subaddress indices to look up                                                                         (optional)
+   * @param  int  $accountIndex    Index of account to look up                                                                                                   (optional)
+   * @param  string  $subaddrIndices  Comma-separated list of subaddress indices to look up                                                                         (optional)
    *
    * @return object  Example: {
    *   "transfers": [{
@@ -795,25 +795,25 @@ class Wallet extends RpcClient
    *   }]
    * }
    */
-    public function incomingTransfers(string $type = 'all', int $account_index = 0, string $subaddr_indices = '')
+    public function incomingTransfers(string $type = 'all', int $accountIndex = 0, string $subaddrIndices = '')
     {
-        $params = array('transfer_type' => $type, 'account_index' => $account_index, 'subaddr_indices' => $subaddr_indices);
+        $params = array( 'transfer_type' => $type, 'account_index' => $accountIndex, 'subaddr_indices' => $subaddrIndices);
         return $this->runJsonRpc('incoming_transfers', $params);
     }
 
   /**
    * Look up a wallet key
    *
-   * @param  string  $key_type  Type of key to look up; must be 'view_key', 'spend_key', or 'mnemonic'
+   * @param  string  $keyType  Type of key to look up; must be 'view_key', 'spend_key', or 'mnemonic'
    *
    * @return object  Example: {
    *   "key": "7e341d..."
    * }
    *
    */
-    public function queryKey(string $key_type)
+    public function queryKey(string $keyType)
     {
-        $params = array('key_type' => $key_type);
+        $params = array('key_type' => $keyType);
         return $this->runJsonRpc('query_key', $params);
     }
 
@@ -862,23 +862,23 @@ class Wallet extends RpcClient
   /**
    * Create an integrated address from a given payment ID
    *
-   * @param  ?string  $payment_id  Payment ID  (optional)
+   * @param  ?string  $paymentId  Payment ID  (optional)
    *
    * @return object  Example: {
    *   "integrated_address": "4BpEv3WrufwXoyJAeEoBaNW56ScQaLXyyQWgxeRL9KgAUhVzkvfiELZV7fCPBuuB2CGuJiWFQjhnhhwiH1FsHYGQQ8H2RRJveAtUeiFs6J"
    * }
    *
    */
-    public function makeIntegratedAddress(?string $payment_id = null)
+    public function makeIntegratedAddress(?string $paymentId = null)
     {
-        $params = array('payment_id' => $payment_id);
+        $params = array('payment_id' => $paymentId);
         return $this->runJsonRpc('make_integrated_address', $params);
     }
 
   /**
    * Look up the wallet address and payment ID corresponding to an integrated address
    *
-   * @param  string  $integrated_address  Integrated address to split
+   * @param  string  $integratedAddress  Integrated address to split
    *
    * @return object  Example: {
    *   "payment_id": "420fa29b2d9a49f5",
@@ -886,9 +886,9 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function splitIintegratedAddress(string $integrated_address)
+    public function splitIntegratedAddress(string $integratedAddress)
     {
-        $params = array('integrated_address' => $integrated_address);
+        $params = array('integrated_address' => $integratedAddress);
         return $this->runJsonRpc('split_integrated_address', $params);
     }
 
@@ -911,28 +911,28 @@ class Wallet extends RpcClient
   /**
    * Add notes to transactions
    *
-   * @param  array  $txids  Array of transaction IDs to note
+   * @param  array  $txIds  Array of transaction IDs to note
    * @param  array  $notes  Array of notes (strings) to add
    */
-    public function setTxNotes($txids, $notes)
+    public function setTxNotes($txIds, $notes)
     {
-        $params = array('txids' => $txids, 'notes' => $notes);
+        $params = array( 'txids' => $txIds, 'notes' => $notes);
         return $this->runJsonRpc('set_tx_notes', $params);
     }
 
   /**
    * Look up transaction note
    *
-   * @param  array  $txids  Array of transaction IDs (strings) to look up
+   * @param  array  $txIds  Array of transaction IDs (strings) to look up
    *
    * @return obect  Example: {
    *   // TODO example
    * }
    *
    */
-    public function getTxNotes($txids)
+    public function getTxNotes($txIds)
     {
-        $params = array('txids' => $txids);
+        $params = array('txids' => $txIds);
         return $this->runJsonRpc('get_tx_notes', $params);
     }
 
@@ -967,16 +967,16 @@ class Wallet extends RpcClient
   /**
    * Look up a transaction key
    *
-   * @param   string  $txid  Transaction ID to look up
+   * @param   string  $txId  Transaction ID to look up
    *
    * @return  object  Example: {
    *   "tx_key": "e8e97866b1606bd87178eada8f995bf96d2af3fec5db0bc570a451ab1d589b0f"
    * }
    *
    */
-    public function getTxKey(string $txid)
+    public function getTxKey(string $txId)
     {
-        $params = array('txid' => $txid);
+        $params = array('txid' => $txId);
         return $this->runJsonRpc('get_tx_key', $params);
     }
 
@@ -984,8 +984,8 @@ class Wallet extends RpcClient
    * Check a transaction key
    *
    * @param   string  $address  Address that sent transaction
-   * @param   string  $txid     Transaction ID
-   * @param   string  $tx_key   Transaction key
+   * @param   string  $txId     Transaction ID
+   * @param   string  $txKey   Transaction key
    *
    * @return  object  Example: {
    *   "confirmations": 1,
@@ -994,9 +994,9 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function checkTxKey(string $address, string $txid, string $tx_key)
+    public function checkTxKey(string $address, string $txId, string $txKey)
     {
-        $params = array('address' => $address, 'txid' => $txid, 'tx_key' => $tx_key);
+        $params = array( 'address' => $address, 'txid' => $txId, 'tx_key' => $txKey);
         return $this->runJsonRpc('check_tx_key', $params);
     }
 
@@ -1041,16 +1041,16 @@ class Wallet extends RpcClient
   /**
    * Create proof of a spend
    *
-   * @param  string  $txid  Transaction ID
+   * @param  string  $txId  Transaction ID
    *
    * @return object  Example: {
    *   "signature": "SpendProofV1RnP6ywcDQHuQTBzXEMiHKbe5ErzRAjpUB1h4RUMfGPNv4bbR6V7EFyiYkCrURwbbrYWWxa6Kb38ZWWYTQhr2Y1cRHVoDBkK9GzBbikj6c8GWyKbu3RKi9hoYp2fA9zze7UEdeNrYrJ3tkoE6mkR3Lk5HP6X2ixnjhUTG65EzJgfCS4qZ85oGkd17UWgQo6fKRC2GRgisER8HiNwsqZdUTM313RmdUX7AYaTUNyhdhTinVLuaEw83L6hNHANb3aQds5CwdKCUQu4pkt5zn9K66z16QGDAXqL6ttHK6K9TmDHF17SGNQVPHzffENLGUf7MXqS3Pb6eijeYirFDxmisZc1n2mh6d5EW8ugyHGfNvbLEd2vjVPDk8zZYYr7NyJ8JjaHhDmDWeLYy27afXC5HyWgJH5nDyCBptoCxxDnyRuAnNddBnLsZZES399zJBYHkGb197ZJm85TV8SRC6cuYB4MdphsFdvSzygnjFtbAcZWHy62Py3QCTVhrwdUomAkeNByM8Ygc1cg245Se1V2XjaUyXuAFjj8nmDNoZG7VDxaD2GT9dXDaPd5dimCpbeDJEVoJXkeEFsZF85WwNcd67D4s5dWySFyS8RbsEnNA5UmoF3wUstZ2TtsUhiaeXmPwjNvnyLif3ASBmFTDDu2ZEsShLdddiydJcsYFJUrN8L37dyxENJN41RnmEf1FaszBHYW1HW13bUfiSrQ9sLLtqcawHAbZWnq4ZQLkCuomHaXTRNfg63hWzMjdNrQ2wrETxyXEwSRaodLmSVBn5wTFVzJe5LfSFHMx1FY1xf8kgXVGafGcijY2hg1yw8ru9wvyba9kdr16Lxfip5RJGFkiBDANqZCBkgYcKUcTaRc1aSwHEJ5m8umpFwEY2JtakvNMnShjURRA3yr7GDHKkCRTSzguYEgiFXdEiq55d6BXDfMaKNTNZzTdJXYZ9A2j6G9gRXksYKAVSDgfWVpM5FaZNRANvaJRguQyqWRRZ1gQdHgN4DqmQ589GPmStrdfoGEhk1LnfDZVwkhvDoYfiLwk9Z2JvZ4ZF4TojUupFQyvsUb5VPz2KNSzFi5wYp1pqGHKv7psYCCodWdte1waaWgKxDken44AB4k6wg2V8y1vG7Nd4hrfkvV4Y6YBhn6i45jdiQddEo5Hj2866MWNsdpmbuith7gmTmfat77Dh68GrRukSWKetPBLw7Soh2PygGU5zWEtgaX5g79FdGZg"
    * }
    *
    */
-    public function getSpendProof(string $txid, ?string $message = null)
+    public function getSpendProof(string $txId, ?string $message = null)
     {
-        $params = array('txid' => $txid);
+        $params = array('txid' => $txId);
         if ($message !== null) {
             $params['message'] = $message;
         }
@@ -1060,7 +1060,7 @@ class Wallet extends RpcClient
   /**
    * Verify spend proof
    *
-   * @param  string  $txid       Transaction ID
+   * @param  string  $txId       Transaction ID
    * @param  string  $signature  Spend proof to verify
    *
    * @return object  Example: {
@@ -1068,9 +1068,9 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function checkSpendProof(string $txid, string $signature, ?string $message = null)
+    public function checkSpendProof(string $txId, string $signature, ?string $message = null)
     {
-        $params = array('txid' => $txid, 'signature' => $signature);
+        $params = array( 'txid' => $txId, 'signature' => $signature);
         if ($message !== null) {
             $params['message'] = $message;
         }
@@ -1080,19 +1080,19 @@ class Wallet extends RpcClient
   /**
    * Create proof of reserves
    *
-   * @param  string  $account_index  Comma-separated list of account indices of which to prove reserves (proves reserve of all accounts if empty)  (optional)
+   * @param  string  $accountIndex  Comma-separated list of account indices of which to prove reserves (proves reserve of all accounts if empty)  (optional)
    *
    * @return   Example: {
    *   "signature": "ReserveProofV11BZ23sBt9sZJeGccf84mzyAmNCP3KzYbE111111111111AjsVgKzau88VxXVGACbYgPVrDGC84vBU61Gmm2eiYxdZULAE4yzBxT1D9epWgCT7qiHFvFMbdChf3CpR2YsZj8CEhp8qDbitsfdy7iBdK6d5pPUiMEwCNsCGDp8AiAc6sLRiuTsLEJcfPYEKe"
    * }
    *
    */
-    public function getReserveProof($account_index = 'all')
+    public function getReserveProof($accountIndex = 'all')
     {
-        if ($account_index == 'all') {
+        if ($accountIndex == 'all') {
             $params = array('all' => true);
         } else {
-            $params = array('account_index' => $account_index);
+            $params = array('account_index' => $accountIndex);
         }
 
         return $this->runJsonRpc('get_reserve_proof');
@@ -1120,15 +1120,15 @@ class Wallet extends RpcClient
   /**
    * Look up transfers
    *
-   * @param  array   $input_types      Array of transfer type strings; possible values include 'all', 'in', 'out', 'pending', 'failed', and 'pool'  (optional)
-   * @param  int  $account_index    Index of account to look up                                                                                  (optional)
-   * @param  string  $subaddr_indices  Comma-separated list of subaddress indices to look up                                                        (optional)
-   * @param  int  $min_height       Minimum block height to use when looking up transfers                                                        (optional)
-   * @param  int  $max_height       Maximum block height to use when looking up transfers                                                        (optional)
+   * @param  array   $inputTypes      Array of transfer type strings; possible values include 'all', 'in', 'out', 'pending', 'failed', and 'pool'  (optional)
+   * @param  int  $accountIndex    Index of account to look up                                                                                  (optional)
+   * @param  string  $subaddrIndices  Comma-separated list of subaddress indices to look up                                                        (optional)
+   * @param  int  $minHeight       Minimum block height to use when looking up transfers                                                        (optional)
+   * @param  int  $maxHeight       Maximum block height to use when looking up transfers                                                        (optional)
    *
    *   OR
    *
-   * @param  object  $inputs_types      Array containing any of the options listed above, where only an input types array is required
+   * @param  object  $inputTypes      Array containing any of the options listed above, where only an input types array is required
    *
    * @return object  Example: {
    *   "pool": [{
@@ -1144,43 +1144,43 @@ class Wallet extends RpcClient
    * }
    * 4206931337 seems to be "420","69","3","1337". Maybe it could just be null.
    */
-    public function getTransfers($input_types = ['all'], int $account_index = 0, string $subaddr_indices = '', int $min_height = 0, int $max_height = 4206931337)
+    public function getTransfers($inputTypes = ['all'], int $accountIndex = 0, string $subaddrIndices = '', int $minHeight = 0, int $maxHeight = 4206931337)
     {
-        if (is_string($input_types)) { // If user is using old method
-            $params = array('subaddr_indices' => $subaddr_indices, 'min_height' => $min_height, 'max_height' => $max_height);
-            if (is_bool($account_index)) { // If user passed eg. get_transfers('in', true)
+        if (is_string($inputTypes)) { // If user is using old method
+            $params = array( 'subaddr_indices' => $subaddrIndices, 'min_height' => $minHeight, 'max_height' => $maxHeight);
+            if (is_bool($accountIndex)) { // If user passed eg. get_transfers('in', true)
                 $params['account_index'] = 0;
-                $params[$input_types] = $account_index; // $params = array($input_type => $input_value);
+                $params[$inputTypes]     = $accountIndex; // $params = array($inputType => $inputValue);
             } else { // If user passed eg. get_transfers('in')
-                $params['account_index'] = $account_index;
-                $params[$input_types] = true;
+                $params['account_index'] = $accountIndex;
+                $params[$inputTypes]     = true;
             }
         } else {
-            if (is_object($input_types) || is_array($input_types)) { // Parameters passed in as object/dictionary
-                $params = $input_types;
+            if (is_object($inputTypes) || is_array($inputTypes)) { // Parameters passed in as object/dictionary
+                $params = $inputTypes;
 
                 if (array_key_exists('input_types', $params)) {
-                    $input_types = $params['input_types'];
+                    $inputTypes = $params['input_types'];
                 } else {
-                    $input_types = ['all'];
+                    $inputTypes = ['all'];
                 }
                 if (array_key_exists('account_index', $params)) {
-                    $account_index = $params['account_index'];
+                    $accountIndex = $params['account_index'];
                 }
                 if (array_key_exists('subaddr_indices', $params)) {
-                    $subaddr_indices = $params['subaddr_indices'];
+                    $subaddrIndices = $params['subaddr_indices'];
                 }
                 if (array_key_exists('min_height', $params)) {
-                    $min_height = $params['min_height'];
+                    $minHeight = $params['min_height'];
                 }
                 if (array_key_exists('max_height', $params)) {
-                    $max_height = $params['max_height'];
+                    $maxHeight = $params['max_height'];
                 }
             }
 
-            $params = array('account_index' => $account_index, 'subaddr_indices' => $subaddr_indices, 'min_height' => $min_height, 'max_height' => $max_height);
-            for ($i = 0, $iMax = count($input_types); $i < $iMax; $i++) {
-                $params[$input_types[$i]] = true;
+            $params = array( 'account_index' => $accountIndex, 'subaddr_indices' => $subaddrIndices, 'min_height' => $minHeight, 'max_height' => $maxHeight);
+            for ($i = 0, $iMax = count($inputTypes); $i < $iMax; $i++) {
+                $params[$inputTypes[$i]] = true;
             }
         }
 
@@ -1193,7 +1193,7 @@ class Wallet extends RpcClient
             $params['pool'] = true;
         }
 
-        if (($min_height || $max_height) && $max_height != 4206931337) {
+        if (( $minHeight || $maxHeight) && $maxHeight != 4206931337) {
             $params['filter_by_height'] = true;
         }
 
@@ -1204,7 +1204,7 @@ class Wallet extends RpcClient
    * Look up transaction by transaction ID
    *
    * @param  string  $txid           Transaction ID to look up
-   * @param  string  $account_index  Index of account to query  (optional)
+   * @param  string  $accountIndex  Index of account to query  (optional)
    *
    * @return object  Example: {
    *   "transfer": {
@@ -1220,9 +1220,9 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function getTransferByTxid(string $txid, int $account_index = 0)
+    public function getTransferByTxid(string $txid, int $accountIndex = 0)
     {
-        $params = array('txid' => $txid, 'account_index' => $account_index);
+        $params = array('txid' => $txid, 'account_index' => $accountIndex);
         return $this->runJsonRpc('get_transfer_by_txid', $params);
     }
 
@@ -1276,7 +1276,7 @@ class Wallet extends RpcClient
   /**
    * Import a signed set of key images
    *
-   * @param  array   $signed_key_images  Array of signed key images
+   * @param  array   $signedKeyImages  Array of signed key images
    *
    * @return object  Example: {
    *   // TODO example
@@ -1286,9 +1286,9 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function importKeyImages($signed_key_images)
+    public function importKeyImages($signedKeyImages)
     {
-        $params = array('signed_key_images' => $signed_key_images);
+        $params = array('signed_key_images' => $signedKeyImages);
         return $this->runJsonRpc('import_key_images', $params);
     }
 
@@ -1297,18 +1297,18 @@ class Wallet extends RpcClient
    *
    * @param  string  $address         Address to receive funds
    * @param  string  $amount          Amount of monero to request
-   * @param  ?string  $payment_id      Payment ID                   (optional)
-   * @param  ?string  $recipient_name  Name of recipient            (optional)
-   * @param  ?string  $tx_description  Payment description          (optional)
+   * @param  ?string  $paymentId      Payment ID                   (optional)
+   * @param  ?string  $recipientName  Name of recipient            (optional)
+   * @param  ?string  $txDescription  Payment description          (optional)
    *
    * @return object  Example: {
    *   // TODO example
    * }
    *
    */
-    public function makeUri(string $address, string $amount, ?string $payment_id = null, ?string $recipient_name = null, ?string $tx_description = null)
+    public function makeUri(string $address, string $amount, ?string $paymentId = null, ?string $recipientName = null, ?string $txDescription = null)
     {
-        $params = array('address' => $address, 'amount' => $this->_transform($amount), 'payment_id' => $payment_id, 'recipient_name' => $recipient_name, 'tx_description' => $tx_description);
+        $params = array( 'address' => $address, 'amount' => $this->_transform($amount), 'payment_id' => $paymentId, 'recipient_name' => $recipientName, 'tx_description' => $txDescription);
         return $this->runJsonRpc('make_uri', $params);
     }
 
@@ -1354,7 +1354,7 @@ class Wallet extends RpcClient
    * Add entry to the address book
    *
    * @param  string  $address      Address to add to address book
-   * @param  string  $payment_id   Payment ID to use with address in address book  (optional)
+   * @param  string  $paymentId   Payment ID to use with address in address book  (optional)
    * @param  string  $description  Description of address                          (optional)
    *
    * @return object  Example: {
@@ -1362,9 +1362,9 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function addAddressBook(string $address, string $payment_id, string $description)
+    public function addAddressBook(string $address, string $paymentId, string $description)
     {
-        $params = array('address' => $address, 'payment_id' => $payment_id, 'description' => $description);
+        $params = array( 'address' => $address, 'payment_id' => $paymentId, 'description' => $description);
         return $this->runJsonRpc('add_address_book', $params);
     }
 
@@ -1382,16 +1382,16 @@ class Wallet extends RpcClient
   /**
    * Refresh the wallet after opening
    *
-   * @param  ?int  $start_height  Block height from which to start    (optional)
+   * @param  ?int  $startHeight  Block height from which to start    (optional)
    *
    * @return object  Example: {
    *   // TODO example
    * }
    *
    */
-    public function refresh(?int $start_height = null)
+    public function refresh(?int $startHeight = null)
     {
-        $params = array('start_height' => $start_height);
+        $params = array('start_height' => $startHeight);
         return $this->runJsonRpc('refresh', $params);
     }
 
@@ -1407,13 +1407,13 @@ class Wallet extends RpcClient
   /**
    * Start mining
    *
-   * @param  int   $threads_count         Number of threads with which to mine
-   * @param  boolean  $do_background_mining  Mine in background?
-   * @param  boolean  $ignore_battery        Ignore battery?
+   * @param  int   $threadsCount         Number of threads with which to mine
+   * @param  boolean  $doBackgroundMining  Mine in background?
+   * @param  boolean  $ignoreBattery        Ignore battery?
    */
-    public function startMining(int $threads_count, bool $do_background_mining, bool $ignore_battery)
+    public function startMining(int $threadsCount, bool $doBackgroundMining, bool $ignoreBattery)
     {
-        $params = array('threads_count' => $threads_count, 'do_background_mining' => $do_background_mining, 'ignore_battery' => $ignore_battery);
+        $params = array( 'threads_count' => $threadsCount, 'do_background_mining' => $doBackgroundMining, 'ignore_battery' => $ignoreBattery);
         return $this->runJsonRpc('start_mining', $params);
     }
 
@@ -1495,7 +1495,7 @@ class Wallet extends RpcClient
   /**
    * Create a multisignature wallet
    *
-   * @param  string  $multisig_info  Multisignature information (from eg. prepare_multisig)
+   * @param  string  $multisigInfo  Multisignature information (from eg. prepare_multisig)
    * @param  string  $threshold      Threshold required to spend from multisignature wallet
    * @param  string  $password       Passphrase to apply to multisignature wallet
    *
@@ -1504,9 +1504,9 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function makeMultisig(string $multisig_info, string $threshold, string $password = '')
+    public function makeMultisig(string $multisigInfo, string $threshold, string $password = '')
     {
-        $params = array('multisig_info' => $multisig_info, 'threshold' => $threshold, 'password' => $password);
+        $params = array( 'multisig_info' => $multisigInfo, 'threshold' => $threshold, 'password' => $password);
         return $this->runJsonRpc('make_multisig', $params);
     }
 
@@ -1542,7 +1542,7 @@ class Wallet extends RpcClient
   /**
    * Finalize a multisignature wallet
    *
-   * @param  string  $multisig_info  Multisignature info (from eg. prepare_multisig)
+   * @param  string  $multisigInfo  Multisignature info (from eg. prepare_multisig)
    * @param  string  $password       Multisignature info (from eg. prepare_multisig)
    *
    * @return   Example: {
@@ -1550,41 +1550,41 @@ class Wallet extends RpcClient
    * }
    *
    */
-    public function finalizeMultisig(string $multisig_info, string $password = '')
+    public function finalizeMultisig(string $multisigInfo, string $password = '')
     {
-        $params = array('multisig_info' => $multisig_info, 'password' => $password);
+        $params = array( 'multisig_info' => $multisigInfo, 'password' => $password);
         return $this->runJsonRpc('finalize_multisig', $params);
     }
 
   /**
    * Sign a multisignature transaction
    *
-   * @param  string  $tx_data_hex  Blob of transaction to sign
+   * @param  string  $txDataHex  Blob of transaction to sign
    *
    * @return object  Example: {
    *   // TODO example
    * }
    *
    */
-    public function signMultisig(string $tx_data_hex)
+    public function signMultisig(string $txDataHex)
     {
-        $params = array('tx_data_hex' => $tx_data_hex);
+        $params = array('tx_data_hex' => $txDataHex);
         return $this->runJsonRpc('sign_multisig', $params);
     }
 
   /**
    * Submit (relay) a multisignature transaction
    *
-   * @param  string  $tx_data_hex  Blob of transaction to submit
+   * @param  string  $txDataHex  Blob of transaction to submit
    *
    * @return   Example: {
    *   // TODO example
    * }
    *
    */
-    public function submitMultisig(string $tx_data_hex)
+    public function submitMultisig(string $txDataHex)
     {
-        $params = array('tx_data_hex' => $tx_data_hex);
+        $params = array('tx_data_hex' => $txDataHex);
         return $this->runJsonRpc('submit_multisig', $params);
     }
 
@@ -1602,12 +1602,12 @@ class Wallet extends RpcClient
    *         openalias_address - boolean; True if the address is OpenAlias-formatted.
    *
    */
-    public function validateAddress(string $address, bool $strict_nettype = false, bool $allow_openalias = false)
+    public function validateAddress(string $address, bool $strictNettype = false, bool $allowOpenalias = false)
     {
         $params = array(
         'address' => $address,
-        'any_net_type' => $strict_nettype,
-        'allow_openalias' => $allow_openalias
+        'any_net_type' => $strictNettype,
+        'allow_openalias' => $allowOpenalias
         );
         return $this->runJsonRpc('validate_address', $params);
     }
@@ -1652,14 +1652,14 @@ class Wallet extends RpcClient
    * Exchange mutlisignature information
    *
    * @param string $password wallet password
-   * @param  multisig_info info (from eg. prepare_multisig)
+   * @param  $multisigInfo info (from eg. prepare_multisig)
    *
    */
-    public function exchangeMultisigKeys(string $password, $multisig_info)
+    public function exchangeMultisigKeys(string $password, $multisigInfo)
     {
         $params = array(
             'password' => $password,
-            'multisig_info' => $multisig_info
+            'multisig_info' => $multisigInfo
         );
         return $this->runJsonRpc('exchange_multisig_keys', $params);
     }
@@ -1667,13 +1667,13 @@ class Wallet extends RpcClient
   /**
    * Obtain information (destination, amount) about a transfer
    *
-   * @param  txinfo txinfo
+   * @param  $txInfo txinfo
    *
    */
-    public function describeTransfer($txinfo)
+    public function describeTransfer($txInfo)
     {
         $params = array(
-            'multisig_txset' => $txinfo,
+            'multisig_txset' => $txInfo,
         );
         return $this->runJsonRpc('describe_transfer', $params);
     }
@@ -1689,14 +1689,14 @@ class Wallet extends RpcClient
   /**
    * Import outputs in hex format
    *
-   * @param outputs_data_hex wallet outputs in hex format
+   * @param $outputsDataHex wallet outputs in hex format
    *
    *
    */
-    public function importOutputs($outputs_data_hex)
+    public function importOutputs($outputsDataHex)
     {
         $params = array(
-            'outputs_data_hex' => $outputs_data_hex,
+            'outputs_data_hex' => $outputsDataHex,
         );
         return $this->runJsonRpc('import_outputs', $params);
     }
@@ -1720,14 +1720,14 @@ class Wallet extends RpcClient
   /**
    * Change a wallet password
    *
-   * @param string $old_password old password or blank
-   * @param string $new_password new password or blank
+   * @param string $oldPassword old password or blank
+   * @param string $newPassword new password or blank
    */
-    public function changeWalletPassword(string $old_password = '', string $new_password = '')
+    public function changeWalletPassword(string $oldPassword = '', string $newPassword = '')
     {
         $params = array(
-            'old_password' => $old_password,
-            'new_password' => $new_password
+            'old_password' => $oldPassword,
+            'new_password' => $newPassword
         );
         return $this->runJsonRpc('change_wallet_password', $params);
     }
