@@ -1014,7 +1014,7 @@ class Wallet extends RpcClient
    * @param  string  $txid       Transaction ID
    * @param  string  $signature  Signature (tx_proof)
    *
-   * @return   Example: {
+   * @return object   Example: {
    *   "confirmations": 2,
    *   "good": 1,
    *   "in_pool": ,
@@ -1072,7 +1072,7 @@ class Wallet extends RpcClient
    *
    * @param  string  $accountIndex  Comma-separated list of account indices of which to prove reserves (proves reserve of all accounts if empty)  (optional)
    *
-   * @return   Example: {
+   * @return object   Example: {
    *   "signature": "ReserveProofV11BZ23sBt9sZJeGccf84mzyAmNCP3KzYbE111111111111AjsVgKzau88VxXVGACbYgPVrDGC84vBU61Gmm2eiYxdZULAE4yzBxT1D9epWgCT7qiHFvFMbdChf3CpR2YsZj8CEhp8qDbitsfdy7iBdK6d5pPUiMEwCNsCGDp8AiAc6sLRiuTsLEJcfPYEKe"
    * }
    *
@@ -1518,7 +1518,7 @@ class Wallet extends RpcClient
    *
    * @param  string  $info  Multisignature info (from eg. prepare_multisig)
    *
-   * @return   Example: {
+   * @return object   Example: {
    *   // TODO example
    * }
    *
@@ -1535,7 +1535,7 @@ class Wallet extends RpcClient
    * @param  string  $multisigInfo  Multisignature info (from eg. prepare_multisig)
    * @param  string  $password       Multisignature info (from eg. prepare_multisig)
    *
-   * @return   Example: {
+   * @return object   Example: {
    *   // TODO example
    * }
    *
@@ -1567,7 +1567,7 @@ class Wallet extends RpcClient
    *
    * @param  string  $txDataHex  Blob of transaction to submit
    *
-   * @return   Example: {
+   * @return object   Example: {
    *   // TODO example
    * }
    *
