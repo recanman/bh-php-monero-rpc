@@ -1589,14 +1589,6 @@ class Wallet extends RpcClient
     }
 
   /**
-   * @return jsonRPCClient
-   */
-    public function getClient()
-    {
-        return $this->client;
-    }
-
-  /**
    * Validate a wallet address
    *
    * @param  string $address The address to validate.
