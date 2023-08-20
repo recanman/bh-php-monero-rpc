@@ -41,6 +41,7 @@
     },
     "require": {
         "php": "^8",
+        "ext-bcmath": "*",
         "ext-json": "*",
         "json-mapper/json-mapper": "*",
         "psr/http-client-implementation": "*",
