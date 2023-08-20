@@ -187,7 +187,10 @@ class DaemonRpcContractTest extends TestCase
 
         $height = $daemonRpc->getBlockCount()->getCount() - 10;
 
-        $expected = $this->extractFromCli("monerod --testnet print_block $height", '/\nhash: (.*)\n/');
+        $expected = $this->extractFromCli(
+            "monerod --testnet print_block $height",
+            '/\nhash: (.*)\n/'
+        );
 
         $result = $daemonRpc->onGetBlockHash($height);
 
