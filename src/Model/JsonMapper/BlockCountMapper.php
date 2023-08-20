@@ -6,7 +6,7 @@ use BrianHenryIE\MoneroDaemonRpc\Model\BlockCount;
 
 class BlockCountMapper implements BlockCount
 {
-    use StatusTrait;
+    use ResponseBaseTrait;
 
     protected int $count;
 

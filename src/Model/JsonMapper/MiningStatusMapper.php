@@ -6,7 +6,7 @@ use BrianHenryIE\MoneroDaemonRpc\Model\MiningStatus;
 
 class MiningStatusMapper implements MiningStatus
 {
-    use StatusTrait;
+    use ResponseBaseTrait;
 
     protected bool $active;
     protected string $address;

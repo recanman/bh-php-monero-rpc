@@ -6,7 +6,7 @@ use BrianHenryIE\MoneroDaemonRpc\Model\Info;
 
 class InfoMapper implements Info
 {
-    use StatusTrait;
+    use ResponseBaseTrait;
 
     protected int $adjustedTime;
     protected int $altBlocksCount;

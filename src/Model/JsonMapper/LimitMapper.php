@@ -6,7 +6,7 @@ use BrianHenryIE\MoneroDaemonRpc\Model\Limit;
 
 class LimitMapper implements Limit
 {
-    use StatusTrait;
+    use ResponseBaseTrait;
 
     protected int $limitDown;
     protected int $limitUp;

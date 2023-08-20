@@ -7,7 +7,7 @@ use BrianHenryIE\MoneroDaemonRpc\Model\PeerListEntry;
 
 class PeerListMapper implements PeerList
 {
-    use StatusTrait;
+    use ResponseBaseTrait;
 
     /** @var PeerListEntryMapper[] */
     protected array $grayList;

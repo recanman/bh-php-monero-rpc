@@ -7,7 +7,7 @@ use BrianHenryIE\MoneroDaemonRpc\Model\BlockHeaderBy;
 
 class BlockHeaderByMapper implements BlockHeaderBy
 {
-    use StatusTrait;
+    use ResponseBaseTrait;
 
     protected BlockHeaderMapper $blockHeader;
     protected int $credits;

@@ -6,7 +6,7 @@ use BrianHenryIE\MoneroDaemonRpc\Model\InPeers;
 
 class InPeersMapper implements InPeers
 {
-    use StatusTrait;
+    use ResponseBaseTrait;
 
     protected int $inPeers;
 

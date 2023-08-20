@@ -2,7 +2,7 @@
 
 namespace BrianHenryIE\MoneroDaemonRpc\Model\JsonMapper;
 
-trait StatusTrait
+trait ResponseBaseTrait
 {
     protected string $status;
     protected bool $untrusted;

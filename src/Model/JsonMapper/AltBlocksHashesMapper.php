@@ -6,7 +6,7 @@ use BrianHenryIE\MoneroDaemonRpc\Model\AltBlocksHashes;
 
 class AltBlocksHashesMapper implements AltBlocksHashes
 {
-    use StatusTrait;
+    use ResponseBaseTrait;
 
     protected int $credits;
     protected string $topHash;

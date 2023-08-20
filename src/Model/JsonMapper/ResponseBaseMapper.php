@@ -6,5 +6,5 @@ use BrianHenryIE\MoneroDaemonRpc\Model\ResponseBase;
 
 class ResponseBaseMapper implements ResponseBase
 {
-    use StatusTrait;
+    use ResponseBaseTrait;
 }

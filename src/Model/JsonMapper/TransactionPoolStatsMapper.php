@@ -7,7 +7,7 @@ use BrianHenryIE\MoneroDaemonRpc\Model\TransactionPoolStatsStats;
 
 class TransactionPoolStatsMapper implements TransactionPoolStats
 {
-    use StatusTrait;
+    use ResponseBaseTrait;
 
     protected int $credits;
     protected TransactionPoolStatsStatsMapper $poolStats;

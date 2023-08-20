@@ -7,7 +7,7 @@ use BrianHenryIE\MoneroDaemonRpc\Model\BlockHeader;
 
 class BlockMapper implements Block
 {
-    use StatusTrait;
+    use ResponseBaseTrait;
 
     protected string $blob;
     protected BlockHeaderMapper $blockHeader;
