@@ -69,7 +69,7 @@
             "phpunit"
         ],
         "test-coverage": [
-            "phpunit --coverage-text --coverage-clover tests/reports/clover.xml --coverage-html tests/reports/html"
+            "phpunit --coverage-text --coverage-clover tests/reports/clover.xml --coverage-html tests/_reports/html"
         ],
         "lint": [
             "phpcbf || true",
