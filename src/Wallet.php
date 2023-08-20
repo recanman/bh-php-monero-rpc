@@ -39,16 +39,6 @@ use Exception;
 class Wallet extends RpcClient
 {
   /**
-   * Print JSON object (for API)
-   *
-   * @param  object  $json  JSON object to print
-   */
-    public function _print($json)
-    {
-        echo json_encode($json, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
-    }
-
-  /**
    * Convert from moneroj to tacoshi (piconero)
    *
    * @used-by Wallet::sweepSingle()
