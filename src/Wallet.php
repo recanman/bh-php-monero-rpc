@@ -30,7 +30,7 @@
  *
  */
 
-namespace BrianHenryIE\MoneroDaemonRpc;
+namespace BrianHenryIE\MoneroRpc;
 
 use Exception;
 

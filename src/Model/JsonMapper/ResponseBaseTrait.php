@@ -1,6 +1,6 @@
 <?php
 
-namespace BrianHenryIE\MoneroDaemonRpc\Model\JsonMapper;
+namespace BrianHenryIE\MoneroRpc\Model\JsonMapper;
 
 trait ResponseBaseTrait
 {

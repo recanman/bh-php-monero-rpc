@@ -1,9 +1,9 @@
 <?php
 
-namespace BrianHenryIE\MoneroDaemonRpc\Model\JsonMapper;
+namespace BrianHenryIE\MoneroRpc\Model\JsonMapper;
 
-use BrianHenryIE\MoneroDaemonRpc\Model\Block;
-use BrianHenryIE\MoneroDaemonRpc\Model\BlockHeader;
+use BrianHenryIE\MoneroRpc\Model\Block;
+use BrianHenryIE\MoneroRpc\Model\BlockHeader;
 
 class BlockMapper implements Block
 {

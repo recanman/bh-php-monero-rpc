@@ -1,6 +1,6 @@
 <?php
 
-use BrianHenryIE\MoneroDaemonRpc\Daemon;
+use BrianHenryIE\MoneroRpc\Daemon;
 
 // Make sure to display all errors
 ini_set('display_errors', 1);

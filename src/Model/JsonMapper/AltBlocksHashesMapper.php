@@ -1,8 +1,8 @@
 <?php
 
-namespace BrianHenryIE\MoneroDaemonRpc\Model\JsonMapper;
+namespace BrianHenryIE\MoneroRpc\Model\JsonMapper;
 
-use BrianHenryIE\MoneroDaemonRpc\Model\AltBlocksHashes;
+use BrianHenryIE\MoneroRpc\Model\AltBlocksHashes;
 
 class AltBlocksHashesMapper implements AltBlocksHashes
 {

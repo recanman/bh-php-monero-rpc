@@ -1,8 +1,8 @@
 <?php
 
-namespace BrianHenryIE\MoneroDaemonRpc\Model\JsonMapper;
+namespace BrianHenryIE\MoneroRpc\Model\JsonMapper;
 
-use BrianHenryIE\MoneroDaemonRpc\Model\InPeers;
+use BrianHenryIE\MoneroRpc\Model\InPeers;
 
 class InPeersMapper implements InPeers
 {

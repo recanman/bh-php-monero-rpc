@@ -1,6 +1,6 @@
 <?php
 
-namespace BrianHenryIE\MoneroDaemonRpc;
+namespace BrianHenryIE\MoneroRpc;
 
 use Mockery;
 use PHPUnit\Framework\TestCase;

@@ -1,6 +1,6 @@
 <?php
 
-namespace BrianHenryIE\MoneroDaemonRpc\Model;
+namespace BrianHenryIE\MoneroRpc\Model;
 
 interface PeerList extends ResponseBase
 {

@@ -33,7 +33,7 @@ $requestFactory = $httpFactory;
 /** @var Psr\Http\Client\ClientInterface $client */
 $client = new \GuzzleHttp\Client();
 
-$monero = new \BrianHenryIE\MoneroDaemonRpc\DaemonRpcClient($uriFactory, $requestFactory, $client);
+$monero = new \BrianHenryIE\MoneroRpc\Daemon($uriFactory, $requestFactory, $client);
 
 $result = $monero->getBlockCount()->getCount();
 ```

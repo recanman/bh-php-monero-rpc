@@ -11,14 +11,14 @@
  * @package brianhenryie/bh-php-monero-daemon-rpc
  */
 
-namespace BrianHenryIE\MoneroDaemonRpc;
+namespace BrianHenryIE\MoneroRpc;
 
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\HttpFactory;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @coversDefaultClass \BrianHenryIE\MoneroDaemonRpc\Daemon
+ * @coversDefaultClass \BrianHenryIE\MoneroRpc\Daemon
  */
 class DaemonRpcContractTest extends TestCase
 {

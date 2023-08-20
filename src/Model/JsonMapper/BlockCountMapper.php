@@ -1,8 +1,8 @@
 <?php
 
-namespace BrianHenryIE\MoneroDaemonRpc\Model\JsonMapper;
+namespace BrianHenryIE\MoneroRpc\Model\JsonMapper;
 
-use BrianHenryIE\MoneroDaemonRpc\Model\BlockCount;
+use BrianHenryIE\MoneroRpc\Model\BlockCount;
 
 class BlockCountMapper implements BlockCount
 {

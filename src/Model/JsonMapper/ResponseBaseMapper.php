@@ -1,8 +1,8 @@
 <?php
 
-namespace BrianHenryIE\MoneroDaemonRpc\Model\JsonMapper;
+namespace BrianHenryIE\MoneroRpc\Model\JsonMapper;
 
-use BrianHenryIE\MoneroDaemonRpc\Model\ResponseBase;
+use BrianHenryIE\MoneroRpc\Model\ResponseBase;
 
 class ResponseBaseMapper implements ResponseBase
 {
