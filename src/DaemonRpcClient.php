@@ -96,6 +96,7 @@ class DaemonRpcClient
    *
    * Start a connection with the Monero daemon (monerod)
    *
+   * @param UriFactoryInterface $uriFactory
    * @param RequestFactoryInterface $requestFactory
    * @param ClientInterface $client A PSR HTTP client.
    * @param  string  $host      Monero daemon IP hostname
@@ -103,9 +104,9 @@ class DaemonRpcClient
    * @param  bool  $ssl  Monero daemon protocol (i.e. use 'https' or just 'http')
    */
     public function __construct(
+        UriFactoryInterface $uriFactory,
         RequestFactoryInterface $requestFactory,
         ClientInterface $client,
-        UriFactoryInterface $uriFactory,
         string $host = '127.0.0.1',
         int $port = self::PORT,
         bool $ssl = true,
@@ -170,6 +171,11 @@ class DaemonRpcClient
 
         $data = $path === 'json_rpc' ? json_encode($extracted->getResult()) : (string) $response->getBody();
 
+		if( $extracted->getErrorCode() ) {
+			// TODO:
+			throw new Exception($extracted->getErrorMessage());
+		}
+
         if (is_null($type)) {
             return trim($data, '"');
         }
@@ -199,11 +205,11 @@ class DaemonRpcClient
    * @return string  Example: 'e22cf75f39ae720e8b71b3d120a5ac03f0db50bba6379e2850975b4859190bc6'
    *
    */
-    public function onGetBlockHash($height): String
+    public function onGetBlockHash($height): string
     {
         $params = array($height);
 
-		// Also `on_get_block_hash`.
+        // Also `on_get_block_hash`.
         return $this->runJsonRpc('on_getblockhash', $params, null);
     }
 

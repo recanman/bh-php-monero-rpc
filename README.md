@@ -24,7 +24,16 @@ composer require --fixed brianhenryie/bh-php-monero-daemon-rpc
 ## Operation
 
 ```php
-$monero = new \BrianHenryIE\MoneroDaemonRpc\DaemonRpcClient();
+// Guzzle HttpFactory implements both RequestFactoryInterface and UriFactoryInterface.
+$httpFactory = new \GuzzleHttp\Psr7\HttpFactory();
+/** @var Psr\Http\Message\UriFactoryInterface $uriFactory */
+$uriFactory = $httpFactory; 
+/** @var Psr\Http\Message\RequestFactoryInterface $requestFactory */
+$requestFactory = $httpFactory;
+/** @var Psr\Http\Client\ClientInterface $client */
+$client = new \GuzzleHttp\Client();
+
+$monero = new \BrianHenryIE\MoneroDaemonRpc\DaemonRpcClient($uriFactory, $requestFactory, $client);
 
 $result = $monero->getBlockCount()->getCount();
 ```

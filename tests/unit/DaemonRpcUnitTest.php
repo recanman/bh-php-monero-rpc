@@ -28,9 +28,9 @@ class MoneroDaemonRpcUnitTest extends TestCase
         $uriFactory->shouldReceive('createUri')->andReturn($uri);
 
         $daemonRpcClient = new DaemonRpcClient(
+            $uriFactory,
             $httpFactory,
             $client,
-            $uriFactory
         );
 
         $streamFactory = new StreamFactory();
@@ -75,5 +75,42 @@ EOD;
         $result = $daemonRpcClient->miningStatus();
 
         self::assertFalse($result->getActive());
+    }
+
+    public function testGetBlockCount(): void
+    {
+        $responseBody = <<<'EOD'
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "result": {
+    "count": 587251,
+    "status": "OK",
+    "untrusted": false
+  }
+}
+EOD;
+
+        $daemonRpcClient = $this->getDaemonClient('json_rpc', $responseBody);
+
+        $result = $daemonRpcClient->getBlockCount();
+
+        self::assertEquals(587251, $result->getCount());
+    }
+    public function testOnGetBlockHash(): void
+    {
+        $responseBody = <<<'EOD'
+{
+  "id": 0,
+  "jsonrpc": "2.0",
+  "result": "ad2f73a85939793f3dca7c470d5ee2618eb5d1e1c22b39dee83291978bf1ddb5"
+}
+EOD;
+
+        $daemonRpcClient = $this->getDaemonClient('onGetBlockHash', $responseBody);
+
+        $result = $daemonRpcClient->onGetBlockHash(12345);
+
+        self::assertEquals('ad2f73a85939793f3dca7c470d5ee2618eb5d1e1c22b39dee83291978bf1ddb5', $result);
     }
 }
