@@ -467,7 +467,7 @@ class Daemon extends RpcClient
         return $this->runRpc('send_raw_transaction', $params);
     }
 
-    public function startMining($backgroundMining, bool $ignoreBattery, $minerAddress, int $threadsCount = 1)
+    public function startMining(bool $backgroundMining, bool $ignoreBattery, $minerAddress, int $threadsCount = 1)
     {
         if ($threadsCount < 0) {
             trigger_error('Error: threads_count must be a positive integer', E_USER_WARNING);
