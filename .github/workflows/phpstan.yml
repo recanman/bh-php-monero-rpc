@@ -5,7 +5,7 @@ name: Run PHPStan
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   phpstan:

@@ -6,7 +6,7 @@ name: Run PHP CodeSniffer
 on:
   push:
     branches:
-      - master
+      - main
 
 jobs:
   php-codesniffer:
