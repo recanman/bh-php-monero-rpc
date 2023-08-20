@@ -1,9 +1,9 @@
 <?php
 
-namespace BrianHenryIE\MoneroRpc\Model\JsonMapper;
+namespace BrianHenryIE\MoneroRpc\Daemon\JsonMapper;
 
-use BrianHenryIE\MoneroRpc\Model\PeerList;
-use BrianHenryIE\MoneroRpc\Model\PeerListEntry;
+use BrianHenryIE\MoneroRpc\Daemon\PeerList;
+use BrianHenryIE\MoneroRpc\Daemon\PeerListEntry;
 
 class PeerListMapper implements PeerList
 {

@@ -1,8 +1,8 @@
 <?php
 
-namespace BrianHenryIE\MoneroRpc\Model\JsonMapper;
+namespace BrianHenryIE\MoneroRpc\Daemon\JsonMapper;
 
-use BrianHenryIE\MoneroRpc\Model\Info;
+use BrianHenryIE\MoneroRpc\Daemon\Info;
 
 class InfoMapper implements Info
 {

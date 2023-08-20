@@ -1,6 +1,6 @@
 <?php
 
-namespace BrianHenryIE\MoneroRpc\Model;
+namespace BrianHenryIE\MoneroRpc\Daemon;
 
 interface Info extends ResponseBase
 {

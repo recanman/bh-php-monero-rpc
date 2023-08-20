@@ -43,26 +43,26 @@
 
 namespace BrianHenryIE\MoneroRpc;
 
-use BrianHenryIE\MoneroRpc\Model\AltBlocksHashes;
-use BrianHenryIE\MoneroRpc\Model\BlockCount;
-use BrianHenryIE\MoneroRpc\Model\BlockHeaderBy;
-use BrianHenryIE\MoneroRpc\Model\Info;
-use BrianHenryIE\MoneroRpc\Model\InPeers;
-use BrianHenryIE\MoneroRpc\Model\JsonMapper\AltBlocksHashesMapper;
-use BrianHenryIE\MoneroRpc\Model\JsonMapper\BlockCountMapper;
-use BrianHenryIE\MoneroRpc\Model\JsonMapper\BlockHeaderByMapper;
-use BrianHenryIE\MoneroRpc\Model\JsonMapper\InfoMapper;
-use BrianHenryIE\MoneroRpc\Model\JsonMapper\InPeersMapper;
-use BrianHenryIE\MoneroRpc\Model\JsonMapper\LimitMapper;
-use BrianHenryIE\MoneroRpc\Model\JsonMapper\MiningStatusMapper;
-use BrianHenryIE\MoneroRpc\Model\JsonMapper\PeerListMapper;
-use BrianHenryIE\MoneroRpc\Model\JsonMapper\ResponseBaseMapper;
-use BrianHenryIE\MoneroRpc\Model\JsonMapper\TransactionPoolStatsMapper;
-use BrianHenryIE\MoneroRpc\Model\Limit;
-use BrianHenryIE\MoneroRpc\Model\MiningStatus;
-use BrianHenryIE\MoneroRpc\Model\PeerList;
-use BrianHenryIE\MoneroRpc\Model\ResponseBase;
-use BrianHenryIE\MoneroRpc\Model\TransactionPoolStats;
+use BrianHenryIE\MoneroRpc\Daemon\AltBlocksHashes;
+use BrianHenryIE\MoneroRpc\Daemon\BlockCount;
+use BrianHenryIE\MoneroRpc\Daemon\BlockHeaderBy;
+use BrianHenryIE\MoneroRpc\Daemon\Info;
+use BrianHenryIE\MoneroRpc\Daemon\InPeers;
+use BrianHenryIE\MoneroRpc\Daemon\JsonMapper\AltBlocksHashesMapper;
+use BrianHenryIE\MoneroRpc\Daemon\JsonMapper\BlockCountMapper;
+use BrianHenryIE\MoneroRpc\Daemon\JsonMapper\BlockHeaderByMapper;
+use BrianHenryIE\MoneroRpc\Daemon\JsonMapper\InfoMapper;
+use BrianHenryIE\MoneroRpc\Daemon\JsonMapper\InPeersMapper;
+use BrianHenryIE\MoneroRpc\Daemon\JsonMapper\LimitMapper;
+use BrianHenryIE\MoneroRpc\Daemon\JsonMapper\MiningStatusMapper;
+use BrianHenryIE\MoneroRpc\Daemon\JsonMapper\PeerListMapper;
+use BrianHenryIE\MoneroRpc\Daemon\JsonMapper\ResponseBaseMapper;
+use BrianHenryIE\MoneroRpc\Daemon\JsonMapper\TransactionPoolStatsMapper;
+use BrianHenryIE\MoneroRpc\Daemon\Limit;
+use BrianHenryIE\MoneroRpc\Daemon\MiningStatus;
+use BrianHenryIE\MoneroRpc\Daemon\PeerList;
+use BrianHenryIE\MoneroRpc\Daemon\ResponseBase;
+use BrianHenryIE\MoneroRpc\Daemon\TransactionPoolStats;
 use Exception;
 
 class Daemon extends RpcClient

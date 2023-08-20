@@ -1,8 +1,8 @@
 <?php
 
-namespace BrianHenryIE\MoneroRpc\Model\JsonMapper;
+namespace BrianHenryIE\MoneroRpc\Daemon\JsonMapper;
 
-use BrianHenryIE\MoneroRpc\Model\TransactionPoolStatsStats;
+use BrianHenryIE\MoneroRpc\Daemon\TransactionPoolStatsStats;
 
 class TransactionPoolStatsStatsMapper implements TransactionPoolStatsStats
 {

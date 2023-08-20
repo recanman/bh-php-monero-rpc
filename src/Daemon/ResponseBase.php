@@ -4,7 +4,7 @@
  * @see https://github.com/monero-project/monero/blob/e06129bb4d1076f4f2cebabddcee09f1e9e30dcc/src/rpc/core_rpc_server_commands_defs.h#L101-L112
  */
 
-namespace BrianHenryIE\MoneroRpc\Model;
+namespace BrianHenryIE\MoneroRpc\Daemon;
 
 interface ResponseBase
 {

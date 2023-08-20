@@ -2,17 +2,17 @@
 
 namespace BrianHenryIE\MoneroExplorer\Model\JsonMapper;
 
-use BrianHenryIE\MoneroRpc\Model\JsonMapper\AltBlocksHashesMapper;
-use BrianHenryIE\MoneroRpc\Model\JsonMapper\BlockCountMapper;
-use BrianHenryIE\MoneroRpc\Model\JsonMapper\BlockHeaderByMapper;
-use BrianHenryIE\MoneroRpc\Model\JsonMapper\BlockMapper;
-use BrianHenryIE\MoneroRpc\Model\JsonMapper\InfoMapper;
-use BrianHenryIE\MoneroRpc\Model\JsonMapper\InPeersMapper;
-use BrianHenryIE\MoneroRpc\Model\JsonMapper\LimitMapper;
-use BrianHenryIE\MoneroRpc\Model\JsonMapper\MiningStatusMapper;
-use BrianHenryIE\MoneroRpc\Model\JsonMapper\PeerListMapper;
-use BrianHenryIE\MoneroRpc\Model\JsonMapper\ResponseBaseMapper;
-use BrianHenryIE\MoneroRpc\Model\JsonMapper\TransactionPoolStatsMapper;
+use BrianHenryIE\MoneroRpc\Daemon\JsonMapper\AltBlocksHashesMapper;
+use BrianHenryIE\MoneroRpc\Daemon\JsonMapper\BlockCountMapper;
+use BrianHenryIE\MoneroRpc\Daemon\JsonMapper\BlockHeaderByMapper;
+use BrianHenryIE\MoneroRpc\Daemon\JsonMapper\BlockMapper;
+use BrianHenryIE\MoneroRpc\Daemon\JsonMapper\InfoMapper;
+use BrianHenryIE\MoneroRpc\Daemon\JsonMapper\InPeersMapper;
+use BrianHenryIE\MoneroRpc\Daemon\JsonMapper\LimitMapper;
+use BrianHenryIE\MoneroRpc\Daemon\JsonMapper\MiningStatusMapper;
+use BrianHenryIE\MoneroRpc\Daemon\JsonMapper\PeerListMapper;
+use BrianHenryIE\MoneroRpc\Daemon\JsonMapper\ResponseBaseMapper;
+use BrianHenryIE\MoneroRpc\Daemon\JsonMapper\TransactionPoolStatsMapper;
 use JsonMapper\JsonMapperFactory;
 
 class MappersTest extends \PHPUnit\Framework\TestCase

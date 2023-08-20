@@ -4,7 +4,7 @@
  * @see https://www.getmonero.org/resources/developer-guides/daemon-rpc.html#get_block_count
  */
 
-namespace BrianHenryIE\MoneroRpc\Model;
+namespace BrianHenryIE\MoneroRpc\Daemon;
 
 interface BlockCount extends ResponseBase
 {

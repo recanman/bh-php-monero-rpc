@@ -1,8 +1,8 @@
 <?php
 
-namespace BrianHenryIE\MoneroRpc\Model\JsonMapper;
+namespace BrianHenryIE\MoneroRpc\Daemon\JsonMapper;
 
-use BrianHenryIE\MoneroRpc\Model\Limit;
+use BrianHenryIE\MoneroRpc\Daemon\Limit;
 
 class LimitMapper implements Limit
 {

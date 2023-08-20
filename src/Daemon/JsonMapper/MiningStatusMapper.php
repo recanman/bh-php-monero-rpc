@@ -1,8 +1,8 @@
 <?php
 
-namespace BrianHenryIE\MoneroRpc\Model\JsonMapper;
+namespace BrianHenryIE\MoneroRpc\Daemon\JsonMapper;
 
-use BrianHenryIE\MoneroRpc\Model\MiningStatus;
+use BrianHenryIE\MoneroRpc\Daemon\MiningStatus;
 
 class MiningStatusMapper implements MiningStatus
 {
