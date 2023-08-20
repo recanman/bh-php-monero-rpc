@@ -149,7 +149,7 @@ class DaemonRpcClient
      * @param string $path Path of API (by default "json_rpc").
      * @param ?string $method RPC method to call.
      * @param ?array<string,mixed> $params Parameters to pass.
-     * @param class-string<T> $type The object type to cast/deserialize the response to.
+     * @param ?class-string<T> $type The object type to cast/deserialize the response to, or null to return a string.
      *
      * @return T|String
      * @throws ClientExceptionInterface
@@ -171,10 +171,10 @@ class DaemonRpcClient
 
         $data = $path === 'json_rpc' ? json_encode($extracted->getResult()) : (string) $response->getBody();
 
-		if( $extracted->getErrorCode() ) {
-			// TODO:
-			throw new Exception($extracted->getErrorMessage());
-		}
+        if ($extracted->getErrorCode()) {
+            // TODO:
+            throw new Exception($extracted->getErrorMessage());
+        }
 
         if (is_null($type)) {
             return trim($data, '"');

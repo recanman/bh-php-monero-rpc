@@ -31,7 +31,7 @@ class DaemonRpcContractTest extends TestCase
     {
         self::$rpcClient = new DaemonRpcClient(
             new HttpFactory(),
-	        new HttpFactory(),
+            new HttpFactory(),
             new Client(),
             '127.0.0.1',
             DaemonRpcClient::TESTNET_PORT,
