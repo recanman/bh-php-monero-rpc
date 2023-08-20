@@ -54,7 +54,7 @@ class MappersTest extends \PHPUnit\Framework\TestCase
     public function testMappers($filename, $type): void
     {
         try {
-            $json = file_get_contents(__DIR__ . '/../../../_data/model/' . $filename);
+            $json = file_get_contents(__DIR__ . '/../../../_data/daemon/' . $filename);
 
             $mapper = (new JsonMapperFactory())->bestFit();
 
