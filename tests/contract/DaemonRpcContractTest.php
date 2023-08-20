@@ -5,6 +5,9 @@
  *
  * Ensure behaviour does not change after refactoring.
  *
+ * @see https://github.com/monerodocs/md/blob/master/docs/interacting/monerod-reference.md
+ * @see https://github.com/monero-project/monero/blob/master/src/daemon/command_server.cpp
+ *
  * @package brianhenryie/bh-php-monero-daemon-rpc
  */
 
@@ -21,11 +24,16 @@ use SimPod\JsonRpc\HttpJsonRpcRequestFactory;
  */
 class DaemonRpcContractTest extends TestCase
 {
+	protected static DaemonRpcClient $rpcClient;
+
+	/**
+	 * moneord --rpc-bind-port arg (=18081, 28081 if 'testnet', 38081 if 'stagenet')
+	 */
     public static function setUpBeforeClass(): void
     {
-        $rpc = new DaemonRpcClient('127.0.0.1', 18081, false);
+        self::$rpcClient = new DaemonRpcClient('127.0.0.1', 28081, false);
         try {
-            $rpc->miningStatus();
+	        self::$rpcClient->miningStatus();
         } catch (\Exception $exception) {
             self::markTestSkipped('Daemon not running.');
         }
@@ -38,7 +46,7 @@ class DaemonRpcContractTest extends TestCase
 
     protected function getDaemonRpcClient(): DaemonRpcClient
     {
-        return new DaemonRpcClient('127.0.0.1', 18081, false);
+        return self::$rpcClient;
     }
 
     public function testCollectTestData(): void
@@ -82,10 +90,15 @@ class DaemonRpcContractTest extends TestCase
     {
         $daemonRpc = $this->getDaemonRpcClient();
 
+		$height = (int) $this->extractFromCli(
+			'monerod --testnet print_height',
+			'/(\d+)$/'
+		);
+
         $result = $daemonRpc->getBlockCount();
 
-        self::assertEquals('OK', $result->getStatus());
-    }
+        self::assertSame($height, $result->getCount());
+	}
 
     public function testLimit(): void
     {
@@ -164,4 +177,31 @@ class DaemonRpcContractTest extends TestCase
         self::assertEquals('Mining never started', $result->getStatus());
         self::assertEquals(false, $result->getUntrusted());
     }
+
+	/**
+	 * E.g. `monerod --testnet print_block`
+	 */
+	private function extractFromCli( string $monerodCliCommand, string $regex ): string {
+		$shell = shell_exec($monerodCliCommand);
+
+		$shell = trim( $this->stripAnsi( $shell ) );
+
+		preg_match( $regex, $shell, $matches );
+
+		return $matches[1];
+	}
+
+	/**
+	 * Surprisingly, there is nothing on Packagist to remove ANSI codes from a string.
+	 */
+	private function stripAnsi( string $from ): string {
+		$ansi = [
+			'[0;36m',
+			'[0m',
+			'[?2004h',
+			'[?2004l',
+		];
+
+		return str_replace( $ansi, '', $from );
+	}
 }
