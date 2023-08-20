@@ -59,9 +59,6 @@ class Wallet extends RpcClient
    * Print JSON object (for API)
    *
    * @param  object  $json  JSON object to print
-   *
-   * @return none
-   *
    */
     public function _print($json)
     {
@@ -175,9 +172,6 @@ class Wallet extends RpcClient
    *
    * @param  number  The index of the subaddress to label
    * @param  string  The label to apply
-   *
-   * @return none
-   *
    */
     public function labelAddress($index, $label)
     {
@@ -224,9 +218,6 @@ class Wallet extends RpcClient
    * Create a new account
    *
    * @param  string  $label  Label to apply to new account
-   *
-   * @return none
-   *
    */
     public function createAccount($label = '')
     {
@@ -244,9 +235,6 @@ class Wallet extends RpcClient
    *
    * @param  number $account_index  Index of account to label
    * @param  string $label          Label to apply
-   *
-   * @return none
-   *
    */
     public function labelAccount($account_index, $label)
     {
@@ -261,8 +249,6 @@ class Wallet extends RpcClient
   /**
    *
    * Look up account tags
-   *
-   * @param  none
    *
    * @return object  Example: {
    *   "account_tags": {
@@ -289,9 +275,6 @@ class Wallet extends RpcClient
    *
    * @param  array   $accounts  The indices of the accounts to tag
    * @param  string  $tag       Tag to apply
-   *
-   * @return none
-   *
    */
     public function tagAccounts($accounts, $tag)
     {
@@ -308,9 +291,6 @@ class Wallet extends RpcClient
    * Untag accounts
    *
    * @param  array   $accounts  The indices of the accounts to untag
-   *
-   * @return none
-   *
    */
     public function untagAccounts($accounts)
     {
@@ -347,8 +327,6 @@ class Wallet extends RpcClient
   /**
    *
    * Look up how many blocks are in the longest chain known to the wallet
-   *
-   * @param  none
    *
    * @return object  Example: {
    *   "height": 994310
@@ -533,8 +511,6 @@ class Wallet extends RpcClient
    *
    * Send all dust outputs back to the wallet
    *
-   * @param  none
-   *
    * @return object  Example: {
    *   // TODO example
    * }
@@ -548,8 +524,6 @@ class Wallet extends RpcClient
   /**
    *
    * Send all unmixable outputs back to the wallet
-   *
-   * @param  none
    *
    * @return object  Example: {
    *   // TODO example
@@ -726,8 +700,6 @@ class Wallet extends RpcClient
    *
    * Save wallet
    *
-   * @param  none
-   *
    * @return object  Example:
    *
    */
@@ -853,8 +825,6 @@ class Wallet extends RpcClient
    *
    * Look up wallet view key
    *
-   * @param  none
-   *
    * @return object  Example: {
    *   "key": "7e341d..."
    * }
@@ -870,8 +840,6 @@ class Wallet extends RpcClient
    *
    * Look up wallet spend key
    *
-   * @param  none
-   *
    * @return object  Example: {
    *   "key": "2ab810..."
    * }
@@ -886,8 +854,6 @@ class Wallet extends RpcClient
   /**
    *
    * Look up wallet mnemonic seed
-   *
-   * @param  none
    *
    * @return object  Example: {
    *   "key": "2ab810..."
@@ -938,11 +904,6 @@ class Wallet extends RpcClient
   /**
    *
    * Stop the wallet, saving the state
-   *
-   * @param  none
-   *
-   * @return none
-   *
    */
     public function stopWallet()
     {
@@ -952,11 +913,6 @@ class Wallet extends RpcClient
   /*
    *
    * Rescan the blockchain from scratch
-   *
-   * @param  none
-   *
-   * @return none
-   *
   */
 
     public function rescanBlockchain()
@@ -970,9 +926,6 @@ class Wallet extends RpcClient
    *
    * @param  array  $txids  Array of transaction IDs to note
    * @param  array  $notes  Array of notes (strings) to add
-   *
-   * @return none
-   *
    */
     public function setTxNotes($txids, $notes)
     {
@@ -1003,9 +956,6 @@ class Wallet extends RpcClient
    *
    * @param  string  $key    Option to set
    * @param  string  $value  Value to set
-   *
-   * @return none
-   *
    */
     public function setAttribute($key, $value)
     {
@@ -1342,8 +1292,6 @@ class Wallet extends RpcClient
    *
    * Export an array of signed key images
    *
-   * @param  none
-   *
    * @return array  Example: {
    *   // TODO example
    * }
@@ -1459,9 +1407,6 @@ class Wallet extends RpcClient
    * Delete an entry from the address book
    *
    * @param  array   $index  Index of the address book entry to remove
-   *
-   * @return none
-   *
    */
     public function deleteAddressBook($index)
     {
@@ -1503,9 +1448,6 @@ class Wallet extends RpcClient
    * @param  number   $threads_count         Number of threads with which to mine
    * @param  boolean  $do_background_mining  Mine in background?
    * @param  boolean  $ignore_battery        Ignore battery?
-   *
-   * @return none
-   *
    */
     public function startMining($threads_count, $do_background_mining, $ignore_battery)
     {
@@ -1516,11 +1458,6 @@ class Wallet extends RpcClient
   /**
    *
    * Stop mining
-   *
-   * @param  none
-   *
-   * @return none
-   *
    */
     public function stopMining()
     {
@@ -1530,8 +1467,6 @@ class Wallet extends RpcClient
   /**
    *
    * Look up a list of available languages for your wallet's seed
-   *
-   * @param  none
    *
    * @return object  Example: {
    *   // TODO example
@@ -1550,9 +1485,6 @@ class Wallet extends RpcClient
    * @param  string  $filename  Filename of new wallet to create
    * @param  string  $password  Password of new wallet to create
    * @param  string  $language  Language of new wallet to create
-   *
-   * @return none
-   *
    */
     public function createWallet($filename = 'monero_wallet', $password = null, $language = 'English')
     {
@@ -1566,9 +1498,6 @@ class Wallet extends RpcClient
    *
    * @param  string  $filename  Filename of wallet to open
    * @param  string  $password  Password of wallet to open
-   *
-   * @return none
-   *
    */
     public function openWallet($filename = 'monero_wallet', $password = null)
     {
@@ -1579,8 +1508,6 @@ class Wallet extends RpcClient
   /**
    *
    * Check if wallet is multisig
-   *
-   * @param  none
    *
    * @return object  Example: (non-multisignature wallet) {
    *   "multisig": ,
@@ -1598,8 +1525,6 @@ class Wallet extends RpcClient
   /**
    *
    * Create information needed to create a multisignature wallet
-   *
-   * @param  none
    *
    * @return object  Example: {
    *   "multisig_info": "MultisigV1WBnkPKszceUBriuPZ6zoDsU6RYJuzQTiwUqE5gYSAD1yGTz85vqZGetawVvioaZB5cL86kYkVJmKbXvNrvEz7o5kibr7tHtenngGUSK4FgKbKhKSZxVXRYjMRKEdkcbwFBaSbsBZxJFFVYwLUrtGccSihta3F4GJfYzbPMveCFyT53oK"
@@ -1633,8 +1558,6 @@ class Wallet extends RpcClient
   /**
    *
    * Export multisignature information
-   *
-   * @param  none
    *
    * @return object  Example: {
    *   // TODO example
