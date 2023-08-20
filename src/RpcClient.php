@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * Abstract class to perform JSON RPC calls and cast the response to string|stdClass|provided mapper.
+ */
+
 namespace BrianHenryIE\MoneroRpc;
 
 use Exception;
@@ -30,12 +34,11 @@ abstract class RpcClient
 
     protected UriFactoryInterface $uriFactory;
 
-    const PORT = 18081;
-    const TESTNET_PORT = 28081;
-    const STAGENET_PORT = 38081;
+    public const PORT = 18081;
+    public const TESTNET_PORT = 28081;
+    public const STAGENET_PORT = 38081;
 
     /**
-     *
      * Start a connection with the Monero daemon (monerod)
      *
      * @param UriFactoryInterface $uriFactory
