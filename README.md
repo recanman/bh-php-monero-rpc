@@ -55,10 +55,10 @@ monerod --testnet --detach
 
 ## Goals
 
-* [ ] Stronly typed 
+* [ ] Strongly typed 
 * [ ] Test coverage
 * [ ] PhpDoc
-* [ ] PSR abstraction (currently has a nyholm/psr7 dependency that can maybe be removed)
+* [ ] PSR abstraction (currently has a nyholm/psr7 dependency that can [maybe be removed](https://github.com/simPod/PhpJsonRpc/issues/70))
 * [ ] Short tutorials
 
 ## Test Data
