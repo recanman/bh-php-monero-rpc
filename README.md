@@ -1,27 +1,35 @@
 [![PHP 8.0](https://img.shields.io/badge/PHP-8.0-8892BF.svg)]() [![PHPCS PSR-12](https://img.shields.io/badge/PHPCS-PSR–12❌-lightgrey.svg)](https://www.php-fig.org/psr/psr-12/) [![PHPUnit ](.github/coverage.svg)](https://brianhenryie.github.io/bh-php-monero-rpc/) [![PHPStan ](.github/phpstan.svg)](https://phpstan.org/)
 
-# Monero Daemon JSON RPC PHP Client
+# Monero RPC PHP Client
 
 > ⚠️ Work in progress. 
 
-Goal is to return strongly typed objects from the RPC response. Ultimately to use in the monero-integrations/monerowp WooCommerce plugin.
+Goal is to return strongly typed objects from the RPC response. Ultimately to use in the [monero-integrations/monerowp WooCommerce plugin](https://github.com/monero-integrations/monerowp).
 
-This project is `daemonRPC.php` extracted from [monero-integrations/monerophp](https://github.com/monero-integrations/monerophp).
+This project is `daemonRPC.php` and `walletRPC.php` extracted from [monero-integrations/monerophp](https://github.com/monero-integrations/monerophp).
 
-## Use
+Status: Much of `Daemon` is strongly typed and unit tested. `Wallet` returns `stdClass` objects.
 
 Before v1.0, function signatures are expected to change as they are properly documented.
+
+## Install
 
 ```bash
 composer config minimum-stability dev
 composer config prefer-stable true
 
-composer config repositories.brianhenryie/bh-php-monero-daemon-rpc git https://github.com/brianhenryie/bh-php-monero-daemon-rpc
+composer config repositories.brianhenryie/bh-php-monero-rpc git https://github.com/brianhenryie/bh-php-monero-rpc
 
-composer require --fixed brianhenryie/bh-php-monero-daemon-rpc
+composer require --fixed brianhenryie/bh-php-monero-rpc
 ```
 
 ## Operation
+
+Start the Monero daemon (`monerod`).
+
+```bash
+monerod --detach
+```
 
 ```php
 // Guzzle HttpFactory implements both RequestFactoryInterface and UriFactoryInterface.
@@ -38,6 +46,30 @@ $monero = new \BrianHenryIE\MoneroRpc\Daemon($uriFactory, $requestFactory, $clie
 $result = $monero->getBlockCount()->getCount();
 ```
 
+## Contributing 
+
+The `tests/contract` directory contains tests that make live queries to `monerod`. `tests/unit` contains tests which mock the RPC response, and `tests/unit/model/jsonmapper` uses JSON saved in `tests/_data` to test the model parsing.
+
+Contract tests can be static or dynamic – `Daemon::getBlockByHash()` will always return the same result for the same input, but `Daemon::getBlockCount()` will regularly change. For the latter tests, a function, `::extractFromCli()`, exists to execute the Monero CLI and extract a value by using regex on its response, to then use as the expected value in the test assertion.  
+
+To add a strongly typed response to a Daemon or Wallet method which does not have one, first create a contract test which will call that method. In `RpcClient::run()` temporarily add a line ~`$responseString = (string) $response;`, set a breakpoint after it, run the test, and copy the value. Save the `result` key in `tests/_data` with an appropriate name. Use the online tool [jacobdekeizer/json-to-php-generator](https://jacobdekeizer.github.io/json-to-php-generator/#/) to create a PHP mode, use PhpStorm menu Code/Generate to add getters and setters, and save it.  Create a corresponding interface containing only the `get()` methods of the model – this is where PhpDoc should be written. Add the new class and file to the `MappersTest.php` dataprovider. Update the contract test to use the new class. Create a unit test which uses the entire copied response by using the `getDaemonClient()` method.   
+
+* Start the Monero daemon on testnet
+```bash
+monerod --testnet --detach
+```
+
+* Run all tests:
+
+```bash
+composer test
+```
+
+* Run PHP CodeSniffer Beautifer and PhpStan:
+
+```bash
+composer lint
+```
 
 ## Documentation
 
@@ -46,12 +78,6 @@ $result = $monero->getBlockCount()->getCount();
 * https://en.wikipedia.org/wiki/JSON-RPC
 * Documentation can be found in the [`/docs`](tree/master/docs) folder.
 
-## Configuration
- 
-1. Start the Monero daemon (`monerod`) on testnet.
-```bash
-monerod --testnet --detach
-```
 
 ## Goals
 
