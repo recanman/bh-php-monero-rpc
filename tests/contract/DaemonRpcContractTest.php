@@ -178,6 +178,18 @@ class DaemonRpcContractTest extends TestCase
         self::assertEquals(false, $result->getUntrusted());
     }
 
+	public function testOnGetBlockHash(): void {
+		$daemonRpc = $this->getDaemonRpcClient();
+
+		$height = $daemonRpc->getBlockCount()->getCount() - 10;
+
+		$expected = $this->extractFromCli( "monerod --testnet print_block $height", '/\nhash: (.*)\n/');
+
+		$result = $daemonRpc->onGetBlockHash($height);
+
+		self::assertEquals($expected, $result);
+	}
+
 	/**
 	 * E.g. `monerod --testnet print_block`
 	 */

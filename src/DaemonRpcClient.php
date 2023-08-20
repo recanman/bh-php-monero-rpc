@@ -106,7 +106,7 @@ class DaemonRpcClient
         return $this->run($path, null, $params, $type);
     }
 
-    protected function runJsonRpc(?string $method, ?array $params = null, string $type = stdClass::class)
+    protected function runJsonRpc(?string $method, ?array $params = null, ?string $type = stdClass::class)
     {
          return $this->run('json_rpc', $method, $params, $type);
     }
@@ -121,10 +121,10 @@ class DaemonRpcClient
      * @param ?array<string,mixed> $params Parameters to pass.
      * @param class-string<T> $type The object type to cast/deserialize the response to.
      *
-     * @return T
+     * @return T|String
      * @throws ClientExceptionInterface
      */
-    protected function run(string $path, ?string $method, ?array $params = null, string $type = stdClass::class)
+    protected function run(string $path, ?string $method, ?array $params = null, ?string $type = stdClass::class)
     {
         $httpRequestFactory = new HttpFactory();
         $rpcRequestFactory = new HttpJsonRpcRequestFactory($httpRequestFactory);
@@ -142,11 +142,15 @@ class DaemonRpcClient
         $response = $client->sendRequest($request);
         $extracted = new ResponseExtractor($response);
 
+        $data = $path === 'json_rpc' ? json_encode($extracted->getResult()) : (string) $response->getBody();
+
+		if( is_null( $type ) ) {
+			return trim($data, '"');
+		}
+
         $mapper = (new JsonMapperFactory())->bestFit();
 
         $mapper->push(new CaseConversion(TextNotation::UNDERSCORE(), TextNotation::CAMEL_CASE()));
-
-        $data = $path === 'json_rpc' ? json_encode($extracted->getResult()) : (string) $response->getBody();
 
         return $mapper->mapToClassFromString($data, $type);
     }
@@ -169,11 +173,12 @@ class DaemonRpcClient
    * @return string  Example: 'e22cf75f39ae720e8b71b3d120a5ac03f0db50bba6379e2850975b4859190bc6'
    *
    */
-    public function onGetBlockHash($height)
+    public function onGetBlockHash($height): String
     {
         $params = array($height);
 
-        return $this->runJsonRpc('on_getblockhash', $params);
+		// Also `on_get_block_hash`.
+        return $this->runJsonRpc('on_getblockhash', $params, null);
     }
 
   /**
