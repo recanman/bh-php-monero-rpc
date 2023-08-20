@@ -18,23 +18,23 @@ use GuzzleHttp\Psr7\HttpFactory;
 use PHPUnit\Framework\TestCase;
 
 /**
- * @coversDefaultClass \BrianHenryIE\MoneroDaemonRpc\DaemonRpcClient
+ * @coversDefaultClass \BrianHenryIE\MoneroDaemonRpc\Daemon
  */
 class DaemonRpcContractTest extends TestCase
 {
-    protected static DaemonRpcClient $rpcClient;
+    protected static Daemon $rpcClient;
 
     /**
      * moneord --rpc-bind-port arg (=18081, 28081 if 'testnet', 38081 if 'stagenet')
      */
     public static function setUpBeforeClass(): void
     {
-        self::$rpcClient = new DaemonRpcClient(
+        self::$rpcClient = new Daemon(
             new HttpFactory(),
             new HttpFactory(),
             new Client(),
             '127.0.0.1',
-            DaemonRpcClient::TESTNET_PORT,
+            Daemon::TESTNET_PORT,
             false
         );
         try {
@@ -49,7 +49,7 @@ class DaemonRpcContractTest extends TestCase
         parent::setUp();
     }
 
-    protected function getDaemonRpcClient(): DaemonRpcClient
+    protected function getDaemonRpcClient(): Daemon
     {
         return self::$rpcClient;
     }

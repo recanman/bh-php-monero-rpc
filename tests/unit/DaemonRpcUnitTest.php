@@ -17,7 +17,7 @@ use PsrMock\Psr7\Uri;
  */
 class MoneroDaemonRpcUnitTest extends TestCase
 {
-    private function getDaemonClient(string $path, string $responseBody): DaemonRpcClient
+    private function getDaemonClient(string $path, string $responseBody): Daemon
     {
         $httpFactory = new RequestFactory();
         $client = new Client();
@@ -27,7 +27,7 @@ class MoneroDaemonRpcUnitTest extends TestCase
         $uriFactory = Mockery::mock(UriFactoryInterface::class);
         $uriFactory->shouldReceive('createUri')->andReturn($uri);
 
-        $daemonRpcClient = new DaemonRpcClient(
+        $daemonRpcClient = new Daemon(
             $uriFactory,
             $httpFactory,
             $client,
