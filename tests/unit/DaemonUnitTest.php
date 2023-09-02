@@ -15,11 +15,10 @@ use PsrMock\Psr7\Uri;
 /**
  * @coversDefaultClass \BrianHenryIE\MoneroRpc\Daemon
  */
-class MoneroDaemonRpcUnitTest extends TestCase
+class DaemonUnitTest extends TestCase
 {
     private function getDaemonClient(string $path, string $responseBody): Daemon
     {
-        $httpFactory = new RequestFactory();
         $client = new Client();
 
         $uri = new Uri("https://127.0.0.1:18081/$path");
@@ -29,8 +28,9 @@ class MoneroDaemonRpcUnitTest extends TestCase
 
         $daemonRpcClient = new Daemon(
             $uriFactory,
-            $httpFactory,
+            new RequestFactory(),
             $client,
+            new StreamFactory()
         );
 
         $streamFactory = new StreamFactory();

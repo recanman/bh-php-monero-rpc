@@ -45,7 +45,7 @@
         "ext-json": "*",
         "json-mapper/json-mapper": "*",
         "psr/http-client-implementation": "*",
-        "simpod/json-rpc": "^0.2.0"
+        "simpod/json-rpc": "dev-master"
     },
     "require-dev": {
         "cweagans/composer-patches": "*",

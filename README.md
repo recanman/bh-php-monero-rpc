@@ -32,16 +32,23 @@ monerod --detach
 ```
 
 ```php
-// Guzzle HttpFactory implements both RequestFactoryInterface and UriFactoryInterface.
+// Guzzle HttpFactory implements RequestFactoryInterface, UriFactoryInterface, and StreamFactoryInterface.
 $httpFactory = new \GuzzleHttp\Psr7\HttpFactory();
 /** @var Psr\Http\Message\UriFactoryInterface $uriFactory */
-$uriFactory = $httpFactory; 
+$uriFactory = $httpFactory;
 /** @var Psr\Http\Message\RequestFactoryInterface $requestFactory */
 $requestFactory = $httpFactory;
 /** @var Psr\Http\Client\ClientInterface $client */
 $client = new \GuzzleHttp\Client();
+/** @var Psr\Http\Message\StreamFactoryInterface $streamFactory */
+$streamFactory = $httpFactory;
 
-$monero = new \BrianHenryIE\MoneroRpc\Daemon($uriFactory, $requestFactory, $client);
+$monero = new \BrianHenryIE\MoneroRpc\Daemon(
+    $uriFactory,
+    $requestFactory,
+    $client,
+    $streamFactory,
+);
 
 $result = $monero->getBlockCount()->getCount();
 ```

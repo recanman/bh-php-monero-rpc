@@ -13,6 +13,7 @@ use JsonMapper\Middleware\CaseConversion;
 use Psr\Http\Client\ClientExceptionInterface;
 use Psr\Http\Client\ClientInterface;
 use Psr\Http\Message\RequestFactoryInterface;
+use Psr\Http\Message\StreamFactoryInterface;
 use Psr\Http\Message\UriFactoryInterface;
 use SimPod\JsonRpc\Extractor\ResponseExtractor;
 use SimPod\JsonRpc\HttpJsonRpcRequestFactory;
@@ -33,6 +34,7 @@ abstract class RpcClient
     protected ClientInterface $client;
 
     protected UriFactoryInterface $uriFactory;
+    protected StreamFactoryInterface $streamFactory;
 
     public const PORT = 18081;
     public const TESTNET_PORT = 28081;
@@ -52,10 +54,12 @@ abstract class RpcClient
         UriFactoryInterface $uriFactory,
         RequestFactoryInterface $requestFactory,
         ClientInterface $client,
+        StreamFactoryInterface $streamFactory,
         string $host = '127.0.0.1',
         int $port = self::PORT,
         bool $ssl = true,
     ) {
+        $this->streamFactory  = $streamFactory;
         $this->client         = $client;
         $this->requestFactory = $requestFactory;
         $this->uriFactory     = $uriFactory;
@@ -101,7 +105,7 @@ abstract class RpcClient
      */
     protected function run(string $path, ?string $method, ?array $params = null, ?string $type = stdClass::class)
     {
-        $rpcRequestFactory = new HttpJsonRpcRequestFactory($this->requestFactory);
+        $rpcRequestFactory = new HttpJsonRpcRequestFactory($this->requestFactory, $this->streamFactory);
 
         $id      = null;
         $request = $rpcRequestFactory->request($id, $method ?? '', $params);

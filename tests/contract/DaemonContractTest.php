@@ -20,7 +20,7 @@ use PHPUnit\Framework\TestCase;
 /**
  * @coversDefaultClass \BrianHenryIE\MoneroRpc\Daemon
  */
-class DaemonRpcContractTest extends TestCase
+class DaemonContractTest extends TestCase
 {
     protected static Daemon $rpcClient;
 
@@ -33,6 +33,7 @@ class DaemonRpcContractTest extends TestCase
             new HttpFactory(),
             new HttpFactory(),
             new Client(),
+            new HttpFactory(),
             '127.0.0.1',
             Daemon::TESTNET_PORT,
             false
