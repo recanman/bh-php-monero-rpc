@@ -93,7 +93,7 @@ composer lint
 * [ ] Strongly typed 
 * [ ] Test coverage
 * [ ] PhpDoc
-* [ ] PSR abstraction (currently has a nyholm/psr7 dependency that can [maybe be removed](https://github.com/simPod/PhpJsonRpc/issues/70))
+* [x] PSR abstraction (~~currently has a nyholm/psr7 dependency that can [maybe be removed](https://github.com/simPod/PhpJsonRpc/issues/70)~~)
 * [ ] Short tutorials
 
 ## Test Data
@@ -106,7 +106,7 @@ composer lint
 
 ## Dependencies
 
-* [simpod/json-rpc](https://github.com/simPod/PhpJsonRpc) – 0% coverage. PSR compliant.
+* [simpod/json-rpc](https://github.com/simPod/PhpJsonRpc) – 46% coverage. PSR compliant
 * [JsonMapper/JsonMapper](https://github.com/JsonMapper/JsonMapper) | [JsonMapper.net](https://jsonmapper.net) - 100% coverage
 
 ## Acknowledgements
