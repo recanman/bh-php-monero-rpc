@@ -36,9 +36,14 @@ abstract class RpcClient
     protected UriFactoryInterface $uriFactory;
     protected StreamFactoryInterface $streamFactory;
 
+    protected string $username;
+    protected string $password;
+
     public const PORT = 18081;
     public const TESTNET_PORT = 28081;
     public const STAGENET_PORT = 38081;
+
+    public const DIGEST_REALM = 'monero-rpc';
 
     /**
      * Start a connection with the Monero daemon (monerod)
@@ -77,7 +82,46 @@ abstract class RpcClient
      */
     public function setAuthorizationCredentials(string $username, string $password): void
     {
-        // TODO
+        $this->username = $username;
+        $this->password = $password;
+    }
+
+    protected function getAuthenticationHeader(string $path, string $method, string $nonce): string
+    {
+        $path = '/' . $path;
+
+        $cnonce = uniqid();
+        $authHash = md5($this->username . ':' . $this::DIGEST_REALM . ':' . $this->password);
+        $methodHash = md5('POST' . ':' . $path);
+        
+        $responseParams = sprintf('%s:%s:%s:%s:%s:%s', $authHash, $nonce, '00000001', $cnonce, 'auth', $methodHash);
+        $combinedHash = md5($responseParams);
+
+        return sprintf(
+            'Digest username="%s", realm="%s", nonce="%s", uri="%s", cnonce="%s", nc=00000001, qop=auth, response="%s", algorithm=MD5',
+            $this->username,
+            $this::DIGEST_REALM,
+            $nonce,
+            $path,
+            $cnonce,
+            $combinedHash,
+        );
+    }
+
+    protected function getDigestNonce(): string
+    {
+        $rpcRequestFactory = new HttpJsonRpcRequestFactory($this->requestFactory, $this->streamFactory);
+        $request = $rpcRequestFactory->request(null, '');
+
+        $uri = $this->uriFactory->createUri($this->urlBase);
+        $request = $request->withUri($uri);
+        $response = $this->client->sendRequest($request);
+        $auth = $response->getHeader('www-authenticate');
+
+        preg_match('/nonce="([^"]+)"/', $auth[0], $matches);
+        $nonce = $matches[1];
+
+        return $nonce;
     }
 
     protected function runRpc(string $path, ?array $params = null, string $type = stdClass::class)
@@ -113,7 +157,10 @@ abstract class RpcClient
         $uri     = $this->uriFactory->createUri($this->urlBase . $path);
         $request = $request->withUri($uri);
 
-        // TODO: Credentials.
+        if (isset($this->username) && isset($this->password)) {
+            $authorization = $this->getAuthenticationHeader($path, $method, $this->getDigestNonce());
+            $request = $request->withHeader('Authorization', $authorization);
+        }
 
         $response  = $this->client->sendRequest($request);
         $extracted = new ResponseExtractor($response);
